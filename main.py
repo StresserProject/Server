@@ -7,8 +7,8 @@ from DAL import DAL
 dal = DAL()
 user_controller = UserController()
 
-# server = Server("0.0.0.0", int(environ['PORT']))
-server = Server("0.0.0.0", 80)
+server = Server("0.0.0.0", int(environ['PORT']))    # Heroku Command
+# server = Server("0.0.0.0", 80)    # Debug
 
 # User
 server.add_route("/user", user_controller.create_user, "POST")  # Signup
