@@ -36,7 +36,7 @@ class UserController:
         :param user_id: the wanted user id
         :return: the user json or 404 if user not found
         """
-        user = self._user_service.get_user(user_id)
+        user = self._user_service.get_user_by_id(user_id)
         if user is None:
             abort(404)
 
