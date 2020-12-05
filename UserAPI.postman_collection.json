@@ -1,0 +1,55 @@
+{
+	"info": {
+		"_postman_id": "f662de73-2484-4259-bcbb-0d4da0a53dc8",
+		"name": "UserAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "UserRegister",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": 0,\r\n    \"username\": \"liron\",\r\n    \"userHashedPassword\": \"blabla\",\r\n    \"apiKey\": \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost/user",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"user"
+					]
+				},
+				"description": "Create new user"
+			},
+			"response": []
+		},
+		{
+			"name": "GetUser",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost/user/0",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"user",
+						"0"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
