@@ -1,10 +1,11 @@
 from Server import Server
 from UserController import UserController
+import os
 
 
 user_controller = UserController()
 
-server = Server("0.0.0.0", 80)
+server = Server("0.0.0.0", int(os.environ['PORT']))
 
 # User
 server.add_route("/user", user_controller.create_user, "POST")  # Signup
