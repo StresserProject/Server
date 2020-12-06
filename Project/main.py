@@ -1,6 +1,6 @@
 from os import environ
 from Server import Server
-from UserController import UserController
+from Controllers.UserController import UserController
 from DAL import DAL
 
 
