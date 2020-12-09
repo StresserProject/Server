@@ -1,8 +1,8 @@
-import json
 from flask import request
+import json
 from flask import abort
-from Jsons import USER_JSON
-from UserService import UserService
+from Constants.Jsons import USER_JSON
+from Services.UserService import UserService
 
 USER_ID_KEY = "userId"
 USERNAME_KEY = "username"
