@@ -1,1 +1,1 @@
-web: python main.py
+web: cd Project && python main.py
