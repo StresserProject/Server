@@ -6,15 +6,15 @@ from Services.EndpointService import EndpointService
 
 ENDPOINT_ID_KEY = "endpointId"
 HOSTNAME_KEY = "hostname"
-IP_ADDRESS = "IPAddress"
+IP_ADDRESS_KEY = "IPAddress"
 API_KEY = "apiKey"
 POLICY_ID_KEY = "policyId"
-STATUS = "status"
+STATUS_KEY = "status"
 
 
 class EndpointController:
     def __init__(self):
-        self.endpoint_service = EndpointService()
+        self._endpoint_service = EndpointService()
 
     def create_endpoint(self):
         """
@@ -22,13 +22,14 @@ class EndpointController:
         :return: the new endpoint json, or 404 if endpoint exist
         """
         endpoint_json = request.json
-
-        endpoint_id = self.endpoint_service.add_endpoint(endpoint_json[HOSTNAME_KEY], endpoint_json[IP_ADDRESS])
+        endpoint_json[API_KEY] = str(1)
+        endpoint_id = self._endpoint_service.add_endpoint(endpoint_json[HOSTNAME_KEY], endpoint_json[IP_ADDRESS_KEY],
+                                                          endpoint_json[API_KEY], endpoint_json[POLICY_ID_KEY],
+                                                          endpoint_json[STATUS_KEY])
         if endpoint_id == "":
             abort(404)
 
-        endpoint_id[ENDPOINT_ID_KEY] = endpoint_id
-        endpoint_json[API_KEY] = 1
+        endpoint_json[ENDPOINT_ID_KEY] = endpoint_id
 
         return endpoint_json
 
@@ -44,10 +45,10 @@ class EndpointController:
 
         endpoint_json = json.loads(ENDPOINT_JSON)
         endpoint_json[ENDPOINT_ID_KEY] = str(endpoint.id)
+        endpoint_json[IP_ADDRESS_KEY] = endpoint[IP_ADDRESS_KEY]
         endpoint_json[HOSTNAME_KEY] = endpoint[HOSTNAME_KEY]
-        endpoint_json[IP_ADDRESS] = endpoint[IP_ADDRESS]
         endpoint_json[POLICY_ID_KEY] = endpoint[POLICY_ID_KEY]
-        endpoint_json[STATUS] = endpoint[STATUS]
+        endpoint_json[STATUS_KEY] = endpoint[STATUS_KEY]
 
         return endpoint_json
 

@@ -2,7 +2,7 @@ import uuid
 
 
 class Endpoint ():
-    def __init__(self, endpoint_id: int, policy_id: int, hostname: str, ip_address: str, status: str):
+    def __init__(self, endpoint_id: str, policy_id: int, hostname: str, ip_address: str, status: str):
         self.endpoint_id = endpoint_id
         self.hostname = hostname
         self.ip_address = ip_address
