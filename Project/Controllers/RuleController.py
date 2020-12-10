@@ -52,7 +52,7 @@ class RuleController:
 
         return endpoint_json
 
-    def update(self, rule_id):
+    def update_rule(self, rule_id):
         """
         Updating the rule to the server
         :return: rule json with id

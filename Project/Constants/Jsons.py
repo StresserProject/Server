@@ -25,3 +25,11 @@ RULE_JSON = '''
     "ruleData": ""
 }
 '''
+EVENT_JSON = '''
+{
+    "eventId": 0,
+    "eventName": "",
+    "eventType": "",
+    "eventData": ""
+}
+'''
