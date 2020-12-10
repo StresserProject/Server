@@ -3,6 +3,7 @@ import json
 from flask import abort
 from Constants.Jsons import RULE_JSON
 from Services.RuleService import RuleService
+from Entities.Rule import Rule
 
 RULE_ID_KEY = "ruleId"
 RULE_NAME_KEY = "ruleName"
@@ -14,6 +15,10 @@ class RuleController:
     def __init__(self):
         self._rule_service = RuleService()
 
+    def json_to_rule(self, rule_json):
+        return Rule(rule_json[RULE_ID_KEY], rule_json[RULE_NAME_KEY], rule_json[RULE_TYPE_KEY],
+                    rule_json[RULE_DATA_KEY])
+
     def create_rule(self):
         """
         Creating new Rule
@@ -21,8 +26,7 @@ class RuleController:
         """
         rule_json = request.json
 
-        rule_id = self._rule_service.add_rule(rule_json[RULE_NAME_KEY], rule_json[RULE_TYPE_KEY],
-                                              rule_json[RULE_DATA_KEY])
+        rule_id = self._rule_service.add_rule(self.json_to_rule(rule_json))
         if rule_id == "":
             abort(404)
 
@@ -48,7 +52,6 @@ class RuleController:
 
         return endpoint_json
 
-
     def update(self, rule_id):
         """
         Updating the rule to the server
@@ -59,14 +62,9 @@ class RuleController:
             abort(404)
 
         new_rule = request.json
-
-        old_rule[RULE_ID_KEY] = str(new_rule.id)
-        old_rule[RULE_NAME_KEY] = new_rule[RULE_NAME_KEY]
-        old_rule[RULE_DATA_KEY] = new_rule[RULE_DATA_KEY]
-        old_rule[RULE_TYPE_KEY] = new_rule[RULE_TYPE_KEY]
+        old_rule = self._rule_service.update_rule_by_id(rule_id, self.json_to_rule(new_rule))
 
         return old_rule
-
 
     def delete_rule(self, rule_id):
         """

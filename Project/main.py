@@ -23,7 +23,7 @@ server.add_route("/user/<string:user_id>", user_controller.delete_user, "DELETE"
 # Endpoint
 server.add_route("/endpoint", endpoint_controller.create_endpoint, "POST")  # CreateEndpoint
 server.add_route("/endpoint/<string:endpoint_id>", endpoint_controller.get_endpoint_data, "GET")   # GetEndpoint
-# server.add_route("/endpoint/<string:endpoint_id>", endpoint_controller.login, "PUT")   # Login
+server.add_route("/endpoint/<string:endpoint_id>", endpoint_controller.keep_alive, "PUT")   # KeepAlive
 server.add_route("/endpoint/<string:endpoint_id>", endpoint_controller.delete_endpoint, "DELETE")   # Delete
 
 # Rule

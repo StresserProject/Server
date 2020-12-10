@@ -3,6 +3,7 @@ import json
 from flask import abort
 from Constants.Jsons import ENDPOINT_JSON
 from Services.EndpointService import EndpointService
+from Entities.Endpoint import Endpoint
 
 ENDPOINT_ID_KEY = "endpointId"
 HOSTNAME_KEY = "hostname"
@@ -23,9 +24,7 @@ class EndpointController:
         """
         endpoint_json = request.json
         endpoint_json[API_KEY] = str(1)
-        endpoint_id = self._endpoint_service.add_endpoint(endpoint_json[HOSTNAME_KEY], endpoint_json[IP_ADDRESS_KEY],
-                                                          endpoint_json[API_KEY], endpoint_json[POLICY_ID_KEY],
-                                                          endpoint_json[STATUS_KEY])
+        endpoint_id = self._endpoint_service.add_endpoint(self.json_to_endpoint(endpoint_json))
         if endpoint_id == "":
             abort(404)
 
@@ -52,29 +51,14 @@ class EndpointController:
 
         return endpoint_json
 
-    '''
-    def login(self):
-        """
-        Login the user to the server
-        :return: user json with id and API key
-        """
-        user_json = request.json
-        username = user_json[USERNAME_KEY]
-        password = user_json[HASHED_PASSWORD]
+    def keep_alive(self, endpoint_id):
+        '''
+        God knows what it does.
+        :param endpoint_id:
+        :return: ABORT!!!
+        '''
+        return ""
 
-        user = self._user_service.get_user_by_name(username)
-        if user is None:
-            return abort(404)
-
-        if user[HASHED_PASSWORD] != password:
-            abort(404)
-
-        user_json[USER_ID_KEY] = str(user.id)
-        user_json[API_KEY] = 1
-
-        return user_json
-        
-    '''
     def delete_endpoint(self, endpoint_id):
         """
         Delete endpoint from the db by id
@@ -88,3 +72,7 @@ class EndpointController:
         endpoint.delete()
 
         return ""
+
+    def json_to_endpoint(self, endpoint_json):
+        return Endpoint(endpoint_json[ENDPOINT_ID_KEY], endpoint_json[POLICY_ID_KEY], endpoint_json[HOSTNAME_KEY],
+                        endpoint_json[IP_ADDRESS_KEY], endpoint_json[STATUS_KEY])
