@@ -1,4 +1,3 @@
-import uuid
 
 
 class Endpoint:
@@ -6,7 +5,7 @@ class Endpoint:
         self.endpoint_id = endpoint_id
         self.hostname = hostname
         self.ip_address = ip_address
-        self.api_key = uuid.uuid1()
+        self.api_key = 1
         self.policy_id = policy_id
         self.status = status
 
