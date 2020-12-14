@@ -1,19 +1,12 @@
-from mongoengine import Document
-from mongoengine import StringField
 from mongoengine import ValidationError
 from mongoengine import queryset
+from Entities.EventDB import EventDB
 from Boundaries.Event import Event
-
-
-class EventDB(Document):
-    eventName = StringField(max_length=50, required=True)
-    eventType = StringField(max_length=50, required=True)
-    eventData = StringField(max_length=50, required=True)
 
 
 class EventService:
 
-    def add_event(self, event):
+    def add_event(self, event: Event):
         event_id = EventDB.objects(eventName=event.event_name)
         if len(event_id) == 0:
             event_id = EventDB(eventName=event.event_name, eventType=event.event_type,

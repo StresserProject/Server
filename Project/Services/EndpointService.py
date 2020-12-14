@@ -1,22 +1,12 @@
-from mongoengine import Document
-from mongoengine import StringField
 from mongoengine import ValidationError
 from mongoengine import queryset
-from mongoengine import IntField
+from Entities.EndpointDB import EndpointDB
 from Boundaries.Endpoint import Endpoint
-
-
-class EndpointDB(Document):
-    hostname = StringField(max_length=50, required=True)
-    IPAddress = StringField(max_length=50, required=True)
-    apiKey = StringField(max_length=50, required=True)
-    policyId = IntField(required=True)
-    status = StringField(max_length=50, required=True)
 
 
 class EndpointService:
 
-    def add_endpoint(self, endpoint):
+    def add_endpoint(self, endpoint: Endpoint):
         endpoint_id = EndpointDB.objects(hostname=endpoint.hostname)
         if len(endpoint_id) == 0:
             endpoint_id = EndpointDB(hostname=endpoint.hostname, IPAddress=endpoint.ip_address,
