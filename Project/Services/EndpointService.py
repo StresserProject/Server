@@ -3,7 +3,7 @@ from mongoengine import StringField
 from mongoengine import ValidationError
 from mongoengine import queryset
 from mongoengine import IntField
-from Entities.Endpoint import Endpoint
+from Boundaries.Endpoint import Endpoint
 
 
 class EndpointDB(Document):

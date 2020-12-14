@@ -2,7 +2,7 @@ from mongoengine import Document
 from mongoengine import StringField
 from mongoengine import ValidationError
 from mongoengine import queryset
-from Entities.Event import Event
+from Boundaries.Event import Event
 
 
 class EventDB(Document):

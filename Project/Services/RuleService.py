@@ -2,7 +2,7 @@ from mongoengine import Document
 from mongoengine import StringField
 from mongoengine import ValidationError
 from mongoengine import queryset
-from Entities.Rule import Rule
+from Boundaries.Rule import Rule
 
 
 class RuleDB(Document):
