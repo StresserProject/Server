@@ -1,0 +1,5 @@
+POLICY_ID_KEY = "policyId"
+POLICY_NAME_KEY = "policyName"
+NUMBER_OF_RULES_KEY = "numberOfRules"
+RULES_KEY = "rules"
+UPDATE_KEY = "updateCount"

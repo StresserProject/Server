@@ -33,3 +33,12 @@ EVENT_JSON = '''
     "eventData": ""
 }
 '''
+POLICY_JSON = '''
+{
+    "policyId": 0,
+    "policyName": "",
+    "numberOfRules": 0,
+    "rules": [],
+    "updateCount": 0
+}
+'''

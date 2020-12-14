@@ -1,5 +1,5 @@
 
-class Rule():
+class Rule:
     def __init__(self, rule_id: int, rule_name: str, rule_type: str, rule_data: str):
         self.rule_id = rule_id
         self.rule_name = rule_name
