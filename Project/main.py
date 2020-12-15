@@ -15,8 +15,10 @@ rule_controller = RuleController()
 event_controller = EventController()
 policy_controller = PolicyController()
 
-# server = Server("0.0.0.0", int(environ['PORT']))    # Heroku Command
-server = Server("0.0.0.0", 80)    # Debug
+try:
+    server = Server("0.0.0.0", int(environ['PORT']))    # Heroku Deployment
+except KeyError:
+    server = Server("0.0.0.0", 80)    # Development
 
 # User
 server.add_route("/user", user_controller.create_user, "POST")  # Signup
