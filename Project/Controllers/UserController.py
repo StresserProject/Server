@@ -3,6 +3,7 @@ import json
 from flask import abort
 from Constants.Jsons import USER_JSON
 from Services.UserService import UserService
+from UserTokens import create_token, token_required
 
 USER_ID_KEY = "userId"
 USERNAME_KEY = "username"
@@ -26,10 +27,11 @@ class UserController:
             abort(404)
 
         user_json[USER_ID_KEY] = user_id
-        user_json[API_KEY] = 1
+        user_json[API_KEY] = create_token(str(user_id))
 
         return user_json
 
+    @token_required
     def get_user_data(self, user_id):
         """
         Return the wanted user by id
@@ -64,10 +66,11 @@ class UserController:
             abort(404)
 
         user_json[USER_ID_KEY] = str(user.id)
-        user_json[API_KEY] = 1
+        user_json[API_KEY] = create_token(str(user.id))
 
         return user_json
 
+    @token_required
     def delete_user(self, user_id):
         """
         Delete user from the db by id
