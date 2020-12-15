@@ -4,7 +4,7 @@ from flask import abort
 from Constants.Jsons import POLICY_JSON
 from Services.PolicyService import PolicyService
 from Boundaries.Policy import Policy
-import Constants.PolicyKeys as PolicyKeys
+from Constants.JsonKeys import PolicyKeys as PolicyKeys
 
 
 class PolicyController:

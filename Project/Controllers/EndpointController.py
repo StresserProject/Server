@@ -1,16 +1,10 @@
-from flask import request
 import json
+from flask import request
 from flask import abort
 from Constants.Jsons import ENDPOINT_JSON
+from Constants.JsonKeys import EndpointKeys as EndpointKeys
 from Services.EndpointService import EndpointService
 from Boundaries.Endpoint import Endpoint
-
-ENDPOINT_ID_KEY = "endpointId"
-HOSTNAME_KEY = "hostname"
-IP_ADDRESS_KEY = "IPAddress"
-API_KEY = "apiKey"
-POLICY_ID_KEY = "policyId"
-STATUS_KEY = "status"
 
 
 class EndpointController:
@@ -23,12 +17,12 @@ class EndpointController:
         :return: the new endpoint json, or 404 if endpoint exist
         """
         endpoint_json = request.json
-        endpoint_json[API_KEY] = str(1)
-        endpoint_id = self._endpoint_service.add_endpoint(self.json_to_endpoint(endpoint_json))
+        endpoint_json[EndpointKeys.API_KEY] = str(1)
+        endpoint_id = self._endpoint_service.add_endpoint(self._json_to_endpoint(endpoint_json))
         if endpoint_id == "":
             abort(404)
 
-        endpoint_json[ENDPOINT_ID_KEY] = endpoint_id
+        endpoint_json[EndpointKeys.ENDPOINT_ID_KEY] = endpoint_id
 
         return endpoint_json
 
@@ -43,11 +37,12 @@ class EndpointController:
             abort(404)
 
         endpoint_json = json.loads(ENDPOINT_JSON)
-        endpoint_json[ENDPOINT_ID_KEY] = str(endpoint.id)
-        endpoint_json[IP_ADDRESS_KEY] = endpoint[IP_ADDRESS_KEY]
-        endpoint_json[HOSTNAME_KEY] = endpoint[HOSTNAME_KEY]
-        endpoint_json[POLICY_ID_KEY] = endpoint[POLICY_ID_KEY]
-        endpoint_json[STATUS_KEY] = endpoint[STATUS_KEY]
+        endpoint_json[EndpointKeys.ENDPOINT_ID_KEY] = str(endpoint.id)
+        endpoint_json[EndpointKeys.IP_ADDRESS_KEY] = endpoint[EndpointKeys.IP_ADDRESS_KEY]
+        endpoint_json[EndpointKeys.HOSTNAME_KEY] = endpoint[EndpointKeys.HOSTNAME_KEY]
+        endpoint_json[EndpointKeys.POLICY_ID_KEY] = endpoint[EndpointKeys.POLICY_ID_KEY]
+        endpoint_json[EndpointKeys.STATUS_KEY] = endpoint[EndpointKeys.STATUS_KEY]
+        endpoint_json[EndpointKeys.LAST_COMMUNICATION_KEY] = endpoint[EndpointKeys.LAST_COMMUNICATION_KEY]
 
         return endpoint_json
 
@@ -57,6 +52,10 @@ class EndpointController:
         :param endpoint_id:
         :return: ABORT!!!
         '''
+        endpoint = self._endpoint_service.update_date(endpoint_id)
+        if endpoint is None:
+            abort(404)
+
         return ""
 
     def delete_endpoint(self, endpoint_id):
@@ -73,6 +72,7 @@ class EndpointController:
 
         return ""
 
-    def json_to_endpoint(self, endpoint_json):
-        return Endpoint(endpoint_json[ENDPOINT_ID_KEY], endpoint_json[POLICY_ID_KEY], endpoint_json[HOSTNAME_KEY],
-                        endpoint_json[IP_ADDRESS_KEY], endpoint_json[STATUS_KEY])
+    def _json_to_endpoint(self, endpoint_json):
+        return Endpoint(endpoint_json[EndpointKeys.ENDPOINT_ID_KEY], endpoint_json[EndpointKeys.POLICY_ID_KEY],
+                        endpoint_json[EndpointKeys.HOSTNAME_KEY], endpoint_json[EndpointKeys.IP_ADDRESS_KEY],
+                        endpoint_json[EndpointKeys.STATUS_KEY], endpoint_json[EndpointKeys.LAST_COMMUNICATION_KEY])

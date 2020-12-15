@@ -14,7 +14,8 @@ ENDPOINT_JSON = '''
     "hostname": "",
     "apiKey": "",
     "policyId": 0,
-    "status": ""
+    "status": "",
+    "lastCommunication": ""
 }
 '''
 RULE_JSON = '''
