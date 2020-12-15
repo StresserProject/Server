@@ -1,12 +1,6 @@
-from mongoengine import Document
-from mongoengine import StringField
 from mongoengine import ValidationError
 from mongoengine import queryset
-
-
-class UserDB(Document):
-    username = StringField(max_length=50, required=True)
-    userHashedPassword = StringField(max_length=50, required=True)
+from Entities.UserDB import UserDB
 
 
 class UserService:

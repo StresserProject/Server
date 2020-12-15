@@ -3,7 +3,7 @@ import json
 from flask import abort
 from Constants.Jsons import EVENT_JSON
 from Services.EventService import EventService
-from Entities.Event import Event
+from Boundaries.Event import Event
 
 EVENT_ID_KEY = "eventId"
 EVENT_NAME_KEY = "eventName"

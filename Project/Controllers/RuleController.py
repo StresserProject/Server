@@ -3,7 +3,7 @@ import json
 from flask import abort
 from Constants.Jsons import RULE_JSON
 from Services.RuleService import RuleService
-from Entities.Rule import Rule
+from Boundaries.Rule import Rule
 
 RULE_ID_KEY = "ruleId"
 RULE_NAME_KEY = "ruleName"

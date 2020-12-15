@@ -3,7 +3,7 @@ import json
 from flask import abort
 from Constants.Jsons import ENDPOINT_JSON
 from Services.EndpointService import EndpointService
-from Entities.Endpoint import Endpoint
+from Boundaries.Endpoint import Endpoint
 
 ENDPOINT_ID_KEY = "endpointId"
 HOSTNAME_KEY = "hostname"

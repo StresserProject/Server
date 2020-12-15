@@ -1,5 +1,5 @@
 
-class Event():
+class Event:
     def __init__(self, event_id: int, event_name: str, event_type: str, event_data: str):
         self.event_id = event_id
         self.event_name = event_name
@@ -7,7 +7,7 @@ class Event():
         self.event_data = event_data
 
     def __str__(self):
-        return f"RuleId:{self.event_id}, " \
-               f"RuleName:{self.event_name}, " \
-               f"RuleType:{self.event_type}, " \
-               f"RuleData:{self.event_data}"
+        return f"EventId:{self.event_id}, " \
+               f"EventName:{self.event_name}, " \
+               f"EventType:{self.event_type}, " \
+               f"EventData:{self.event_data}"
