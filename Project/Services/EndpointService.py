@@ -7,6 +7,9 @@ from datetime import datetime
 
 class EndpointService:
 
+    def get_all_endpoints(self):
+        return EndpointDB.objects()
+
     def add_endpoint(self, endpoint: Endpoint):
         endpoint_id = EndpointDB.objects(hostname=endpoint.hostname)
         if len(endpoint_id) == 0:

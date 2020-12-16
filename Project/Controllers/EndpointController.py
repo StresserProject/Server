@@ -5,11 +5,36 @@ from Constants.Jsons import ENDPOINT_JSON
 from Constants.JsonKeys import EndpointKeys as EndpointKeys
 from Services.EndpointService import EndpointService
 from Boundaries.Endpoint import Endpoint
+from threading import Thread
+from time import sleep
+from datetime import datetime, timedelta
+
+SLEEP_TIME = 10
+API_KEY_LIFETIME = timedelta(minutes=1)
 
 
 class EndpointController:
     def __init__(self):
         self._endpoint_service = EndpointService()
+        self._thread_running = True
+        Thread(target=self._check_endpoints_last_communication).start()
+
+    def __del__(self):
+        self._thread_running = False
+
+    def _check_endpoints_last_communication(self):
+        """
+        Thread function
+        check every SLEEP_TIME the endpoints last communication time
+        with the API_KEY_LIFETIME and delete endpoint that past the time
+        :return:
+        """
+        while self._thread_running:
+            endpoints = self._endpoint_service.get_all_endpoints()
+            for endpoint in endpoints:
+                if datetime.now() - endpoint.lastCommunication > API_KEY_LIFETIME:
+                    self.delete_endpoint(endpoint.id)
+            sleep(SLEEP_TIME)
 
     def create_endpoint(self):
         """
@@ -47,11 +72,11 @@ class EndpointController:
         return endpoint_json
 
     def keep_alive(self, endpoint_id):
-        '''
-        God knows what it does.
+        """
+        Update the last communication time for the endpoint
         :param endpoint_id:
         :return: ABORT!!!
-        '''
+        """
         endpoint = self._endpoint_service.update_date(endpoint_id)
         if endpoint is None:
             abort(404)
@@ -73,6 +98,18 @@ class EndpointController:
         return ""
 
     def _json_to_endpoint(self, endpoint_json):
-        return Endpoint(endpoint_json[EndpointKeys.ENDPOINT_ID_KEY], endpoint_json[EndpointKeys.POLICY_ID_KEY],
-                        endpoint_json[EndpointKeys.HOSTNAME_KEY], endpoint_json[EndpointKeys.IP_ADDRESS_KEY],
-                        endpoint_json[EndpointKeys.STATUS_KEY], endpoint_json[EndpointKeys.LAST_COMMUNICATION_KEY])
+        """
+        return endpoint object
+        if the json has LAST_COMMUNICATION_KEY it use it
+        otherwise it use the current time
+        :param endpoint_json: json with endpoint values
+        :return: endpoint object
+        """
+        try:
+            return Endpoint(endpoint_json[EndpointKeys.ENDPOINT_ID_KEY], endpoint_json[EndpointKeys.POLICY_ID_KEY],
+                            endpoint_json[EndpointKeys.HOSTNAME_KEY], endpoint_json[EndpointKeys.IP_ADDRESS_KEY],
+                            endpoint_json[EndpointKeys.STATUS_KEY], endpoint_json[EndpointKeys.LAST_COMMUNICATION_KEY])
+        except KeyError:
+            return Endpoint(endpoint_json[EndpointKeys.ENDPOINT_ID_KEY], endpoint_json[EndpointKeys.POLICY_ID_KEY],
+                            endpoint_json[EndpointKeys.HOSTNAME_KEY], endpoint_json[EndpointKeys.IP_ADDRESS_KEY],
+                            endpoint_json[EndpointKeys.STATUS_KEY])
