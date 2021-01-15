@@ -2,16 +2,20 @@ from mongoengine import ValidationError
 from mongoengine import queryset
 from Entities.EndpointDB import EndpointDB
 from Boundaries.Endpoint import Endpoint
+from datetime import datetime
 
 
 class EndpointService:
+
+    def get_all_endpoints(self):
+        return EndpointDB.objects()
 
     def add_endpoint(self, endpoint: Endpoint):
         endpoint_id = EndpointDB.objects(hostname=endpoint.hostname)
         if len(endpoint_id) == 0:
             endpoint_id = EndpointDB(hostname=endpoint.hostname, IPAddress=endpoint.ip_address,
                                      apiKey=str(endpoint.api_key), policyId=endpoint.policy_id,
-                                     status=endpoint.status).save()
+                                     status=endpoint.status, lastCommunication=datetime.now()).save()
             return str(endpoint_id.id)
         return ""
 
@@ -27,3 +31,12 @@ class EndpointService:
             return None
 
         return endpoints[0]
+
+    def update_date(self, endpoint_id):
+        endpoint = EndpointDB.objects.get(id=endpoint_id)
+
+        if endpoint is None:
+            return None
+
+        EndpointDB.update(endpoint, lastCommunication=datetime.now())
+        return endpoint

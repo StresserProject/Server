@@ -2,7 +2,7 @@ from mongoengine import ValidationError
 from mongoengine import queryset
 from Entities.PolicyDB import PolicyDB
 from Boundaries.Policy import Policy
-from Constants.PolicyKeys import UPDATE_KEY
+from Constants.JsonKeys import PolicyKeys
 
 
 class PolicyService:
@@ -31,6 +31,6 @@ class PolicyService:
 
     def update_policy_by_id(self, policy_id, policy):
         old_policy = PolicyDB.objects.get(id=policy_id)
-        update_count = old_policy[UPDATE_KEY] + 1
+        update_count = old_policy[PolicyKeys.UPDATE_KEY] + 1
         PolicyDB.update(old_policy, policyName=policy.policy_name, numberOfRules=policy.number_of_rules,
                         rules=policy.rules, updateCount=update_count)

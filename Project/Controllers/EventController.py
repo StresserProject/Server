@@ -1,23 +1,15 @@
-from flask import request
 import json
+from flask import request
 from flask import abort
 from Constants.Jsons import EVENT_JSON
+from Constants.JsonKeys import EventKeys as EventKeys
 from Services.EventService import EventService
 from Boundaries.Event import Event
-
-EVENT_ID_KEY = "eventId"
-EVENT_NAME_KEY = "eventName"
-EVENT_TYPE_KEY = "eventType"
-EVENT_DATA_KEY = "eventData"
 
 
 class EventController:
     def __init__(self):
         self._event_service = EventService()
-
-    def json_to_event(self, event_json):
-        return Event(event_json[EVENT_ID_KEY], event_json[EVENT_NAME_KEY], event_json[EVENT_TYPE_KEY],
-                     event_json[EVENT_DATA_KEY])
 
     def create_event(self):
         """
@@ -26,11 +18,11 @@ class EventController:
         """
         event_json = request.json
 
-        event_id = self._event_service.add_event(self.json_to_event(event_json))
+        event_id = self._event_service.add_event(self._json_to_event(event_json))
         if event_id == "":
             abort(404)
 
-        event_json[EVENT_ID_KEY] = event_id
+        event_json[EventKeys.EVENT_ID_KEY] = event_id
 
         return event_json
 
@@ -45,10 +37,10 @@ class EventController:
             abort(404)
 
         event_json = json.loads(EVENT_JSON)
-        event_json[EVENT_ID_KEY] = str(event.id)
-        event_json[EVENT_NAME_KEY] = event[EVENT_NAME_KEY]
-        event_json[EVENT_TYPE_KEY] = event[EVENT_TYPE_KEY]
-        event_json[EVENT_DATA_KEY] = event[EVENT_DATA_KEY]
+        event_json[EventKeys.EVENT_ID_KEY] = str(event.id)
+        event_json[EventKeys.EVENT_NAME_KEY] = event[EventKeys.EVENT_NAME_KEY]
+        event_json[EventKeys.EVENT_TYPE_KEY] = event[EventKeys.EVENT_TYPE_KEY]
+        event_json[EventKeys.EVENT_DATA_KEY] = event[EventKeys.EVENT_DATA_KEY]
 
         return event_json
 
@@ -62,7 +54,7 @@ class EventController:
             abort(404)
 
         new_event = request.json
-        old_event = self._event_service.update_event_by_id(event_id, self.json_to_event(new_event))
+        old_event = self._event_service.update_event_by_id(event_id, self._json_to_event(new_event))
 
         return old_event
 
@@ -79,3 +71,7 @@ class EventController:
         event.delete()
 
         return ""
+
+    def _json_to_event(self, event_json):
+        return Event(event_json[EventKeys.EVENT_ID_KEY], event_json[EventKeys.EVENT_NAME_KEY],
+                     event_json[EventKeys.EVENT_TYPE_KEY], event_json[EventKeys.EVENT_DATA_KEY])
