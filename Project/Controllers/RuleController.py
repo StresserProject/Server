@@ -1,23 +1,16 @@
-from flask import request
 import json
+from flask import request
 from flask import abort
 from Constants.Jsons import RULE_JSON
+from Constants.JsonKeys import RuleKeys
 from Services.RuleService import RuleService
-from Entities.Rule import Rule
+from Boundaries.Rule import Rule
 
-RULE_ID_KEY = "ruleId"
-RULE_NAME_KEY = "ruleName"
-RULE_TYPE_KEY = "ruleType"
-RULE_DATA_KEY = "ruleData"
 
 
 class RuleController:
     def __init__(self):
         self._rule_service = RuleService()
-
-    def json_to_rule(self, rule_json):
-        return Rule(rule_json[RULE_ID_KEY], rule_json[RULE_NAME_KEY], rule_json[RULE_TYPE_KEY],
-                    rule_json[RULE_DATA_KEY])
 
     def create_rule(self):
         """
@@ -26,11 +19,11 @@ class RuleController:
         """
         rule_json = request.json
 
-        rule_id = self._rule_service.add_rule(self.json_to_rule(rule_json))
+        rule_id = self._rule_service.add_rule(self._json_to_rule(rule_json))
         if rule_id == "":
             abort(404)
 
-        rule_json[RULE_ID_KEY] = rule_id
+        rule_json[RuleKeys.RULE_ID_KEY] = rule_id
 
         return rule_json
 
@@ -45,10 +38,10 @@ class RuleController:
             abort(404)
 
         endpoint_json = json.loads(RULE_JSON)
-        endpoint_json[RULE_ID_KEY] = str(rule.id)
-        endpoint_json[RULE_NAME_KEY] = rule[RULE_NAME_KEY]
-        endpoint_json[RULE_TYPE_KEY] = rule[RULE_TYPE_KEY]
-        endpoint_json[RULE_DATA_KEY] = rule[RULE_DATA_KEY]
+        endpoint_json[RuleKeys.RULE_ID_KEY] = str(rule.id)
+        endpoint_json[RuleKeys.RULE_NAME_KEY] = rule[RuleKeys.RULE_NAME_KEY]
+        endpoint_json[RuleKeys.RULE_TYPE_KEY] = rule[RuleKeys.RULE_TYPE_KEY]
+        endpoint_json[RuleKeys.RULE_DATA_KEY] = rule[RuleKeys.RULE_DATA_KEY]
 
         return endpoint_json
 
@@ -62,7 +55,7 @@ class RuleController:
             abort(404)
 
         new_rule = request.json
-        old_rule = self._rule_service.update_rule_by_id(rule_id, self.json_to_rule(new_rule))
+        old_rule = self._rule_service.update_rule_by_id(rule_id, self._json_to_rule(new_rule))
 
         return old_rule
 
@@ -79,3 +72,7 @@ class RuleController:
         rule.delete()
 
         return ""
+
+    def _json_to_rule(self, rule_json):
+        return Rule(rule_json[RuleKeys.RULE_ID_KEY], rule_json[RuleKeys.RULE_NAME_KEY],
+                    rule_json[RuleKeys.RULE_TYPE_KEY],rule_json[RuleKeys.RULE_DATA_KEY])

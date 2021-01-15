@@ -1,9 +1,14 @@
+cffi==1.14.4
 click==7.1.2
+cryptography==3.2.1
 dnspython==2.0.0
 Flask==1.1.2
 itsdangerous==1.1.0
 Jinja2==2.11.2
+jwt==1.1.0
 MarkupSafe==1.1.1
 mongoengine==0.21.0
+pycparser==2.20
 pymongo==3.11.2
+six==1.15.0
 Werkzeug==1.0.1

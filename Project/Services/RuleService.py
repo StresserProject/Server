@@ -1,19 +1,12 @@
-from mongoengine import Document
-from mongoengine import StringField
 from mongoengine import ValidationError
 from mongoengine import queryset
-from Entities.Rule import Rule
-
-
-class RuleDB(Document):
-    ruleName = StringField(max_length=50, required=True)
-    ruleType = StringField(max_length=50, required=True)
-    ruleData = StringField(max_length=50, required=True)
+from Entities.RuleDB import RuleDB
+from Boundaries.Rule import Rule
 
 
 class RuleService:
 
-    def add_rule(self, rule):
+    def add_rule(self, rule: Rule):
         rule_id = RuleDB.objects(ruleName=rule.rule_name)
         if len(rule_id) == 0:
             rule_id = RuleDB(ruleName=rule.rule_name, ruleType=rule.rule_type, ruleData=rule.rule_data).save()

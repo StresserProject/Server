@@ -1,0 +1,99 @@
+{
+	"info": {
+		"_postman_id": "6b813326-ab59-4d93-a6f0-057500f17841",
+		"name": "RuleAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "CreateRule",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"ruleId\": 0,\r\n    \"ruleName\": \"Re\",\r\n    \"ruleType\": \"LAW\",\r\n    \"ruleData\": \"sfasf\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/rule",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"rule"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetRule",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/rule/",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"rule",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteRule",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/rule/",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"rule",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateRule",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"ruleData\": \"sfasf\",\r\n    \"ruleId\": \"ZeIDTOV\",\r\n    \"ruleName\": \"hok\",\r\n    \"ruleType\": \"LAW\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/rule/",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"rule",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
