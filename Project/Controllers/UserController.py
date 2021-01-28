@@ -1,16 +1,13 @@
 import json
-from flask import request
+from flask import request, make_response
 from flask import abort
 from Constants.Jsons import USER_JSON
 from Constants.JsonKeys import UserKeys
-from Services.UserService import UserService
+import Services.UserService as UserService
 from UserTokens import create_token, token_required
 
 
 class UserController:
-    def __init__(self):
-        self._user_service = UserService()
-
     def create_user(self):
         """
         Creating new User
@@ -18,13 +15,20 @@ class UserController:
         """
         user_json = request.json
 
-        user_id = self._user_service.add_user(user_json[UserKeys.USERNAME_KEY],
-                                              user_json[UserKeys.HASHED_PASSWORD])
-        if user_id == "":
-            abort(404)
+        try:
+            if UserService.is_username_unique(user_json[UserKeys.USERNAME_KEY]):
+                user_id = UserService.add_user(user_json[UserKeys.USERNAME_KEY], user_json[UserKeys.HASHED_PASSWORD])
+            else:
+                return "Username already taken"
+        except KeyError:
+            abort(400)
 
-        user_json[USER_ID_KEY] = user_id
-        user_json[API_KEY] = create_token(str(user_id))
+        token, refresh_token = create_token(str(user_id))
+
+        user_json[UserKeys.USER_ID_KEY] = user_id
+        user_json[UserKeys.API_KEY] = token
+
+        UserService.set_refresh_cookie(str(user_id), refresh_token)
 
         return user_json
 
@@ -35,7 +39,7 @@ class UserController:
         :param user_id: the wanted user id
         :return: the user json or 404 if user not found
         """
-        user = self._user_service.get_user_by_id(user_id)
+        user = UserService.get_user_by_id(user_id)
         if user is None:
             abort(404)
 
@@ -55,17 +59,23 @@ class UserController:
         username = user_json[UserKeys.USERNAME_KEY]
         password = user_json[UserKeys.HASHED_PASSWORD]
 
-        user = self._user_service.get_user_by_name(username)
+        user = UserService.get_user_by_name(username)
         if user is None:
             return abort(404)
 
         if user[UserKeys.HASHED_PASSWORD] != password:
             abort(404)
 
-        user_json[USER_ID_KEY] = str(user.id)
-        user_json[API_KEY] = create_token(str(user.id))
+        token, refresh_token = create_token(str(user.id))
 
-        return user_json
+        user_json[UserKeys.USER_ID_KEY] = str(user.id)
+        user_json[UserKeys.API_KEY] = token
+
+        UserService.set_refresh_cookie(str(user.id), refresh_token)
+
+        res = make_response(user_json)
+        res.set_cookie("refresh_token", refresh_token, httponly=True)
+        return res
 
     @token_required
     def delete_user(self, user_id):
@@ -74,7 +84,7 @@ class UserController:
         :param user_id: the user id to delete
         :return: empty string or 404 on failure
         """
-        user = self._user_service.get_user_by_id(user_id)
+        user = UserService.get_user_by_id(user_id)
         if user is None:
             abort(404)
 

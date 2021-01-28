@@ -34,5 +34,5 @@ class RuleKeys:
 class UserKeys:
     USER_ID_KEY = "userId"
     USERNAME_KEY = "username"
-    HASHED_PASSWORD = "userHashedPassword"
+    HASHED_PASSWORD = "password"
     API_KEY = "apiKey"

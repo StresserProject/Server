@@ -8,6 +8,7 @@ from Boundaries.Endpoint import Endpoint
 from threading import Thread
 from time import sleep
 from datetime import datetime, timedelta
+from uuid import uuid4
 
 SLEEP_TIME = 10
 API_KEY_LIFETIME = timedelta(minutes=1)
@@ -42,7 +43,7 @@ class EndpointController:
         :return: the new endpoint json, or 404 if endpoint exist
         """
         endpoint_json = request.json
-        endpoint_json[EndpointKeys.API_KEY] = str(1)
+        endpoint_json[EndpointKeys.API_KEY] = uuid4().hex
         endpoint_id = self._endpoint_service.add_endpoint(self._json_to_endpoint(endpoint_json))
         if endpoint_id == "":
             abort(404)
