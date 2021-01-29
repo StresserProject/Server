@@ -88,7 +88,7 @@ def get_all_rules():
     rules = RuleService.get_all_rules()
     formatted_rules = []
     for rule in rules:
-        formatted_rules.append(Rule(rule[DB_ID_KEY], rule[RuleKeys.RULE_NAME_KEY],
+        formatted_rules.append(Rule(rule.id, rule[RuleKeys.RULE_NAME_KEY],
                                     rule[RuleKeys.RULE_TYPE_KEY], rule[RuleKeys.RULE_DATA_KEY]))
         print(formatted_rules)
     return json.dumps(formatted_rules, default=lambda obj: obj.__dict__)

@@ -4,10 +4,10 @@ from flask import abort
 from Constants.Jsons import USER_JSON
 from Constants.JsonKeys import UserKeys
 import Services.UserService as UserService
-from UserTokens import create_token, token_required
+from UserTokens import create_token, token_required, validate_cookie
 
 
-def create_user(self):
+def create_user():
     """
     Creating new User
     :return: the new user json, or 404 if user exist
@@ -33,7 +33,7 @@ def create_user(self):
 
 
 @token_required
-def get_user_data(self, user_id):
+def get_user_data(user_id):
     """
     Return the wanted user by id
     :param user_id: the wanted user id
@@ -50,7 +50,8 @@ def get_user_data(self, user_id):
 
     return user_json
 
-def login(self):
+
+def login():
     """
     Login the user to the server
     :return: user json with id and API key
@@ -77,8 +78,9 @@ def login(self):
     res.set_cookie("refresh_token", refresh_token, httponly=True)
     return res
 
+
 @token_required
-def delete_user(self, user_id):
+def delete_user(user_id):
     """
     Delete user from the db by id
     :param user_id: the user id to delete
@@ -91,3 +93,16 @@ def delete_user(self, user_id):
     user.delete()
 
     return ""
+
+
+def update_refresh_token():
+    response = validate_cookie()
+    if type(response) is not str:
+        return response
+
+    token, refresh_token = create_token(response)
+    res = make_response(token)
+    res.set_cookie("refresh_token", refresh_token, httponly=True)
+    return res
+
+

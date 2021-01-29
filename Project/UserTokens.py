@@ -43,3 +43,28 @@ def token_required(f):
         return f(*args, **kwargs)
 
     return decorated
+
+
+def validate_cookie():
+    # if 'Authorization' in request.cookies.get('refresh_token'):
+
+    cookie = request.cookies.get('refresh_token')
+    if not cookie:
+        return jsonify({'message': 'Cookie is missing !!'}), 401
+
+    data = jwt.decode(cookie, REFRESH_COOKIE)
+    user = UserService.get_user_by_id(data["id"])
+    if user is None:
+        return jsonify({
+            'message': 'Cookie is invalid !!'
+        }), 401
+
+    if user.refresh == cookie:
+        return data["id"]
+
+    return jsonify({
+        'message': 'Cookie is invalid !!'
+    }), 401
+
+
+

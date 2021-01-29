@@ -21,6 +21,7 @@ server.add_route("/user", UserController.create_user, "POST")  # Signup
 server.add_route("/user/<string:user_id>", UserController.get_user_data, "GET")   # GetUser
 server.add_route("/user/login", UserController.login, "POST")   # Login
 server.add_route("/user/<string:user_id>", UserController.delete_user, "DELETE")   # DeleteUser
+server.add_route("/user/refresh", UserController.update_refresh_token, "GET")   # UpdateRefresh
 
 # Endpoint
 server.add_route("/endpoint", endpoint_controller.create_endpoint, "POST")  # CreateEndpoint

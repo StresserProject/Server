@@ -1,4 +1,3 @@
-DB_ID_KEY = "_id"
 
 
 class PolicyKeys:
