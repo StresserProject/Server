@@ -10,8 +10,8 @@ from time import sleep
 from datetime import datetime, timedelta
 from uuid import uuid4
 
-SLEEP_TIME = 10
-API_KEY_LIFETIME = timedelta(minutes=1)
+SLEEP_TIME = 60
+API_KEY_LIFETIME = timedelta(minutes=5)
 
 
 class EndpointController:
@@ -39,7 +39,7 @@ class EndpointController:
     def create_endpoint(self):
         """
         Creating new Endpoint
-        :return: the new endpoint json, or 404 if endpoint exist
+        :return: API key to the endpoint, or 404 if endpoint exist
         """
         endpoint_json = request.json
         endpoint_json[EndpointKeys.API_KEY] = uuid4().hex
@@ -49,7 +49,7 @@ class EndpointController:
 
         endpoint_json[EndpointKeys.ENDPOINT_ID_KEY] = endpoint_id
 
-        return endpoint_json
+        return endpoint_json[EndpointKeys.API_KEY]
 
     def get_endpoint_data(self, endpoint_id):
         """

@@ -76,6 +76,7 @@ def login():
 
     res = make_response(user_json)
     res.set_cookie("refresh_token", refresh_token, httponly=True)
+
     return res
 
 
@@ -103,6 +104,5 @@ def update_refresh_token():
     token, refresh_token = create_token(response)
     res = make_response(token)
     res.set_cookie("refresh_token", refresh_token, httponly=True)
+
     return res
-
-

@@ -14,7 +14,7 @@ def create_event():
     """
     event_json = request.json
 
-    event_id = EventService.add_event(EventService.json_to_event(event_json))
+    event_id = EventService.add_event(json_to_event(event_json))
     if event_id == "":
         abort(404)
 
@@ -52,7 +52,7 @@ def update_event(event_id):
         abort(404)
 
     new_event = request.json
-    old_event = EventService.update_event_by_id(event_id, EventService.json_to_event(new_event))
+    old_event = EventService.update_event_by_id(event_id, json_to_event(new_event))
 
     return old_event
 

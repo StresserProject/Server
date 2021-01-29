@@ -46,8 +46,6 @@ def token_required(f):
 
 
 def validate_cookie():
-    # if 'Authorization' in request.cookies.get('refresh_token'):
-
     cookie = request.cookies.get('refresh_token')
     if not cookie:
         return jsonify({'message': 'Cookie is missing !!'}), 401
