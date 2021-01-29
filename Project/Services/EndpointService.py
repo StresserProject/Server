@@ -5,38 +5,40 @@ from Boundaries.Endpoint import Endpoint
 from datetime import datetime
 
 
-class EndpointService:
+def get_all_endpoints():
+    return EndpointDB.objects()
 
-    def get_all_endpoints(self):
-        return EndpointDB.objects()
 
-    def add_endpoint(self, endpoint: Endpoint):
-        endpoint_id = EndpointDB.objects(hostname=endpoint.hostname)
-        if len(endpoint_id) == 0:
-            endpoint_id = EndpointDB(hostname=endpoint.hostname, IPAddress=endpoint.ip_address,
-                                     apiKey=str(endpoint.api_key), policyId=endpoint.policy_id,
-                                     status=endpoint.status, lastCommunication=datetime.now()).save()
-            return str(endpoint_id.id)
-        return ""
+def add_endpoint(endpoint: Endpoint):
+    endpoint_id = EndpointDB.objects(hostname=endpoint.hostname)
+    if len(endpoint_id) == 0:
+        endpoint_id = EndpointDB(hostname=endpoint.hostname, IPAddress=endpoint.ip_address,
+                                 apiKey=str(endpoint.api_key), policyId=endpoint.policy_id,
+                                 status=endpoint.status, lastCommunication=datetime.now()).save()
+        return str(endpoint_id.id)
+    return ""
 
-    def get_endpoint_by_id(self, endpoint_id):
-        try:
-            return EndpointDB.objects.get(id=endpoint_id)
-        except (ValidationError, queryset.DoesNotExist):
-            return None
 
-    def get_endpoint_by_hostname(self, hostname):
-        endpoints = EndpointDB.objects(hostname=hostname)
-        if len(endpoints) == 0:
-            return None
+def get_endpoint_by_id(endpoint_id):
+    try:
+        return EndpointDB.objects.get(id=endpoint_id)
+    except (ValidationError, queryset.DoesNotExist):
+        return None
 
-        return endpoints[0]
 
-    def update_date(self, endpoint_id):
-        endpoint = EndpointDB.objects.get(id=endpoint_id)
+def get_endpoint_by_hostname(hostname):
+    endpoints = EndpointDB.objects(hostname=hostname)
+    if len(endpoints) == 0:
+        return None
 
-        if endpoint is None:
-            return None
+    return endpoints[0]
 
-        EndpointDB.update(endpoint, lastCommunication=datetime.now())
-        return endpoint
+
+def update_date(endpoint_id):
+    endpoint = EndpointDB.objects.get(id=endpoint_id)
+
+    if endpoint is None:
+        return None
+
+    EndpointDB.update(endpoint, lastCommunication=datetime.now())
+    return endpoint

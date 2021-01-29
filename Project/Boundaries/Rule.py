@@ -1,7 +1,8 @@
 
+
 class Rule:
-    def __init__(self, rule_id: int, rule_name: str, rule_type: str, rule_data: str):
-        self.rule_id = rule_id
+    def __init__(self, rule_id: str, rule_name: str, rule_type: str, rule_data: str):
+        self.rule_id = str(rule_id)
         self.rule_name = rule_name
         self.rule_type = rule_type
         self.rule_data = rule_data
@@ -11,3 +12,4 @@ class Rule:
                f"RuleName:{self.rule_name}, " \
                f"RuleType:{self.rule_type}, " \
                f"RuleData:{self.rule_data}"
+

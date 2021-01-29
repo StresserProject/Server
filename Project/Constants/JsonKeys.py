@@ -1,3 +1,5 @@
+DB_ID_KEY = "_id"
+
 
 class PolicyKeys:
     POLICY_ID_KEY = "policyId"
