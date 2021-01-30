@@ -16,20 +16,13 @@ def create_user():
 
     try:
         if UserService.is_username_unique(user_json[UserKeys.USERNAME_KEY]):
-            user_id = UserService.add_user(user_json[UserKeys.USERNAME_KEY], user_json[UserKeys.HASHED_PASSWORD])
+            UserService.add_user(user_json[UserKeys.USERNAME_KEY], user_json[UserKeys.HASHED_PASSWORD])
         else:
             return "Username already taken"
     except KeyError:
         abort(400)
 
-    token, refresh_token = create_token(str(user_id))
-
-    user_json[UserKeys.USER_ID_KEY] = user_id
-    user_json[UserKeys.API_KEY] = token
-
-    UserService.set_refresh_cookie(str(user_id), refresh_token)
-
-    return user_json
+    return 200
 
 
 @token_required
@@ -46,7 +39,6 @@ def get_user_data(user_id):
     user_json = json.loads(USER_JSON)
     user_json[UserKeys.USER_ID_KEY] = str(user.id)
     user_json[UserKeys.USERNAME_KEY] = user[UserKeys.USERNAME_KEY]
-    user_json[UserKeys.API_KEY] = 1
 
     return user_json
 
@@ -77,7 +69,9 @@ def login():
     res = make_response(user_json)
     res.set_cookie("refresh_token", refresh_token, httponly=True)
 
-    return res
+    response = (token, refresh_token)
+
+    return str(response)
 
 
 @token_required
@@ -97,7 +91,14 @@ def delete_user(user_id):
 
 
 def update_refresh_token():
+    """
+    Updates refresh token for user
+    :return: token and new refresh_token
+    """
     response = validate_cookie()
+    """
+    The response should be id (str) if succeeded
+    """
     if type(response) is not str:
         return response
 
