@@ -73,7 +73,6 @@ def delete_rule(rule_id):
     return ""
 
 
-@token_required
 def json_to_rule(rule_json):
     return Rule(rule_json[RuleKeys.RULE_ID_KEY], rule_json[RuleKeys.RULE_NAME_KEY],
                 rule_json[RuleKeys.RULE_TYPE_KEY],rule_json[RuleKeys.RULE_DATA_KEY])
