@@ -31,6 +31,7 @@ server.add_route("/endpoint/<string:endpoint_id>", endpoint_controller.delete_en
 
 # Rule
 server.add_route("/rule", RuleController.create_rule, "POST")  # CreateRule
+server.add_route("/rule", RuleController.get_all_rules, "GET")  # GetAllRules
 server.add_route("/rule/<string:rule_id>", RuleController.get_rule_data, "GET")  # GetRule
 server.add_route("/rule/<string:rule_id>", RuleController.update_rule, "PUT")   # UpdateRule
 server.add_route("/rule/<string:rule_id>", RuleController.delete_rule, "DELETE")  # DeleteRule

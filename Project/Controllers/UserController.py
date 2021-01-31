@@ -22,7 +22,7 @@ def create_user():
     except KeyError:
         abort(400)
 
-    return 200
+    return ""
 
 
 @token_required
@@ -66,12 +66,10 @@ def login():
 
     UserService.set_refresh_cookie(str(user.id), refresh_token)
 
-    res = make_response(user_json)
+    res = make_response(token)
     res.set_cookie("refresh_token", refresh_token, httponly=True)
 
-    response = (token, refresh_token)
-
-    return str(response)
+    return res
 
 
 @token_required
@@ -96,10 +94,7 @@ def update_refresh_token():
     :return: token and new refresh_token
     """
     response = validate_cookie()
-    """
-    The response should be id (str) if succeeded
-    """
-    if type(response) is not str:
+    if type(response) is not str:  # The response should be string if succeeded
         return response
 
     token, refresh_token = create_token(response)
