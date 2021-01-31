@@ -5,7 +5,7 @@ dnspython==2.0.0
 Flask==1.1.2
 itsdangerous==1.1.0
 Jinja2==2.11.2
-jwt==1.1.0
+PyJWT==1.7.1
 MarkupSafe==1.1.1
 mongoengine==0.21.0
 pycparser==2.20

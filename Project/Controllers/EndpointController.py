@@ -3,19 +3,19 @@ from flask import request
 from flask import abort
 from Constants.Jsons import ENDPOINT_JSON
 from Constants.JsonKeys import EndpointKeys as EndpointKeys
-from Services.EndpointService import EndpointService
+import Services.EndpointService as EndpointService
 from Boundaries.Endpoint import Endpoint
 from threading import Thread
 from time import sleep
 from datetime import datetime, timedelta
+from uuid import uuid4
 
-SLEEP_TIME = 10
-API_KEY_LIFETIME = timedelta(minutes=1)
+SLEEP_TIME = 60
+API_KEY_LIFETIME = timedelta(minutes=5)
 
 
 class EndpointController:
     def __init__(self):
-        self._endpoint_service = EndpointService()
         self._thread_running = True
         Thread(target=self._check_endpoints_last_communication).start()
 
@@ -30,7 +30,7 @@ class EndpointController:
         :return:
         """
         while self._thread_running:
-            endpoints = self._endpoint_service.get_all_endpoints()
+            endpoints = EndpointService.get_all_endpoints()
             for endpoint in endpoints:
                 if datetime.now() - endpoint.lastCommunication > API_KEY_LIFETIME:
                     self.delete_endpoint(endpoint.id)
@@ -39,17 +39,17 @@ class EndpointController:
     def create_endpoint(self):
         """
         Creating new Endpoint
-        :return: the new endpoint json, or 404 if endpoint exist
+        :return: API key to the endpoint, or 404 if endpoint exist
         """
         endpoint_json = request.json
-        endpoint_json[EndpointKeys.API_KEY] = str(1)
-        endpoint_id = self._endpoint_service.add_endpoint(self._json_to_endpoint(endpoint_json))
+        endpoint_json[EndpointKeys.API_KEY] = uuid4().hex
+        endpoint_id = EndpointService.add_endpoint(self._json_to_endpoint(endpoint_json))
         if endpoint_id == "":
             abort(404)
 
         endpoint_json[EndpointKeys.ENDPOINT_ID_KEY] = endpoint_id
 
-        return endpoint_json
+        return endpoint_json[EndpointKeys.API_KEY]
 
     def get_endpoint_data(self, endpoint_id):
         """
@@ -57,7 +57,7 @@ class EndpointController:
         :param endpoint_id: the wanted endpoint id
         :return: the endpoint json or 404 if endpoint not found
         """
-        endpoint = self._endpoint_service.get_endpoint_by_id(endpoint_id)
+        endpoint = EndpointService.get_endpoint_by_id(endpoint_id)
         if endpoint is None:
             abort(404)
 
@@ -77,7 +77,7 @@ class EndpointController:
         :param endpoint_id:
         :return: ABORT!!!
         """
-        endpoint = self._endpoint_service.update_date(endpoint_id)
+        endpoint = EndpointService.update_date(endpoint_id)
         if endpoint is None:
             abort(404)
 
@@ -89,7 +89,7 @@ class EndpointController:
         :param endpoint_id: the endpoint id to delete
         :return: empty string or 404 on failure
         """
-        endpoint = self._endpoint_service.get_endpoint_by_id(endpoint_id)
+        endpoint = EndpointService.get_endpoint_by_id(endpoint_id)
         if endpoint is None:
             abort(404)
 
