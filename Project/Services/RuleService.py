@@ -4,7 +4,7 @@ from Entities.RuleDB import RuleDB
 from Boundaries.Rule import Rule
 
 
-def add_rule( rule: Rule):
+def add_rule(rule: Rule):
     rule_id = RuleDB.objects(ruleName=rule.rule_name)
     if len(rule_id) == 0:
         rule_id = RuleDB(ruleName=rule.rule_name, ruleType=rule.rule_type, ruleData=rule.rule_data).save()

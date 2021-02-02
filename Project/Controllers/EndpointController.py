@@ -3,7 +3,9 @@ from flask import request
 from flask import abort
 from Constants.Jsons import ENDPOINT_JSON
 from Constants.JsonKeys import EndpointKeys as EndpointKeys
+import Services.EventService as EventService
 import Services.EndpointService as EndpointService
+from Boundaries.Event import Event
 from Boundaries.Endpoint import Endpoint
 from threading import Thread
 from time import sleep
@@ -33,6 +35,9 @@ class EndpointController:
             endpoints = EndpointService.get_all_endpoints()
             for endpoint in endpoints:
                 if datetime.now() - endpoint.lastCommunication > API_KEY_LIFETIME:
+                    EventService.add_event(Event(0, "Lost Endpoint Connection", "Report",
+                                                 endpoint[EndpointKeys.IP_ADDRESS_KEY]+","
+                                                 + endpoint[EndpointKeys.HOSTNAME_KEY]))
                     self.delete_endpoint(endpoint.id)
             sleep(SLEEP_TIME)
 
