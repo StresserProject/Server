@@ -97,4 +97,3 @@ def rule_to_json(rule):
     rule_json[RuleKeys.RULE_DATA_KEY] = rule[RuleKeys.RULE_DATA_KEY]
 
     return rule_json
-
