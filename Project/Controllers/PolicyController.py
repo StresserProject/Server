@@ -13,7 +13,7 @@ def create_policy():
     :return: the new policy json, or 404 if policy exist
     """
     policy_json = request.json
-    policy_id = PolicyService.add_policy(PolicyService.json_to_policy(policy_json))
+    policy_id = PolicyService.add_policy(json_to_policy(policy_json))
     if policy_id == "":
         abort(404)
 
@@ -52,9 +52,9 @@ def update_policy(policy_id):
     if old_policy is None:
         abort(404)
 
-    old_policy = PolicyService.update_policy_by_id(policy_id, PolicyService.json_to_policy(request.json))
-
-    return old_policy
+    if PolicyService.update_policy_by_id(policy_id, json_to_policy(request.json)) is None:
+        abort(404)
+    return ""
 
 
 def delete_policy(policy_id):
@@ -78,5 +78,5 @@ def json_to_policy(policy_json):
         abort(404)
 
     return Policy(policy_json[PolicyKeys.POLICY_ID_KEY], policy_json[PolicyKeys.POLICY_NAME_KEY],
-                  policy_json[PolicyKeys.NUMBER_OF_RULES_KEY],policy_json[PolicyKeys.RULES_KEY],
+                  policy_json[PolicyKeys.NUMBER_OF_RULES_KEY], policy_json[PolicyKeys.RULES_KEY],
                   policy_json[PolicyKeys.UPDATE_KEY])
