@@ -2,6 +2,7 @@ from mongoengine import ValidationError
 from mongoengine import queryset
 from Entities.EndpointDB import EndpointDB
 from Boundaries.Endpoint import Endpoint
+from Constants.JsonKeys import EndpointKeys
 from datetime import datetime
 
 
@@ -42,3 +43,11 @@ def update_date(endpoint_id):
 
     EndpointDB.update(endpoint, lastCommunication=datetime.now())
     return endpoint
+
+
+def validate_api_key(api_key, endpoint_id):
+    endpoint = EndpointDB.objects.get(id=endpoint_id)
+    print(endpoint[EndpointKeys.API_KEY])
+    if endpoint[EndpointKeys.API_KEY] != api_key:
+        return False
+    return True

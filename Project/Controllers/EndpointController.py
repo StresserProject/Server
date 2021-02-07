@@ -52,7 +52,7 @@ class EndpointController:
         if endpoint_id == "":
             abort(404)
 
-        return {"apiKey": endpoint_json[EndpointKeys.API_KEY],"id":endpoint_id}
+        return {"apiKey": endpoint_json[EndpointKeys.API_KEY], "id": endpoint_id}
 
     def get_endpoint_data(self, endpoint_id):
         """
@@ -80,11 +80,16 @@ class EndpointController:
         :param endpoint_id:
         :return: ABORT!!!
         """
-        endpoint = EndpointService.update_date(endpoint_id)
-        if endpoint is None:
+        if EndpointService.get_endpoint_by_id(endpoint_id) is None:
             abort(404)
 
-        return ""
+        apikey = request.json[EndpointKeys.API_KEY]
+        if EndpointService.validate_api_key(apikey, endpoint_id) :
+            EndpointService.update_date(endpoint_id)
+            return "Updated"
+
+        return "Invalid APIKEY"
+
 
     def delete_endpoint(self, endpoint_id):
         """
@@ -111,8 +116,9 @@ class EndpointController:
         try:
             return Endpoint(endpoint_json[EndpointKeys.ENDPOINT_ID_KEY], endpoint_json[EndpointKeys.POLICY_ID_KEY],
                             endpoint_json[EndpointKeys.HOSTNAME_KEY], endpoint_json[EndpointKeys.IP_ADDRESS_KEY],
-                            endpoint_json[EndpointKeys.STATUS_KEY], endpoint_json[EndpointKeys.LAST_COMMUNICATION_KEY])
+                            endpoint_json[EndpointKeys.STATUS_KEY], endpoint_json[EndpointKeys.API_KEY],
+                            endpoint_json[EndpointKeys.LAST_COMMUNICATION_KEY])
         except KeyError:
             return Endpoint(endpoint_json[EndpointKeys.ENDPOINT_ID_KEY], endpoint_json[EndpointKeys.POLICY_ID_KEY],
                             endpoint_json[EndpointKeys.HOSTNAME_KEY], endpoint_json[EndpointKeys.IP_ADDRESS_KEY],
-                            endpoint_json[EndpointKeys.STATUS_KEY])
+                            endpoint_json[EndpointKeys.STATUS_KEY], endpoint_json[EndpointKeys.API_KEY])
