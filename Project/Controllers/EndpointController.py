@@ -52,7 +52,7 @@ class EndpointController:
         if endpoint_id == "":
             abort(404)
 
-        return {"apiKey": endpoint_json[EndpointKeys.API_KEY], "id": endpoint_id}
+        return {EndpointKeys.API_KEY: endpoint_json[EndpointKeys.API_KEY], EndpointKeys.ENDPOINT_ID_KEY: endpoint_id}
 
     def get_endpoint_data(self, endpoint_id):
         """
