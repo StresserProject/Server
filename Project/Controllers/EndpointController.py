@@ -84,11 +84,11 @@ class EndpointController:
             abort(404)
 
         apikey = request.json[EndpointKeys.API_KEY]
-        if EndpointService.validate_api_key(apikey, endpoint_id) :
+        if EndpointService.validate_api_key(apikey, endpoint_id):
             EndpointService.update_date(endpoint_id)
-            return "Updated"
+            return {}
 
-        return "Invalid APIKEY"
+        abort(401)
 
 
     def delete_endpoint(self, endpoint_id):
@@ -103,7 +103,7 @@ class EndpointController:
 
         endpoint.delete()
 
-        return ""
+        return {}
 
     def _json_to_endpoint(self, endpoint_json):
         """

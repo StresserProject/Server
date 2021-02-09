@@ -69,7 +69,7 @@ def delete_event(event_id):
 
     event.delete()
 
-    return ""
+    return {}
 
 
 def json_to_event(event_json):

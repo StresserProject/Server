@@ -54,7 +54,7 @@ def update_policy(policy_id):
 
     if PolicyService.update_policy_by_id(policy_id, json_to_policy(request.json)) is None:
         abort(404)
-    return ""
+    return {}
 
 
 def delete_policy(policy_id):
@@ -69,7 +69,7 @@ def delete_policy(policy_id):
 
     policy.delete()
 
-    return ""
+    return {}
 
 
 def json_to_policy(policy_json):

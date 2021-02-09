@@ -70,7 +70,7 @@ def delete_rule(rule_id):
 
     rule.delete()
 
-    return ""
+    return {}
 
 
 def json_to_rule(rule_json):
