@@ -18,11 +18,11 @@ def create_user():
         if UserService.is_username_unique(user_json[UserKeys.USERNAME_KEY]):
             UserService.add_user(user_json[UserKeys.USERNAME_KEY], user_json[UserKeys.HASHED_PASSWORD])
         else:
-            return "Username already taken"
+            return abort(406)
     except KeyError:
         abort(400)
 
-    return ""
+    return {}
 
 
 @token_required
@@ -85,7 +85,7 @@ def delete_user(user_id):
 
     user.delete()
 
-    return ""
+    return {}
 
 
 def update_refresh_token():
