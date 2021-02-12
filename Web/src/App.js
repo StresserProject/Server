@@ -1,25 +1,77 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useRef, useState } from 'react';
+import SignIn from './SignIn';
+import SignUp from './SignUp';
+import Dashboard from './Dashboard/Dashboard.jsx';
+import {
+    BrowserRouter as Router,
+    Redirect,
+    Route,
+    Switch,
+} from 'react-router-dom';
+import AuthenticationManager from './AuthenticationManager';
+import { observer } from 'mobx-react';
+import { reaction } from 'mobx';
+import axios from 'axios';
+
+axios.interceptors.request.use((config) => {
+    config.proxy = config.proxy = {
+        host: 'localhost',
+        port: 3000,
+    };
+    return config;
+});
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [forceRefresh, setForceRefresh] = useState(false);
+    const authenticationManager = useRef(new AuthenticationManager());
+
+    useEffect(() => {
+        axios.interceptors.request.use((config) => {
+            config.headers.Authorization = authenticationManager.current.token;
+            return config;
+        });
+    }, []);
+
+    reaction(
+        () => authenticationManager.current.isAuthenticated,
+        () => {
+            if (authenticationManager.isAuthenticated) {
+                setForceRefresh(false);
+            } else {
+                setForceRefresh(true);
+            }
+        },
+    );
+
+    useEffect(() => forceRefresh && setForceRefresh(false), [forceRefresh]);
+
+    return (
+        <Router forceRefresh={forceRefresh}>
+            <Switch>
+                <Route
+                    path="/signin"
+                    render={() => (
+                        <SignIn login={authenticationManager.current.login} />
+                    )}
+                />
+                <Route path="/signup" component={SignUp} />
+                <Route
+                    path="/"
+                    render={() =>
+                        authenticationManager.current.isAuthenticated ? (
+                            <Dashboard
+                                authenticationManager={
+                                    authenticationManager.current
+                                }
+                            />
+                        ) : (
+                            <Redirect to="/signin" />
+                        )
+                    }
+                />
+            </Switch>
+        </Router>
+    );
 }
 
-export default App;
+export default observer(App);
