@@ -2,7 +2,7 @@ from datetime import datetime
 
 
 class Endpoint:
-    def __init__(self, endpoint_id: str, policy_id: int, hostname: str, ip_address: str, status: str, api_key: str,
+    def __init__(self, endpoint_id: str, policy_id: str, hostname: str, ip_address: str, status: str, api_key: str,
                  last_communication=datetime.now()):
         self.endpoint_id = endpoint_id
         self.hostname = hostname

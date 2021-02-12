@@ -18,8 +18,9 @@ API_KEY_LIFETIME = timedelta(minutes=5)
 
 
 class EndpointController:
-    def __init__(self):
+    def __init__(self, default_policy):
         self._thread_running = True
+        self._default_policy = str(default_policy)
         Thread(target=self._check_endpoints_last_communication).start()
 
     def __del__(self):
@@ -49,6 +50,7 @@ class EndpointController:
         """
         endpoint_json = request.json
         endpoint_json[EndpointKeys.API_KEY] = uuid4().hex
+        endpoint_json[EndpointKeys.POLICY_ID_KEY] = self._default_policy
         endpoint_id = EndpointService.add_endpoint(self._json_to_endpoint(endpoint_json))
         if endpoint_id == "":
             abort(404)

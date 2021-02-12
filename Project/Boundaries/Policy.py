@@ -1,6 +1,7 @@
 
 class Policy:
-    def __init__(self, policy_id, policy_name: str, number_of_rules: int, rules, update):
+    def __init__(self, policy_id=0, policy_name: str = "Default-Policy", number_of_rules: int = 0,
+                 rules=[], update=0):
         self.policy_id = policy_id
         self.policy_name = policy_name
         self.number_of_rules = number_of_rules
