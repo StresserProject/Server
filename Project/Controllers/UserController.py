@@ -3,6 +3,7 @@ from flask import request, make_response
 from flask import abort
 from Constants.Jsons import USER_JSON
 from Constants.JsonKeys import UserKeys
+from Constants.JsonKeys import ID_KEY
 import Services.UserService as UserService
 from UserTokens import create_token, token_required, validate_cookie
 
@@ -37,7 +38,7 @@ def get_user_data(user_id):
         abort(404)
 
     user_json = json.loads(USER_JSON)
-    user_json[UserKeys.USER_ID_KEY] = str(user.id)
+    user_json[ID_KEY] = str(user.id)
     user_json[UserKeys.USERNAME_KEY] = user[UserKeys.USERNAME_KEY]
 
     return user_json
@@ -61,7 +62,7 @@ def login():
 
     token, refresh_token = create_token(str(user.id))
 
-    user_json[UserKeys.USER_ID_KEY] = str(user.id)
+    user_json[ID_KEY] = str(user.id)
     user_json[UserKeys.API_KEY] = token
 
     UserService.set_refresh_cookie(str(user.id), refresh_token)

@@ -3,6 +3,7 @@ from flask import request
 from flask import abort
 from Constants.Jsons import ENDPOINT_JSON
 from Constants.JsonKeys import EndpointKeys as EndpointKeys
+from Constants.JsonKeys import ID_KEY
 import Services.EventService as EventService
 import Services.EndpointService as EndpointService
 from Boundaries.Event import Event
@@ -52,7 +53,7 @@ class EndpointController:
         if endpoint_id == "":
             abort(404)
 
-        return {EndpointKeys.API_KEY: endpoint_json[EndpointKeys.API_KEY], EndpointKeys.ENDPOINT_ID_KEY: endpoint_id}
+        return {EndpointKeys.API_KEY: endpoint_json[EndpointKeys.API_KEY], ID_KEY: endpoint_id}
 
     def get_endpoint_data(self, endpoint_id):
         """
@@ -65,7 +66,7 @@ class EndpointController:
             abort(404)
 
         endpoint_json = json.loads(ENDPOINT_JSON)
-        endpoint_json[EndpointKeys.ENDPOINT_ID_KEY] = str(endpoint.id)
+        endpoint_json[ID_KEY] = str(endpoint.id)
         endpoint_json[EndpointKeys.IP_ADDRESS_KEY] = endpoint[EndpointKeys.IP_ADDRESS_KEY]
         endpoint_json[EndpointKeys.HOSTNAME_KEY] = endpoint[EndpointKeys.HOSTNAME_KEY]
         endpoint_json[EndpointKeys.POLICY_ID_KEY] = endpoint[EndpointKeys.POLICY_ID_KEY]
@@ -114,11 +115,11 @@ class EndpointController:
         :return: endpoint object
         """
         try:
-            return Endpoint(endpoint_json[EndpointKeys.ENDPOINT_ID_KEY], endpoint_json[EndpointKeys.POLICY_ID_KEY],
+            return Endpoint(endpoint_json[ID_KEY], endpoint_json[EndpointKeys.POLICY_ID_KEY],
                             endpoint_json[EndpointKeys.HOSTNAME_KEY], endpoint_json[EndpointKeys.IP_ADDRESS_KEY],
                             endpoint_json[EndpointKeys.STATUS_KEY], endpoint_json[EndpointKeys.API_KEY],
                             endpoint_json[EndpointKeys.LAST_COMMUNICATION_KEY])
         except KeyError:
-            return Endpoint(endpoint_json[EndpointKeys.ENDPOINT_ID_KEY], endpoint_json[EndpointKeys.POLICY_ID_KEY],
+            return Endpoint(endpoint_json[ID_KEY], endpoint_json[EndpointKeys.POLICY_ID_KEY],
                             endpoint_json[EndpointKeys.HOSTNAME_KEY], endpoint_json[EndpointKeys.IP_ADDRESS_KEY],
                             endpoint_json[EndpointKeys.STATUS_KEY], endpoint_json[EndpointKeys.API_KEY])

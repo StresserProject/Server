@@ -3,6 +3,7 @@ from flask import request
 from flask import abort
 from Constants.Jsons import EVENT_JSON
 from Constants.JsonKeys import EventKeys as EventKeys
+from Constants.JsonKeys import ID_KEY
 import Services.EventService as EventService
 from Boundaries.Event import Event
 
@@ -18,7 +19,7 @@ def create_event():
     if event_id == "":
         abort(404)
 
-    event_json[EventKeys.EVENT_ID_KEY] = event_id
+    event_json[ID_KEY] = event_id
 
     return event_json
 
@@ -34,7 +35,7 @@ def get_event_data(event_id):
         abort(404)
 
     event_json = json.loads(EVENT_JSON)
-    event_json[EventKeys.EVENT_ID_KEY] = str(event.id)
+    event_json[ID_KEY] = str(event.id)
     event_json[EventKeys.EVENT_NAME_KEY] = event[EventKeys.EVENT_NAME_KEY]
     event_json[EventKeys.EVENT_TYPE_KEY] = event[EventKeys.EVENT_TYPE_KEY]
     event_json[EventKeys.EVENT_DATA_KEY] = event[EventKeys.EVENT_DATA_KEY]
@@ -73,5 +74,5 @@ def delete_event(event_id):
 
 
 def json_to_event(event_json):
-    return Event(event_json[EventKeys.EVENT_ID_KEY], event_json[EventKeys.EVENT_NAME_KEY],
+    return Event(event_json[ID_KEY], event_json[EventKeys.EVENT_NAME_KEY],
                  event_json[EventKeys.EVENT_TYPE_KEY], event_json[EventKeys.EVENT_DATA_KEY])
