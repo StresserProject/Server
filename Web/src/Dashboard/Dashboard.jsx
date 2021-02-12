@@ -8,9 +8,9 @@ import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { MainListItems, LIST_ITEMS } from './listItems';
 import TopBar from './TopBar';
-import RuleList from '../Rules/RulesList';
+import RulesTab from '../Rules/RulesTab';
 import { observer } from 'mobx-react';
-import Rules from '../Rules/Rules';
+import Rules from '../Rules/RulesClasses/Rules';
 
 const drawerWidth = 240;
 
@@ -95,7 +95,7 @@ function Dashboard({ authenticationManager }) {
             case LIST_ITEMS.RULES:
                 const dbRules = new Rules();
                 return (
-                    <RuleList
+                    <RulesTab
                         rules={dbRules.rules}
                         deleteRuleFromList={dbRules.deleteRule}
                         addRuleToList={dbRules.addRule}

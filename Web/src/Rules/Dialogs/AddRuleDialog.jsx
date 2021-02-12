@@ -62,6 +62,7 @@ function AddRuleDialog({ onSubmit, ...props }) {
                 <Formik
                     initialValues={initialValues}
                     validationSchema={validationSchema}
+                    validateOnChange={false}
                     onSubmit={submitForm}
                 >
                     {({ values, errors, handleChange, handleSubmit }) => (
