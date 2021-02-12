@@ -31,7 +31,10 @@ EVENT_JSON = '''
     "id": 0,
     "eventName": "",
     "eventType": "",
-    "eventData": ""
+    "eventData": "",
+    "hostname": "",
+    "IPAddress": "",
+    "timeStamp": ""
 }
 '''
 POLICY_JSON = '''

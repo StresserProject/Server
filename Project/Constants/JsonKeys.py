@@ -13,6 +13,9 @@ class EventKeys:
     EVENT_NAME_KEY = "eventName"
     EVENT_TYPE_KEY = "eventType"
     EVENT_DATA_KEY = "eventData"
+    HOSTNAME_KEY = "hostname"
+    IP_ADDRESS_KEY = "IPAddress"
+    TIME_STAMP_KEY = "timeStamp"
 
 
 class EndpointKeys:

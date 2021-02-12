@@ -13,8 +13,8 @@ from time import sleep
 from datetime import datetime, timedelta
 from uuid import uuid4
 
-SLEEP_TIME = 60
-API_KEY_LIFETIME = timedelta(minutes=5)
+SLEEP_TIME = 10
+API_KEY_LIFETIME = timedelta(minutes=1)
 
 
 class EndpointController:
@@ -38,8 +38,8 @@ class EndpointController:
             for endpoint in endpoints:
                 if datetime.now() - endpoint.lastCommunication > API_KEY_LIFETIME:
                     EventService.add_event(Event(0, "Lost Endpoint Connection", "Report",
-                                                 endpoint[EndpointKeys.IP_ADDRESS_KEY]+","
-                                                 + endpoint[EndpointKeys.HOSTNAME_KEY]))
+                                                    "IDLE", endpoint[EndpointKeys.HOSTNAME_KEY],
+                                                 endpoint[EndpointKeys.IP_ADDRESS_KEY]))
                     self.delete_endpoint(endpoint.id)
             sleep(SLEEP_TIME)
 
