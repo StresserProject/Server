@@ -46,7 +46,7 @@ def token_required(f):
 
         data = jwt.decode(token, JWT_SECRET)
         if UserService.get_user_by_id(data["id"]) is not None or\
-                EndpointService.get_endpoint_by_id(data[id]) is not None:
+                EndpointService.get_endpoint_by_id(data["id"]) is not None:
             return f(*args, **kwargs)
 
         return jsonify({

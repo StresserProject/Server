@@ -10,7 +10,7 @@ from Boundaries.Event import Event
 from Boundaries.Endpoint import Endpoint
 from threading import Thread
 from time import sleep
-from datetime import datetime
+from datetime import datetime, timedelta
 from UserTokens import token_required, create_endpoint_token, TOKEN_EXPIRE_TIME
 
 SLEEP_TIME = 10
@@ -35,7 +35,7 @@ class EndpointController:
         while self._thread_running:
             endpoints = EndpointService.get_all_endpoints()
             for endpoint in endpoints:
-                if datetime.now() - endpoint.lastCommunication > TOKEN_EXPIRE_TIME:
+                if datetime.now() - endpoint.lastCommunication > timedelta(minutes=TOKEN_EXPIRE_TIME):
                     EventService.add_event(Event(0, "Lost Endpoint Connection", "Report",
                                                     "IDLE", endpoint[EndpointKeys.HOSTNAME_KEY],
                                                  endpoint[EndpointKeys.IP_ADDRESS_KEY]))
