@@ -2,6 +2,7 @@ import jwt
 from functools import wraps
 from flask import request, jsonify
 import Services.UserService as UserService
+import Services.EndpointService as EndpointService
 from datetime import datetime, timedelta
 
 JWT_SECRET = "SECRET_PASSWORD"
@@ -9,7 +10,16 @@ REFRESH_COOKIE = "SECRET_COOKIE"
 TOKEN_EXPIRE_TIME = 5
 
 
-def create_token(user_id: str):
+def create_endpoint_token(endpoint_id: str):
+    token = jwt.encode({
+        "id": endpoint_id,
+        "exp": datetime.utcnow() + timedelta(minutes=TOKEN_EXPIRE_TIME)
+    }, JWT_SECRET)
+
+    return token.decode()
+
+
+def create_user_token(user_id: str):
     token = jwt.encode({
         "id": user_id,
         "exp": datetime.utcnow() + timedelta(minutes=TOKEN_EXPIRE_TIME)
@@ -35,12 +45,13 @@ def token_required(f):
             return jsonify({'message': 'Token is missing !!'}), 401
 
         data = jwt.decode(token, JWT_SECRET)
-        if UserService.get_user_by_id(data["id"]) is None:
-            return jsonify({
-                'message': 'Token is invalid !!'
-            }), 401
+        if UserService.get_user_by_id(data["id"]) is not None or\
+                EndpointService.get_endpoint_by_id(data[id]) is not None:
+            return f(*args, **kwargs)
 
-        return f(*args, **kwargs)
+        return jsonify({
+            'message': 'Token is invalid !!'
+        }), 401
 
     return decorated
 

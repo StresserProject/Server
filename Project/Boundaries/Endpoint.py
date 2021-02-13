@@ -7,7 +7,6 @@ class Endpoint:
         self.endpoint_id = endpoint_id
         self.hostname = hostname
         self.ip_address = ip_address
-        self.api_key = api_key
         self.policy_id = policy_id
         self.status = status
         self.last_communication = last_communication
@@ -16,7 +15,6 @@ class Endpoint:
         return f"EndpointId:{self.endpoint_id}, " \
                f"IPAddress:{self.ip_address}, " \
                f"Hostname:{self.hostname}, " \
-               f"ApiKey:{self.api_key}" \
                f"PolicyId:{self.policy_id}" \
                f"Status:{self.status}" \
                f"LastCommunication:{self.last_communication}"

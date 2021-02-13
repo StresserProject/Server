@@ -10,11 +10,10 @@ from Boundaries.Event import Event
 from Boundaries.Endpoint import Endpoint
 from threading import Thread
 from time import sleep
-from datetime import datetime, timedelta
-from uuid import uuid4
+from datetime import datetime
+from UserTokens import token_required, create_endpoint_token, TOKEN_EXPIRE_TIME
 
 SLEEP_TIME = 10
-API_KEY_LIFETIME = timedelta(minutes=1)
 
 
 class EndpointController:
@@ -36,7 +35,7 @@ class EndpointController:
         while self._thread_running:
             endpoints = EndpointService.get_all_endpoints()
             for endpoint in endpoints:
-                if datetime.now() - endpoint.lastCommunication > API_KEY_LIFETIME:
+                if datetime.now() - endpoint.lastCommunication > TOKEN_EXPIRE_TIME:
                     EventService.add_event(Event(0, "Lost Endpoint Connection", "Report",
                                                     "IDLE", endpoint[EndpointKeys.HOSTNAME_KEY],
                                                  endpoint[EndpointKeys.IP_ADDRESS_KEY]))
@@ -49,13 +48,12 @@ class EndpointController:
         :return: API key to the endpoint, or 404 if endpoint exist
         """
         endpoint_json = request.json
-        endpoint_json[EndpointKeys.API_KEY] = uuid4().hex
         endpoint_json[EndpointKeys.POLICY_ID_KEY] = self._default_policy
         endpoint_id = EndpointService.add_endpoint(self._json_to_endpoint(endpoint_json))
         if endpoint_id == "":
             abort(404)
 
-        return {EndpointKeys.API_KEY: endpoint_json[EndpointKeys.API_KEY], ID_KEY: endpoint_id}
+        return {EndpointKeys.API_KEY: create_endpoint_token(endpoint_id), ID_KEY: endpoint_id}
 
     def get_endpoint_data(self, endpoint_id):
         """
@@ -77,22 +75,18 @@ class EndpointController:
 
         return endpoint_json
 
+    @token_required
     def keep_alive(self, endpoint_id):
         """
         Update the last communication time for the endpoint
         :param endpoint_id:
         :return: ABORT!!!
         """
-        if EndpointService.get_endpoint_by_id(endpoint_id) is None:
-            abort(404)
-
-        apikey = request.json[EndpointKeys.API_KEY]
-        if EndpointService.validate_api_key(apikey, endpoint_id):
-            EndpointService.update_date(endpoint_id)
-            return {}
-
-        abort(401)
-
+        EndpointService.update_date(endpoint_id)
+        token = create_endpoint_token(endpoint_id)
+        return {
+            EndpointKeys.API_KEY: token
+        }
 
     def delete_endpoint(self, endpoint_id):
         """
