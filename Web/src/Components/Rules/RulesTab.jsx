@@ -1,11 +1,12 @@
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, MenuItem, TextField } from '@material-ui/core';
 import { observer } from 'mobx-react';
 import React, { useState } from 'react';
-import AddRuleDailog from '../Dialogs/AddRuleDialog';
+import FormDialog from '../Dialogs/FormDialog';
 import DeleteDialog from '../Dialogs/DeleteDialog';
 import ListTitle from './List/ListTitle';
 import RuleDescription from './RuleDescription';
 import RulesList from './List/RulesList';
+import { capitalizeFirstLetter } from '../../utils';
 
 const useStyles = makeStyles((theme) => ({
     rulesDiv: {
@@ -16,6 +17,58 @@ const useStyles = makeStyles((theme) => ({
         paddingTop: 30,
     },
 }));
+
+const RULES_TYPES = {
+    PROCESS: 'Process',
+    REGISTRY: 'Registry',
+    FILE: 'File',
+};
+
+export function rulesFormChildren({ values, errors, handleChange }) {
+    return (
+        <>
+            <TextField
+                value={values.name}
+                onChange={handleChange}
+                error={!!errors.name}
+                helperText={errors.name}
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                label={'Name'}
+                name={'name'}
+            />
+            <TextField
+                value={values.type}
+                helperText={errors.type}
+                onChange={handleChange}
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                select
+                label="Type"
+                name="type"
+            >
+                {Object.values(RULES_TYPES).map((value) => (
+                    <MenuItem value={value}>
+                        {capitalizeFirstLetter(value)}
+                    </MenuItem>
+                ))}
+            </TextField>
+            <TextField
+                value={values.data}
+                onChange={handleChange}
+                error={!!errors.data}
+                helperText={errors.data}
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                label={'Data'}
+                name={'data'}
+            />
+        </>
+    );
+}
 
 /**
  *
@@ -30,6 +83,12 @@ function RuleList({ rules, deleteRuleFromList, addRuleToList }) {
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [addDialog, setAddDialog] = useState(false);
     const [deleteDialog, setDeleteDialog] = useState(false);
+
+    const initialValues = {
+        name: '',
+        type: '',
+        data: '',
+    };
 
     function closeAddDialog() {
         setAddDialog(false);
@@ -82,10 +141,13 @@ function RuleList({ rules, deleteRuleFromList, addRuleToList }) {
                         setSelectedIndex((prev) => prev - 1);
                 }}
             />
-            <AddRuleDailog
+            <FormDialog
                 open={addDialog}
                 onClose={closeAddDialog}
                 onSubmit={addRule}
+                dialogTitle={'Add Rule'}
+                children={rulesFormChildren}
+                initialValues={initialValues}
             />
         </div>
     );

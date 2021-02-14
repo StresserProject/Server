@@ -1,5 +1,8 @@
 import { Box, Button, makeStyles, Paper, Typography } from '@material-ui/core';
-import React from 'react';
+import { capitalizeFirstLetter } from '../../utils';
+import { rulesFormChildren } from './RulesTab';
+import React, { useState } from 'react';
+import FormDialog from '../Dialogs/FormDialog';
 
 const useStyles = makeStyles((theme) => ({
     descriptionDiv: {
@@ -24,40 +27,58 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
 /**
  *
  * @param {{
- * rule: import("./Rule").default
+ * rule: import("./RulesClasses/Rule").default
  * }} props
  */
 export default function RuleDescription({ rule }) {
     const classes = useStyles();
+    const [isEditDialogOpen, setOpenEditDialog] = useState(false);
+
+    function closeEditDialog() {
+        setOpenEditDialog(false);
+    }
+
+    function openEditDialog() {
+        setOpenEditDialog(true);
+    }
 
     return (
-        <Paper className={classes.descriptionDiv} elevation={3}>
-            <Paper className={classes.titleDiv}>
-                <Typography
-                    className={classes.title}
-                    align="center"
-                    variant="h5"
-                >
-                    Description
-                </Typography>
+        <>
+            <Paper className={classes.descriptionDiv} elevation={3}>
+                <Paper className={classes.titleDiv}>
+                    <Typography
+                        className={classes.title}
+                        align="center"
+                        variant="h5"
+                    >
+                        Description
+                    </Typography>
+                </Paper>
+
+                {Object.entries(rule)
+                    .slice(1, 4) // Skip The ID field and has 3 attributes
+                    .map(([key, value]) => (
+                        <div key={key}>
+                            <Box borderBottom={1} fontSize={17}>
+                                <b>Rule {capitalizeFirstLetter(key)}:</b>{' '}
+                                {value}
+                            </Box>
+                        </div>
+                    ))}
+                <Button onClick={openEditDialog}>Edit</Button>
             </Paper>
-            {Object.entries(rule)
-                .slice(1) // Skip The ID field
-                .map(([key, value]) => (
-                    <div key={key}>
-                        <Box borderBottom={1} fontSize={17}>
-                            <b>Rule {capitalizeFirstLetter(key)}:</b> {value}
-                        </Box>
-                    </div>
-                ))}
-            <Button>Edit</Button>
-        </Paper>
+            <FormDialog
+                open={isEditDialogOpen}
+                onClose={closeEditDialog}
+                onSubmit={rule.updateRule}
+                dialogTitle={'Edit Rule'}
+                submitMessage="Update"
+                children={rulesFormChildren}
+                initialValues={rule}
+            />
+        </>
     );
 }

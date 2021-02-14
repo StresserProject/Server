@@ -1,5 +1,5 @@
 import { Box, Fade, makeStyles, Paper } from '@material-ui/core';
-import { observer, Observer } from 'mobx-react';
+import { observer } from 'mobx-react';
 import React from 'react';
 import { AutoSizer, List } from 'react-virtualized';
 
@@ -24,9 +24,16 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const RuleRow = observer(({ rule, style, onClick, isSelected, className }) => {
+const RuleRow = observer(({ rule, style, onClick, isSelected }) => {
+    const classes = useStyles();
+
     return (
-        <Fade style={style} className={className} onClick={onClick} in={true}>
+        <Fade
+            style={style}
+            className={classes.ruleRow}
+            onClick={onClick}
+            in={true}
+        >
             <Box
                 borderBottom={1}
                 borderColor="black"
@@ -54,29 +61,22 @@ export default function RulesList({ selectedIndex, rules, setSelectedIndex }) {
         <Paper className={classes.listDiv} elevation={3}>
             <AutoSizer>
                 {({ width, height }) => (
-                    <Observer>
-                        {() => (
-                            <List
-                                className={classes.virtualList}
-                                scrollToIndex={selectedIndex}
-                                rowCount={rules.length}
-                                height={height}
-                                width={width}
-                                rowHeight={50}
-                                rowRenderer={(obj) => (
-                                    <RuleRow
-                                        {...obj}
-                                        className={classes.ruleRow}
-                                        rule={rules[obj.index]}
-                                        onClick={() =>
-                                            setSelectedIndex(obj.index)
-                                        }
-                                        isSelected={selectedIndex === obj.index}
-                                    />
-                                )}
+                    <List
+                        className={classes.virtualList}
+                        scrollToIndex={selectedIndex}
+                        rowCount={rules.length}
+                        height={height}
+                        width={width}
+                        rowHeight={50}
+                        rowRenderer={(obj) => (
+                            <RuleRow
+                                {...obj}
+                                rule={rules[obj.index]}
+                                onClick={() => setSelectedIndex(obj.index)}
+                                isSelected={selectedIndex === obj.index}
                             />
                         )}
-                    </Observer>
+                    />
                 )}
             </AutoSizer>
         </Paper>
