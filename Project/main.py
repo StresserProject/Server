@@ -11,7 +11,7 @@ from DAL import DAL
 
 
 dal = DAL()
-default_policy = PolicyService.add_policy(Policy.Policy())
+default_policy = PolicyService.add_policy(Policy.Policy(policy_name="Default-Policy"))
 endpoint_controller = EndpointController(default_policy)
 
 try:
