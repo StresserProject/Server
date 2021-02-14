@@ -1,8 +1,8 @@
 import { makeStyles } from '@material-ui/core';
 import { observer } from 'mobx-react';
 import React, { useState } from 'react';
-import AddRuleDailog from './Dialogs/AddRuleDialog';
-import DeleteDialog from './Dialogs/DeleteDialog';
+import AddRuleDailog from '../Dialogs/AddRuleDialog';
+import DeleteDialog from '../Dialogs/DeleteDialog';
 import ListTitle from './List/ListTitle';
 import RuleDescription from './RuleDescription';
 import RulesList from './List/RulesList';

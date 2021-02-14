@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import SignIn from './SignIn';
-import SignUp from './SignUp';
-import Dashboard from './Dashboard/Dashboard.jsx';
+import SignIn from './Components/SignIn';
+import SignUp from './Components/SignUp';
+import Dashboard from './Components/Dashboard/Dashboard.jsx';
 import {
     BrowserRouter as Router,
     Redirect,
@@ -12,14 +12,6 @@ import AuthenticationManager from './AuthenticationManager';
 import { observer } from 'mobx-react';
 import { reaction } from 'mobx';
 import axios from 'axios';
-
-axios.interceptors.request.use((config) => {
-    config.proxy = config.proxy = {
-        host: 'localhost',
-        port: 3000,
-    };
-    return config;
-});
 
 function App() {
     const [forceRefresh, setForceRefresh] = useState(false);
