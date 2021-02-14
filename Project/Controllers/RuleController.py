@@ -3,6 +3,7 @@ from flask import request
 from flask import abort
 from Constants.Jsons import RULE_JSON
 from Constants.JsonKeys import RuleKeys
+from Constants.JsonKeys import ID_KEY
 import Services.RuleService as RuleService
 from Boundaries.Rule import Rule
 from UserTokens import token_required
@@ -20,7 +21,7 @@ def create_rule():
     if rule_id == "":
         abort(404)
 
-    rule_json[RuleKeys.RULE_ID_KEY] = rule_id
+    rule_json[ID_KEY] = rule_id
 
     return rule_json
 
@@ -74,7 +75,7 @@ def delete_rule(rule_id):
 
 
 def json_to_rule(rule_json):
-    return Rule(rule_json[RuleKeys.RULE_ID_KEY], rule_json[RuleKeys.RULE_NAME_KEY],
+    return Rule(rule_json[ID_KEY], rule_json[RuleKeys.RULE_NAME_KEY],
                 rule_json[RuleKeys.RULE_TYPE_KEY], rule_json[RuleKeys.RULE_DATA_KEY])
 
 
@@ -91,7 +92,7 @@ def get_all_rules():
 
 def rule_to_json(rule):
     rule_json = json.loads(RULE_JSON)
-    rule_json[RuleKeys.RULE_ID_KEY] = str(rule.id)
+    rule_json[ID_KEY] = str(rule.id)
     rule_json[RuleKeys.RULE_NAME_KEY] = rule[RuleKeys.RULE_NAME_KEY]
     rule_json[RuleKeys.RULE_TYPE_KEY] = rule[RuleKeys.RULE_TYPE_KEY]
     rule_json[RuleKeys.RULE_DATA_KEY] = rule[RuleKeys.RULE_DATA_KEY]

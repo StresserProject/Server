@@ -5,6 +5,7 @@ from Constants.Jsons import POLICY_JSON
 import Services.PolicyService as PolicyService
 from Boundaries.Policy import Policy
 from Constants.JsonKeys import PolicyKeys as PolicyKeys
+from Constants.JsonKeys import ID_KEY
 
 
 def create_policy():
@@ -17,7 +18,7 @@ def create_policy():
     if policy_id == "":
         abort(404)
 
-    policy_json[PolicyKeys.POLICY_ID_KEY] = policy_id
+    policy_json[ID_KEY] = policy_id
 
     return policy_json
 
@@ -33,7 +34,7 @@ def get_policy_data(policy_id):
         abort(404)
 
     policy_json = json.loads(POLICY_JSON)
-    policy_json[PolicyKeys.POLICY_ID_KEY] = str(policy.id)
+    policy_json[ID_KEY] = str(policy.id)
     policy_json[PolicyKeys.POLICY_NAME_KEY] = policy[PolicyKeys.POLICY_NAME_KEY]
     policy_json[PolicyKeys.NUMBER_OF_RULES_KEY] = policy[PolicyKeys.NUMBER_OF_RULES_KEY]
     policy_json[PolicyKeys.RULES_KEY] = policy[PolicyKeys.RULES_KEY]
@@ -77,6 +78,6 @@ def json_to_policy(policy_json):
     if policy_json is None:
         abort(404)
 
-    return Policy(policy_json[PolicyKeys.POLICY_ID_KEY], policy_json[PolicyKeys.POLICY_NAME_KEY],
+    return Policy(policy_json[ID_KEY], policy_json[PolicyKeys.POLICY_NAME_KEY],
                   policy_json[PolicyKeys.NUMBER_OF_RULES_KEY], policy_json[PolicyKeys.RULES_KEY],
                   policy_json[PolicyKeys.UPDATE_KEY])

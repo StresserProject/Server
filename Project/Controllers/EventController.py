@@ -1,8 +1,10 @@
 import json
+from datetime import datetime
 from flask import request
 from flask import abort
 from Constants.Jsons import EVENT_JSON
 from Constants.JsonKeys import EventKeys as EventKeys
+from Constants.JsonKeys import ID_KEY
 import Services.EventService as EventService
 from Boundaries.Event import Event
 
@@ -14,11 +16,12 @@ def create_event():
     """
     event_json = request.json
 
+    event_json[EventKeys.TIME_STAMP_KEY] = datetime.now()
     event_id = EventService.add_event(json_to_event(event_json))
     if event_id == "":
         abort(404)
 
-    event_json[EventKeys.EVENT_ID_KEY] = event_id
+    event_json[ID_KEY] = event_id
 
     return event_json
 
@@ -34,10 +37,13 @@ def get_event_data(event_id):
         abort(404)
 
     event_json = json.loads(EVENT_JSON)
-    event_json[EventKeys.EVENT_ID_KEY] = str(event.id)
+    event_json[ID_KEY] = str(event.id)
     event_json[EventKeys.EVENT_NAME_KEY] = event[EventKeys.EVENT_NAME_KEY]
     event_json[EventKeys.EVENT_TYPE_KEY] = event[EventKeys.EVENT_TYPE_KEY]
     event_json[EventKeys.EVENT_DATA_KEY] = event[EventKeys.EVENT_DATA_KEY]
+    event_json[EventKeys.HOSTNAME_KEY] = event[EventKeys.HOSTNAME_KEY]
+    event_json[EventKeys.IP_ADDRESS_KEY] = event[EventKeys.IP_ADDRESS_KEY]
+    event_json[EventKeys.TIME_STAMP_KEY] = event[EventKeys.TIME_STAMP_KEY]
 
     return event_json
 
@@ -52,6 +58,8 @@ def update_event(event_id):
         abort(404)
 
     new_event = request.json
+    if new_event[EventKeys.TIME_STAMP_KEY] == "":
+        new_event[EventKeys.TIME_STAMP_KEY] = datetime.now()
     old_event = EventService.update_event_by_id(event_id, json_to_event(new_event))
 
     return old_event
@@ -73,5 +81,11 @@ def delete_event(event_id):
 
 
 def json_to_event(event_json):
-    return Event(event_json[EventKeys.EVENT_ID_KEY], event_json[EventKeys.EVENT_NAME_KEY],
-                 event_json[EventKeys.EVENT_TYPE_KEY], event_json[EventKeys.EVENT_DATA_KEY])
+    try:
+        return Event(event_json[ID_KEY], event_json[EventKeys.EVENT_NAME_KEY], event_json[EventKeys.EVENT_TYPE_KEY],
+                     event_json[EventKeys.EVENT_DATA_KEY], event_json[EventKeys.HOSTNAME_KEY],
+                     event_json[EventKeys.IP_ADDRESS_KEY], event_json[EventKeys.TIME_STAMP_KEY])
+    except KeyError:
+        return Event(event_json[ID_KEY], event_json[EventKeys.EVENT_NAME_KEY], event_json[EventKeys.EVENT_TYPE_KEY],
+                     event_json[EventKeys.EVENT_DATA_KEY], event_json[EventKeys.HOSTNAME_KEY],
+                     event_json[EventKeys.IP_ADDRESS_KEY])

@@ -3,8 +3,9 @@ from flask import request, make_response
 from flask import abort
 from Constants.Jsons import USER_JSON
 from Constants.JsonKeys import UserKeys
+from Constants.JsonKeys import ID_KEY
 import Services.UserService as UserService
-from UserTokens import create_token, token_required, validate_cookie
+from UserTokens import create_user_token, token_required, validate_cookie
 
 
 def create_user():
@@ -37,7 +38,7 @@ def get_user_data(user_id):
         abort(404)
 
     user_json = json.loads(USER_JSON)
-    user_json[UserKeys.USER_ID_KEY] = str(user.id)
+    user_json[ID_KEY] = str(user.id)
     user_json[UserKeys.USERNAME_KEY] = user[UserKeys.USERNAME_KEY]
 
     return user_json
@@ -59,9 +60,9 @@ def login():
     if user[UserKeys.HASHED_PASSWORD] != password:
         abort(404)
 
-    token, refresh_token = create_token(str(user.id))
+    token, refresh_token = create_user_token(str(user.id))
 
-    user_json[UserKeys.USER_ID_KEY] = str(user.id)
+    user_json[ID_KEY] = str(user.id)
     user_json[UserKeys.API_KEY] = token
 
     UserService.set_refresh_cookie(str(user.id), refresh_token)
@@ -97,7 +98,7 @@ def update_refresh_token():
     if type(response) is not str:  # The response should be string if succeeded
         return response
 
-    token, refresh_token = create_token(response)
+    token, refresh_token = create_user_token(response)
     res = make_response(token)
     res.set_cookie("refresh_token", refresh_token, httponly=True)
 

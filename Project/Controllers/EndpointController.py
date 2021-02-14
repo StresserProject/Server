@@ -3,6 +3,7 @@ from flask import request
 from flask import abort
 from Constants.Jsons import ENDPOINT_JSON
 from Constants.JsonKeys import EndpointKeys as EndpointKeys
+from Constants.JsonKeys import ID_KEY
 import Services.EventService as EventService
 import Services.EndpointService as EndpointService
 from Boundaries.Event import Event
@@ -10,15 +11,15 @@ from Boundaries.Endpoint import Endpoint
 from threading import Thread
 from time import sleep
 from datetime import datetime, timedelta
-from uuid import uuid4
+from UserTokens import token_required, create_endpoint_token, TOKEN_EXPIRE_TIME
 
-SLEEP_TIME = 60
-API_KEY_LIFETIME = timedelta(minutes=5)
+SLEEP_TIME = 10
 
 
 class EndpointController:
-    def __init__(self):
+    def __init__(self, default_policy):
         self._thread_running = True
+        self._default_policy = str(default_policy)
         Thread(target=self._check_endpoints_last_communication).start()
 
     def __del__(self):
@@ -34,10 +35,10 @@ class EndpointController:
         while self._thread_running:
             endpoints = EndpointService.get_all_endpoints()
             for endpoint in endpoints:
-                if datetime.now() - endpoint.lastCommunication > API_KEY_LIFETIME:
+                if datetime.now() - endpoint.lastCommunication > timedelta(minutes=TOKEN_EXPIRE_TIME):
                     EventService.add_event(Event(0, "Lost Endpoint Connection", "Report",
-                                                 endpoint[EndpointKeys.IP_ADDRESS_KEY]+","
-                                                 + endpoint[EndpointKeys.HOSTNAME_KEY]))
+                                                    "IDLE", endpoint[EndpointKeys.HOSTNAME_KEY],
+                                                 endpoint[EndpointKeys.IP_ADDRESS_KEY]))
                     self.delete_endpoint(endpoint.id)
             sleep(SLEEP_TIME)
 
@@ -47,12 +48,12 @@ class EndpointController:
         :return: API key to the endpoint, or 404 if endpoint exist
         """
         endpoint_json = request.json
-        endpoint_json[EndpointKeys.API_KEY] = uuid4().hex
+        endpoint_json[EndpointKeys.POLICY_ID_KEY] = self._default_policy
         endpoint_id = EndpointService.add_endpoint(self._json_to_endpoint(endpoint_json))
         if endpoint_id == "":
             abort(404)
 
-        return {EndpointKeys.API_KEY: endpoint_json[EndpointKeys.API_KEY], EndpointKeys.ENDPOINT_ID_KEY: endpoint_id}
+        return {EndpointKeys.API_KEY: create_endpoint_token(endpoint_id), ID_KEY: endpoint_id}
 
     def get_endpoint_data(self, endpoint_id):
         """
@@ -65,7 +66,7 @@ class EndpointController:
             abort(404)
 
         endpoint_json = json.loads(ENDPOINT_JSON)
-        endpoint_json[EndpointKeys.ENDPOINT_ID_KEY] = str(endpoint.id)
+        endpoint_json[ID_KEY] = str(endpoint.id)
         endpoint_json[EndpointKeys.IP_ADDRESS_KEY] = endpoint[EndpointKeys.IP_ADDRESS_KEY]
         endpoint_json[EndpointKeys.HOSTNAME_KEY] = endpoint[EndpointKeys.HOSTNAME_KEY]
         endpoint_json[EndpointKeys.POLICY_ID_KEY] = endpoint[EndpointKeys.POLICY_ID_KEY]
@@ -74,22 +75,18 @@ class EndpointController:
 
         return endpoint_json
 
+    @token_required
     def keep_alive(self, endpoint_id):
         """
         Update the last communication time for the endpoint
         :param endpoint_id:
         :return: ABORT!!!
         """
-        if EndpointService.get_endpoint_by_id(endpoint_id) is None:
-            abort(404)
-
-        apikey = request.json[EndpointKeys.API_KEY]
-        if EndpointService.validate_api_key(apikey, endpoint_id):
-            EndpointService.update_date(endpoint_id)
-            return {}
-
-        abort(401)
-
+        EndpointService.update_date(endpoint_id)
+        token = create_endpoint_token(endpoint_id)
+        return {
+            EndpointKeys.API_KEY: token
+        }
 
     def delete_endpoint(self, endpoint_id):
         """
@@ -114,11 +111,11 @@ class EndpointController:
         :return: endpoint object
         """
         try:
-            return Endpoint(endpoint_json[EndpointKeys.ENDPOINT_ID_KEY], endpoint_json[EndpointKeys.POLICY_ID_KEY],
+            return Endpoint(endpoint_json[ID_KEY], endpoint_json[EndpointKeys.POLICY_ID_KEY],
                             endpoint_json[EndpointKeys.HOSTNAME_KEY], endpoint_json[EndpointKeys.IP_ADDRESS_KEY],
                             endpoint_json[EndpointKeys.STATUS_KEY], endpoint_json[EndpointKeys.API_KEY],
                             endpoint_json[EndpointKeys.LAST_COMMUNICATION_KEY])
         except KeyError:
-            return Endpoint(endpoint_json[EndpointKeys.ENDPOINT_ID_KEY], endpoint_json[EndpointKeys.POLICY_ID_KEY],
+            return Endpoint(endpoint_json[ID_KEY], endpoint_json[EndpointKeys.POLICY_ID_KEY],
                             endpoint_json[EndpointKeys.HOSTNAME_KEY], endpoint_json[EndpointKeys.IP_ADDRESS_KEY],
                             endpoint_json[EndpointKeys.STATUS_KEY], endpoint_json[EndpointKeys.API_KEY])

@@ -3,9 +3,13 @@ from mongoengine import queryset
 from Entities.PolicyDB import PolicyDB
 from Boundaries.Policy import Policy
 from Constants.JsonKeys import PolicyKeys
+from Constants.JsonKeys import ID_KEY
 
 
 def add_policy(policy: Policy):
+    default_policy = get_policy_by_policy_name("Default-Policy")
+    if default_policy is not None and policy.policy_name == "Default-Policy":
+        return default_policy[ID_KEY]
     policy_id = PolicyDB.objects(policyName=policy.policy_name)
     if len(policy_id) != 0:
         return ""

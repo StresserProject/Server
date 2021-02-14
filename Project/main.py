@@ -5,16 +5,20 @@ from Controllers.EndpointController import EndpointController
 import Controllers.RuleController as RuleController
 import Controllers.EventController as EventController
 import Controllers.PolicyController as PolicyController
+import Services.PolicyService as PolicyService
+import Boundaries.Policy as Policy
 from DAL import DAL
 
 
 dal = DAL()
-endpoint_controller = EndpointController()
+default_policy = PolicyService.add_policy(Policy.Policy(policy_name="Default-Policy"))
+endpoint_controller = EndpointController(default_policy)
 
 try:
     server = Server("0.0.0.0", int(environ['PORT']))    # Heroku Deployment
 except KeyError:
     server = Server("0.0.0.0", 80)    # Development
+
 
 # User
 server.add_route("/user", UserController.create_user, "POST")  # Signup

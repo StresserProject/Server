@@ -8,7 +8,8 @@ def add_event(event: Event):
     event_id = EventDB.objects(eventName=event.event_name)
     if len(event_id) == 0:
         event_id = EventDB(eventName=event.event_name, eventType=event.event_type,
-                           eventData=event.event_data).save()
+                           eventData=event.event_data, hostname=event.hostname, IPAddress=event.ip_address,
+                           timeStamp=event.time_stamp).save()
         return str(event_id.id)
     return ""
 
@@ -30,5 +31,6 @@ def get_event_by_event_name(event_name):
 
 def update_event_by_id(event_id, event):
     old_events = EventDB.objects.get(id=event_id)
-    EventDB.update(old_events, eventName=event.event_name, eventType=event.event_type, eventData=event.event_data)
+    EventDB.update(old_events, eventName=event.event_name, eventType=event.event_type, eventData=event.event_data,
+                   hostname=event.hostname, IPAddress=event.ip_address, timeStamp=event.time_stamp)
     return ""

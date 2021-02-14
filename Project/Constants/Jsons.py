@@ -1,7 +1,7 @@
 
 USER_JSON = '''
 {
-    "userId": 0,
+    "id": 0,
     "username": "",
     "userHashedPassword": "",
     "apiKey": ""
@@ -9,7 +9,7 @@ USER_JSON = '''
 '''
 ENDPOINT_JSON = '''
 {
-    "endpointId": 0,
+    "id": 0,
     "IPAddress": "",
     "hostname": "",
     "apiKey": "",
@@ -20,7 +20,7 @@ ENDPOINT_JSON = '''
 '''
 RULE_JSON = '''
 {
-    "ruleId": 0,
+    "id": 0,
     "ruleName": "",
     "ruleType": "",
     "ruleData": ""
@@ -28,15 +28,18 @@ RULE_JSON = '''
 '''
 EVENT_JSON = '''
 {
-    "eventId": 0,
+    "id": 0,
     "eventName": "",
     "eventType": "",
-    "eventData": ""
+    "eventData": "",
+    "hostname": "",
+    "IPAddress": "",
+    "timeStamp": ""
 }
 '''
 POLICY_JSON = '''
 {
-    "policyId": 0,
+    "id": 0,
     "policyName": "",
     "numberOfRules": 0,
     "rules": [],
