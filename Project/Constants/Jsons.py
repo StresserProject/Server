@@ -3,7 +3,7 @@ USER_JSON = '''
 {
     "id": 0,
     "username": "",
-    "userHashedPassword": "",
+    "password": "",
     "apiKey": ""
 }
 '''
