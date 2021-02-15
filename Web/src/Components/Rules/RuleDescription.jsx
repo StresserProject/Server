@@ -3,6 +3,7 @@ import { capitalizeFirstLetter } from '../../utils';
 import { rulesFormChildren } from './RulesTab';
 import React, { useState } from 'react';
 import FormDialog from '../Dialogs/FormDialog';
+import * as yup from 'yup';
 
 const useStyles = makeStyles((theme) => ({
     descriptionDiv: {
@@ -45,6 +46,12 @@ export default function RuleDescription({ rule }) {
         setOpenEditDialog(true);
     }
 
+    const validationSchema = yup.object({
+        name: yup.string().required('Required'),
+        type: yup.string().required('Required'),
+        data: yup.string().required('Required'),
+    });
+
     return (
         <>
             <Paper className={classes.descriptionDiv} elevation={3}>
@@ -78,6 +85,7 @@ export default function RuleDescription({ rule }) {
                 submitMessage="Update"
                 children={rulesFormChildren}
                 initialValues={rule}
+                validationSchema={validationSchema}
             />
         </>
     );

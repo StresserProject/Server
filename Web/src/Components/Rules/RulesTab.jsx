@@ -7,6 +7,7 @@ import ListTitle from './List/ListTitle';
 import RuleDescription from './RuleDescription';
 import RulesList from './List/RulesList';
 import { capitalizeFirstLetter } from '../../utils';
+import * as yup from 'yup';
 
 const useStyles = makeStyles((theme) => ({
     rulesDiv: {
@@ -40,6 +41,7 @@ export function rulesFormChildren({ values, errors, handleChange }) {
             />
             <TextField
                 value={values.type}
+                error={!!errors.name}
                 helperText={errors.type}
                 onChange={handleChange}
                 variant="outlined"
@@ -89,6 +91,12 @@ function RuleList({ rules, deleteRuleFromList, addRuleToList }) {
         type: '',
         data: '',
     };
+
+    const validationSchema = yup.object({
+        name: yup.string().required('Required'),
+        type: yup.string().required('Required'),
+        data: yup.string().required('Required'),
+    });
 
     function closeAddDialog() {
         setAddDialog(false);
@@ -148,6 +156,7 @@ function RuleList({ rules, deleteRuleFromList, addRuleToList }) {
                 dialogTitle={'Add Rule'}
                 children={rulesFormChildren}
                 initialValues={initialValues}
+                validationSchema={validationSchema}
             />
         </div>
     );

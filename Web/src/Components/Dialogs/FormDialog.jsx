@@ -1,7 +1,6 @@
 import { Button, Dialog, makeStyles, Typography } from '@material-ui/core';
 import React from 'react';
 import { Formik } from 'formik';
-import * as yup from 'yup';
 
 const useStyles = makeStyles((theme) => ({
     dialog: {
@@ -17,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
  * @param {import("@material-ui/core/Dialog").DialogProps & {
  * submitMessage: string,
  * dialogTitle: string
+ * validationSchema: yup.AnyObjectSchema,
  * onSubmit: ({name: string, type: string, data: string}) => Promise<void>,
  * children: ({ values, errors, handleChange }) => React.ReactElement
  * initialValues: {[key: string]: string}
@@ -27,16 +27,11 @@ function FormDialog({
     submitMessage = 'Submit',
     children,
     initialValues,
+    validationSchema,
     dialogTitle,
     ...props
 }) {
     const classes = useStyles();
-
-    const validationSchema = yup.object({
-        name: yup.string().required('Required'),
-        type: yup.string().required('Required'),
-        data: yup.string().required('Required'),
-    });
 
     /**
      *
