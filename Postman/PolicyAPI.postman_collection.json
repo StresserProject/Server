@@ -1,0 +1,98 @@
+{
+	"info": {
+		"_postman_id": "ebc86eac-3285-43b4-ac76-a9072e15ac59",
+		"name": "PolicyAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "CreatePolicy",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 0,\r\n    \"policyName\": \"police\",\r\n    \"numberOfRules\": 2,\r\n    \"rules\": [\"r\",\"l\"],\r\n    \"updateCount\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/policy",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"policy"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetPolicy",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/policy/",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"policy",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeletePolicy",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/policy/",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"policy",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdatePolicy",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 0,\r\n    \"policyName\": \"policia\",\r\n    \"numberOfRules\": 3,\r\n    \"rules\": [\"r\",\"l\",\"s\"],\r\n    \"updateCount\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/policy/",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"policy",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
