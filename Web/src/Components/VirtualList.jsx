@@ -1,5 +1,4 @@
-import { Box, Fade, makeStyles, Paper } from '@material-ui/core';
-import { observer } from 'mobx-react';
+import { makeStyles, Paper } from '@material-ui/core';
 import React from 'react';
 import { AutoSizer, List } from 'react-virtualized';
 
@@ -15,46 +14,23 @@ const useStyles = makeStyles((theme) => ({
     virtualList: {
         outline: 'none',
     },
-    ruleRow: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        cursor: 'pointer',
-        overflowWrap: 'break-word',
-    },
 }));
-
-const RuleRow = observer(({ rule, style, onClick, isSelected }) => {
-    const classes = useStyles();
-
-    return (
-        <Fade
-            style={style}
-            className={classes.ruleRow}
-            onClick={onClick}
-            in={true}
-        >
-            <Box
-                borderBottom={1}
-                borderColor="black"
-                fontWeight={isSelected ? 'fontWeightBold' : 'fontWeightRegular'}
-                fontSize={25}
-            >
-                <span>{rule.name}</span>
-            </Box>
-        </Fade>
-    );
-});
 
 /**
  *
  * @param {{
  * selectedIndex: number,
- * rules: import("./Rule").default[],
+ * nodes: [],
  * setSelectedIndex: (number) => void
+ * RowComponent: React.Component
  * }} props
  */
-export default function RulesList({ selectedIndex, rules, setSelectedIndex }) {
+export default function RulesList({
+    selectedIndex,
+    nodes,
+    setSelectedIndex,
+    RowComponent,
+}) {
     const classes = useStyles();
 
     return (
@@ -64,14 +40,14 @@ export default function RulesList({ selectedIndex, rules, setSelectedIndex }) {
                     <List
                         className={classes.virtualList}
                         scrollToIndex={selectedIndex}
-                        rowCount={rules.length}
+                        rowCount={nodes.length}
                         height={height}
                         width={width}
                         rowHeight={50}
                         rowRenderer={(obj) => (
-                            <RuleRow
+                            <RowComponent
                                 {...obj}
-                                rule={rules[obj.index]}
+                                node={nodes[obj.index]}
                                 onClick={() => setSelectedIndex(obj.index)}
                                 isSelected={selectedIndex === obj.index}
                             />

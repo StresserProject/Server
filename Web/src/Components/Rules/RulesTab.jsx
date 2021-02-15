@@ -3,10 +3,11 @@ import { observer } from 'mobx-react';
 import React, { useState } from 'react';
 import FormDialog from '../Dialogs/FormDialog';
 import DeleteDialog from '../Dialogs/DeleteDialog';
-import ListTitle from './List/ListTitle';
+import ListTitle from './ListTitle';
 import RuleDescription from './RuleDescription';
-import RulesList from './List/RulesList';
 import { capitalizeFirstLetter } from '../../utils';
+import VirtualList from '../VirtualList';
+import RuleRow from './RuleRow';
 import * as yup from 'yup';
 
 const useStyles = makeStyles((theme) => ({
@@ -130,10 +131,11 @@ function RuleList({ rules, deleteRuleFromList, addRuleToList }) {
                     openAddDialog={openAddDialog}
                     openDeleteDialog={openDeleteDialog}
                 />
-                <RulesList
+                <VirtualList
                     selectedIndex={selectedIndex}
-                    rules={rules}
+                    nodes={rules}
                     setSelectedIndex={setSelectedIndex}
+                    RowComponent={RuleRow}
                 />
             </div>
             {rules.length > 0 && selectedIndex < rules.length && (
