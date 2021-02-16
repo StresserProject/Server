@@ -43,3 +43,7 @@ def update_policy_by_id(policy_id, policy):
     PolicyDB.update(old_policy, policyName=policy.policy_name, numberOfRules=policy.number_of_rules,
                     rules=policy.rules, updateCount=update_count)
     return 1
+
+
+def get_all_policies():
+    return PolicyDB.objects()

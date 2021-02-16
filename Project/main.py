@@ -48,6 +48,7 @@ server.add_route("/event/<string:event_id>", EventController.delete_event, "DELE
 
 # Policy
 server.add_route("/policy", PolicyController.create_policy, "POST")  # CreatePolicy
+server.add_route("/policy", PolicyController.get_all_policy, "GET")  # GetAllPolicies
 server.add_route("/policy/<string:policy_id>", PolicyController.get_policy_data, "GET")  # GetPolicy
 server.add_route("/policy/<string:policy_id>", PolicyController.update_policy, "PUT")   # UpdatePolicy
 server.add_route("/policy/<string:policy_id>", PolicyController.delete_policy, "DELETE")  # DeletePolicy

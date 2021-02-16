@@ -3,11 +3,13 @@ from flask import request
 from flask import abort
 from Constants.Jsons import POLICY_JSON
 import Services.PolicyService as PolicyService
+from UserTokens import token_required
 from Boundaries.Policy import Policy
 from Constants.JsonKeys import PolicyKeys as PolicyKeys
 from Constants.JsonKeys import ID_KEY
 
 
+@token_required
 def create_policy():
     """
     Creating new Policy
@@ -23,6 +25,7 @@ def create_policy():
     return policy_json
 
 
+@token_required
 def get_policy_data(policy_id):
     """
     Return the wanted policy by id
@@ -58,6 +61,7 @@ def update_policy(policy_id):
     return {}
 
 
+@token_required
 def delete_policy(policy_id):
     """
     Delete policy from the db by id
@@ -73,6 +77,17 @@ def delete_policy(policy_id):
     return {}
 
 
+@token_required
+def get_all_policy():
+    policies = PolicyService.get_all_policies()
+    formatted_policies = []
+    for policy in policies:
+        formatted_policies.append(Policy(str(policy.id), policy[PolicyKeys.POLICY_NAME_KEY],
+                                         policy[PolicyKeys.NUMBER_OF_RULES_KEY], policy[PolicyKeys.RULES_KEY],
+                                         policy[PolicyKeys.UPDATE_KEY]))
+    return json.dumps(formatted_policies, default=lambda obj: obj.__dict__)
+
+
 def json_to_policy(policy_json):
 
     if policy_json is None:
@@ -81,3 +96,5 @@ def json_to_policy(policy_json):
     return Policy(policy_json[ID_KEY], policy_json[PolicyKeys.POLICY_NAME_KEY],
                   policy_json[PolicyKeys.NUMBER_OF_RULES_KEY], policy_json[PolicyKeys.RULES_KEY],
                   policy_json[PolicyKeys.UPDATE_KEY])
+
+
