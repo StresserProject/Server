@@ -5,15 +5,11 @@ from Boundaries.Endpoint import Endpoint
 from datetime import datetime
 
 
-def get_all_endpoints():
-    return EndpointDB.objects()
-
-
 def add_endpoint(endpoint: Endpoint):
     endpoint_id = EndpointDB.objects(hostname=endpoint.hostname)
     if len(endpoint_id) == 0:
-        endpoint_id = EndpointDB(hostname=endpoint.hostname, IPAddress=endpoint.ip_address,
-                                 policyId=endpoint.policy_id,
+        endpoint_id = EndpointDB(hostname=endpoint.hostname, IPAddress=endpoint.IPAddress,
+                                 policyId=endpoint.policyId,
                                  status=endpoint.status, lastCommunication=datetime.now()).save()
         return str(endpoint_id.id)
     return ""
@@ -42,3 +38,7 @@ def update_date(endpoint_id):
 
     EndpointDB.update(endpoint, lastCommunication=datetime.now())
     return endpoint
+
+
+def get_all_endpoints():
+    return EndpointDB.objects()

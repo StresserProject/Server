@@ -46,6 +46,7 @@ def get_policy_data(policy_id):
     return policy_json
 
 
+@token_required
 def update_policy(policy_id):
     """
     Update the wanted policy by id

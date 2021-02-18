@@ -2,21 +2,21 @@ from datetime import datetime
 
 
 class Event:
-    def __init__(self, event_id: int, event_name: str, event_type: str, event_data: str, hostname, ip_address,
+    def __init__(self, event_id: str, event_name: str, event_type: str, event_data: str, hostname, ip_address,
                  time_stamp=datetime.now()):
-        self.event_id = event_id
-        self.event_name = event_name
-        self.event_type = event_type
-        self.event_data = event_data
-        self.time_stamp = time_stamp
+        self.id = event_id
+        self.eventName = event_name
+        self.eventType = event_type
+        self.eventData = event_data
+        self.timeStamp = time_stamp
         self.hostname = hostname
-        self.ip_address = ip_address
+        self.IPAddress = ip_address
 
     def __str__(self):
-        return f"EventId:{self.event_id}, " \
-               f"EventName:{self.event_name}, " \
-               f"EventType:{self.event_type}, " \
-               f"EventData:{self.event_data}, " \
+        return f"ID:{self.id}, " \
+               f"EventName:{self.eventName}, " \
+               f"EventType:{self.eventType}, " \
+               f"EventData:{self.eventData}, " \
                f"Hostname:{self.hostname}, " \
-               f"IPAddress:{self.ip_address}, " \
-               f"TimeStamp:{self.time_stamp}"
+               f"IPAddress:{self.IPAddress}, " \
+               f"TimeStamp:{self.timeStamp}"

@@ -36,8 +36,8 @@ class EndpointController:
             endpoints = EndpointService.get_all_endpoints()
             for endpoint in endpoints:
                 if datetime.now() - endpoint.lastCommunication > timedelta(minutes=TOKEN_EXPIRE_TIME):
-                    EventService.add_event(Event(0, "Lost Endpoint Connection", "Report",
-                                                    "IDLE", endpoint[EndpointKeys.HOSTNAME_KEY],
+                    EventService.add_event(Event("0", "Lost Endpoint Connection", "Report",
+                                                 "IDLE", endpoint[EndpointKeys.HOSTNAME_KEY],
                                                  endpoint[EndpointKeys.IP_ADDRESS_KEY]))
                     self.delete_endpoint(endpoint.id)
             sleep(SLEEP_TIME)
@@ -55,6 +55,7 @@ class EndpointController:
 
         return {EndpointKeys.API_KEY: create_endpoint_token(endpoint_id), ID_KEY: endpoint_id}
 
+    @token_required
     def get_endpoint_data(self, endpoint_id):
         """
         Return the wanted endpoint by id
@@ -88,6 +89,7 @@ class EndpointController:
             EndpointKeys.API_KEY: token
         }
 
+    @token_required
     def delete_endpoint(self, endpoint_id):
         """
         Delete endpoint from the db by id
@@ -102,6 +104,17 @@ class EndpointController:
 
         return {}
 
+    @token_required
+    def get_all_endpoints(self):
+        endpoints = EndpointService.get_all_endpoints()
+        formatted_endpoints = []
+        for endpoint in endpoints:
+            formatted_endpoints.append(
+                Endpoint(str(endpoint.id), endpoint[EndpointKeys.POLICY_ID_KEY], endpoint[EndpointKeys.HOSTNAME_KEY],
+                         endpoint[EndpointKeys.IP_ADDRESS_KEY], endpoint[EndpointKeys.STATUS_KEY],
+                         str(endpoint[EndpointKeys.LAST_COMMUNICATION_KEY])))
+        return json.dumps(formatted_endpoints, default=lambda obj: obj.__dict__)
+
     def _json_to_endpoint(self, endpoint_json):
         """
         return endpoint object
@@ -113,9 +126,8 @@ class EndpointController:
         try:
             return Endpoint(endpoint_json[ID_KEY], endpoint_json[EndpointKeys.POLICY_ID_KEY],
                             endpoint_json[EndpointKeys.HOSTNAME_KEY], endpoint_json[EndpointKeys.IP_ADDRESS_KEY],
-                            endpoint_json[EndpointKeys.STATUS_KEY], endpoint_json[EndpointKeys.API_KEY],
-                            endpoint_json[EndpointKeys.LAST_COMMUNICATION_KEY])
+                            endpoint_json[EndpointKeys.STATUS_KEY], endpoint_json[EndpointKeys.LAST_COMMUNICATION_KEY])
         except KeyError:
             return Endpoint(endpoint_json[ID_KEY], endpoint_json[EndpointKeys.POLICY_ID_KEY],
                             endpoint_json[EndpointKeys.HOSTNAME_KEY], endpoint_json[EndpointKeys.IP_ADDRESS_KEY],
-                            endpoint_json[EndpointKeys.STATUS_KEY], endpoint_json[EndpointKeys.API_KEY])
+                            endpoint_json[EndpointKeys.STATUS_KEY])

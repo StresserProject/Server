@@ -9,7 +9,7 @@ def add_user(username, password) -> str:
     return str(user.id)
 
 
-def get_user_by_id(user_id) -> UserDB:
+def get_user_by_id(user_id):
     try:
         return UserDB.objects.get(id=user_id)
     except (ValidationError, queryset.DoesNotExist):

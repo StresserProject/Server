@@ -7,8 +7,10 @@ from Constants.JsonKeys import EventKeys as EventKeys
 from Constants.JsonKeys import ID_KEY
 import Services.EventService as EventService
 from Boundaries.Event import Event
+from UserTokens import token_required
 
 
+@token_required
 def create_event():
     """
     Creating new Event
@@ -26,6 +28,7 @@ def create_event():
     return event_json
 
 
+@token_required
 def get_event_data(event_id):
     """
     Return the wanted event by id
@@ -48,6 +51,7 @@ def get_event_data(event_id):
     return event_json
 
 
+@token_required
 def update_event(event_id):
     """
     Updating the event to the server
@@ -65,6 +69,7 @@ def update_event(event_id):
     return old_event
 
 
+@token_required
 def delete_event(event_id):
     """
     Delete event from the db by id
@@ -80,6 +85,17 @@ def delete_event(event_id):
     return {}
 
 
+@token_required
+def get_all_events():
+    events = EventService.get_all_events()
+    formatted_events = []
+    for event in events:
+        formatted_events.append(Event(str(event.id), event[EventKeys.EVENT_NAME_KEY], event[EventKeys.EVENT_TYPE_KEY],
+                                      event[EventKeys.EVENT_DATA_KEY], event[EventKeys.HOSTNAME_KEY],
+                                      event[EventKeys.IP_ADDRESS_KEY], str(event[EventKeys.TIME_STAMP_KEY])))
+    return json.dumps(formatted_events, default=lambda obj: obj.__dict__)
+
+
 def json_to_event(event_json):
     try:
         return Event(event_json[ID_KEY], event_json[EventKeys.EVENT_NAME_KEY], event_json[EventKeys.EVENT_TYPE_KEY],
@@ -89,3 +105,4 @@ def json_to_event(event_json):
         return Event(event_json[ID_KEY], event_json[EventKeys.EVENT_NAME_KEY], event_json[EventKeys.EVENT_TYPE_KEY],
                      event_json[EventKeys.EVENT_DATA_KEY], event_json[EventKeys.HOSTNAME_KEY],
                      event_json[EventKeys.IP_ADDRESS_KEY])
+

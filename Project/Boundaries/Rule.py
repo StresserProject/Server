@@ -8,7 +8,7 @@ class Rule:
         self.ruleData = rule_data
 
     def __str__(self):
-        return f"RuleId:{self.id}, " \
+        return f"ID:{self.id}, " \
                f"RuleName:{self.ruleName}, " \
                f"RuleType:{self.ruleType}, " \
                f"RuleData:{self.ruleData}"

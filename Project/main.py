@@ -29,6 +29,7 @@ server.add_route("/user/refresh", UserController.update_refresh_token, "GET")   
 
 # Endpoint
 server.add_route("/endpoint", endpoint_controller.create_endpoint, "POST")  # CreateEndpoint
+server.add_route("/endpoint", endpoint_controller.get_all_endpoints, "GET")  # GetAllEndpoint
 server.add_route("/endpoint/<string:endpoint_id>", endpoint_controller.get_endpoint_data, "GET")   # GetEndpoint
 server.add_route("/endpoint/<string:endpoint_id>", endpoint_controller.keep_alive, "PUT")   # KeepAlive
 server.add_route("/endpoint/<string:endpoint_id>", endpoint_controller.delete_endpoint, "DELETE")   # DeleteEndpoint
@@ -42,6 +43,7 @@ server.add_route("/rule/<string:rule_id>", RuleController.delete_rule, "DELETE")
 
 # Event
 server.add_route("/event", EventController.create_event, "POST")  # CreateEvent
+server.add_route("/event", EventController.get_all_events, "GET")  # GetAllEvents
 server.add_route("/event/<string:event_id>", EventController.get_event_data, "GET")  # GetEvent
 server.add_route("/event/<string:event_id>", EventController.update_event, "PUT")   # UpdateEvent
 server.add_route("/event/<string:event_id>", EventController.delete_event, "DELETE")  # DeleteEvent
