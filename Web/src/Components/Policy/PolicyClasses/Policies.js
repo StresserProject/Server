@@ -1,14 +1,13 @@
 import axios from 'axios';
+import Policy from './Policy';
 import { action, makeObservable, observable, runInAction } from 'mobx';
-import Rule from './Rule';
 
-export default class Rules {
-    /**@type {Rule[]} */
-    rules = [];
+export default class Policies {
+    policies = [];
 
     constructor() {
         makeObservable(this, {
-            rules: observable,
+            policies: observable,
             getList: action,
         });
         this.getList();
@@ -16,47 +15,46 @@ export default class Rules {
 
     getList = () => {
         return axios
-            .get('/rule')
+            .get('/policy')
             .then((response) => {
                 runInAction(() => {
-                    this.rules = [];
-                    response.data.map((rule) =>
-                        this.rules.push(new Rule(rule)),
+                    this.policies = [];
+                    response.data.map((policy) =>
+                        this.policies.push(new Policy(policy)),
                     );
                 });
             })
             .catch((error) => console.log(error));
     };
 
-    deleteRule = (index) => {
-        const id = this.rules[index].id;
+    deletePolicy = (index) => {
+        const id = this.policies[index].id;
         return axios
-            .delete(`/rule/${id}`)
+            .delete(`/policy/${id}`)
             .then((response) => {
                 if (response.status === 200) {
-                    runInAction(() => {
-                        this.rules.splice(index, 1);
-                    });
+                    runInAction(() => this.policies.splice(index, 1));
                 }
             })
             .catch((error) => console.log(error));
     };
 
-    addRule = (ruleData) => {
+    addPolicy = (policyData) => {
         const jsonToSend = {
             id: 0,
-            ruleName: ruleData.name,
-            ruleType: ruleData.type,
-            ruleData: ruleData.data,
+            policyName: policyData.name,
+            numberOfRules: this.policies.length,
+            rules: policyData.type,
+            updateCount: 0,
         };
 
         return axios
-            .post('/rule', jsonToSend)
+            .post('/policy', jsonToSend)
             .then((response) => {
                 if (response.status === 200) {
                     console.log(response.data);
                     runInAction(() => {
-                        this.rules.push(new Rule(response.data));
+                        this.policies.push(new Policy(response.data));
                     });
                     return true;
                 }

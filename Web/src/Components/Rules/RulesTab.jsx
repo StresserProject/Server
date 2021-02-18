@@ -3,11 +3,11 @@ import { observer } from 'mobx-react';
 import React, { useState } from 'react';
 import FormDialog from '../Dialogs/FormDialog';
 import DeleteDialog from '../Dialogs/DeleteDialog';
-import ListTitle from './ListTitle';
+import ListTitle from '../List/ListTitle';
 import RuleDescription from './RuleDescription';
 import { capitalizeFirstLetter } from '../../utils';
-import VirtualList from '../VirtualList';
-import RuleRow from './RuleRow';
+import VirtualList from '../List/VirtualList';
+import ListRow from '../List/ListRow';
 import * as yup from 'yup';
 
 const useStyles = makeStyles((theme) => ({
@@ -127,6 +127,7 @@ function RuleList({ rules, deleteRuleFromList, addRuleToList }) {
         <div className={classes.rulesDiv}>
             <div>
                 <ListTitle
+                    title="Rules"
                     isDeleteDisabled={rules.length === 0}
                     openAddDialog={openAddDialog}
                     openDeleteDialog={openDeleteDialog}
@@ -135,14 +136,14 @@ function RuleList({ rules, deleteRuleFromList, addRuleToList }) {
                     selectedIndex={selectedIndex}
                     nodes={rules}
                     setSelectedIndex={setSelectedIndex}
-                    RowComponent={RuleRow}
+                    RowComponent={ListRow}
                 />
             </div>
             {rules.length > 0 && selectedIndex < rules.length && (
                 <RuleDescription rule={rules[selectedIndex]} />
             )}
             <DeleteDialog
-                type={'Rule'}
+                type="Rule"
                 open={deleteDialog}
                 onClose={closeDeleteDialog}
                 onSubmit={async () => {

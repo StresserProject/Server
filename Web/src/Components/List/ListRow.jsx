@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import React from 'react';
 
 const useStyles = makeStyles((theme) => ({
-    ruleRow: {
+    listRow: {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -11,13 +11,13 @@ const useStyles = makeStyles((theme) => ({
         overflowWrap: 'break-word',
     },
 }));
-function RuleRow({ node, style, onClick, isSelected }) {
+function ListRow({ node, style, onClick, isSelected }) {
     const classes = useStyles();
 
     return (
         <Fade
             style={style}
-            className={classes.ruleRow}
+            className={classes.listRow}
             onClick={onClick}
             in={true}
         >
@@ -33,4 +33,4 @@ function RuleRow({ node, style, onClick, isSelected }) {
     );
 }
 
-export default observer(RuleRow);
+export default observer(ListRow);

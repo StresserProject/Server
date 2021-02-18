@@ -38,7 +38,7 @@ export default class AuthenticationManager {
                     alert('Somthing went worng please login again');
                     console.log(error);
                 });
-        }, 5000); // Interval executing every 4:40 min 288000
+        }, 288000); // Interval executing every 4:40 min 288000
     };
 
     logout = () => {

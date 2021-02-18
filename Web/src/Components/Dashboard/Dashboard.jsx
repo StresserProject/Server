@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -11,6 +11,8 @@ import TopBar from './TopBar';
 import RulesTab from '../Rules/RulesTab';
 import { observer } from 'mobx-react';
 import Rules from '../Rules/RulesClasses/Rules';
+import PolicyTab from '../Policy/PolicyTab';
+import Policies from '../Policy/PolicyClasses/Policies';
 
 const drawerWidth = 240;
 
@@ -78,6 +80,24 @@ function Dashboard({ authenticationManager }) {
     const [open, setOpen] = useState(true);
     const [selectedItem, setSelectedItem] = useState(LIST_ITEMS.DASHBOARD);
 
+    const dbRules = useRef(null);
+    const dbPolicies = useRef(null);
+
+    // Refresh the lists every minute
+    useEffect(() => {
+        dbRules.current = new Rules();
+        dbPolicies.current = new Policies();
+        const getRulesInterval = setInterval(dbRules.current.getList, 60000);
+        const getPolciesInterval = setInterval(
+            dbPolicies.current.getList,
+            60000,
+        );
+        return () => {
+            clearInterval(getPolciesInterval);
+            clearInterval(getRulesInterval);
+        };
+    }, []);
+
     const toggleDrawer = () => {
         setOpen(!open);
     };
@@ -91,14 +111,20 @@ function Dashboard({ authenticationManager }) {
             case LIST_ITEMS.EVENTS:
                 return 'null';
             case LIST_ITEMS.POLICY:
-                return 'null';
+                return (
+                    <PolicyTab
+                        policies={dbPolicies.current.policies}
+                        rules={dbRules.current.rules}
+                        deletePolicyFromList={dbPolicies.current.deletePolicy}
+                        addPolicyToList={dbPolicies.current.addPolicy}
+                    />
+                );
             case LIST_ITEMS.RULES:
-                const dbRules = new Rules();
                 return (
                     <RulesTab
-                        rules={dbRules.rules}
-                        deleteRuleFromList={dbRules.deleteRule}
-                        addRuleToList={dbRules.addRule}
+                        rules={dbRules.current.rules}
+                        deleteRuleFromList={dbRules.current.deleteRule}
+                        addRuleToList={dbRules.current.addRule}
                     />
                 );
 

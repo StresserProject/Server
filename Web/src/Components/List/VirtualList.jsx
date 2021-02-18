@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
  * RowComponent: React.Component
  * }} props
  */
-export default function RulesList({
+export default function VirtualList({
     selectedIndex,
     nodes,
     setSelectedIndex,

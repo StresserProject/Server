@@ -23,12 +23,14 @@ const useStyles = makeStyles((theme) => ({
  * openAddDialog: () => void,
  * openDeleteDialog: () => void,
  * isDeleteDisabled: boolean
+ * title: string
  * }} props
  */
 export default function ListTitle({
     openAddDialog,
     openDeleteDialog,
     isDeleteDisabled,
+    title,
 }) {
     const classes = useStyles();
 
@@ -46,7 +48,7 @@ export default function ListTitle({
                 </IconButton>
             </div>
             <Typography className={classes.title} align="center" variant="h5">
-                Rules
+                {title}
             </Typography>
         </Paper>
     );
