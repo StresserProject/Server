@@ -70,7 +70,12 @@ function PolicyTab({ policies, deletePolicyFromList, addPolicyToList, rules }) {
         return false;
     }
 
-    function policyFormChildren({ values, errors, handleChange }) {
+    function policyFormChildren({
+        values,
+        errors,
+        handleChange,
+        setFieldValue,
+    }) {
         return (
             <>
                 <TextField
@@ -88,7 +93,7 @@ function PolicyTab({ policies, deletePolicyFromList, addPolicyToList, rules }) {
                     multiple
                     value={values.rules}
                     name={'rules'}
-                    onChange={(event, value) => (values.rules = value)}
+                    onChange={(event, value) => setFieldValue('rules', value)}
                     options={rules}
                     getOptionLabel={(option) => option.name}
                     variant="outlined"

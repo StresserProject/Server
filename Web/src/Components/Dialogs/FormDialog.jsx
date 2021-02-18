@@ -59,9 +59,20 @@ function FormDialog({
                     validateOnChange={false}
                     onSubmit={submitForm}
                 >
-                    {({ values, errors, handleChange, handleSubmit }) => (
+                    {({
+                        values,
+                        errors,
+                        handleChange,
+                        handleSubmit,
+                        setFieldValue,
+                    }) => (
                         <form onSubmit={handleSubmit}>
-                            {children({ values, errors, handleChange })}
+                            {children({
+                                values,
+                                errors,
+                                handleChange,
+                                setFieldValue,
+                            })}
                             <Button
                                 className={classes.submitButton}
                                 type="submit"
