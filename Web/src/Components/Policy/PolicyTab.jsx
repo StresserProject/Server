@@ -64,7 +64,7 @@ function PolicyTab({ policies, deletePolicyFromList, addPolicyToList, rules }) {
 
     async function addPolicy(values) {
         if (await addPolicyToList(values)) {
-            setSelectedIndex(rules.length - 1);
+            setSelectedIndex(policies.length - 1);
             return true;
         }
         return false;
@@ -160,10 +160,12 @@ function PolicyTab({ policies, deletePolicyFromList, addPolicyToList, rules }) {
                     RowComponent={ListRow}
                 />
             </div>
-            <PolicyDescription
-                policy={getSelectedPolicy()}
-                policyFormChildren={policyFormChildren}
-            />
+            {policies.length > 0 && selectedIndex < policies.length && (
+                <PolicyDescription
+                    policy={getSelectedPolicy()}
+                    policyFormChildren={policyFormChildren}
+                />
+            )}
             <DeleteDialog
                 type="Policy"
                 open={deleteDialog}

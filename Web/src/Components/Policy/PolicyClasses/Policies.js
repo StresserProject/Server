@@ -43,8 +43,8 @@ export default class Policies {
         const jsonToSend = {
             id: 0,
             policyName: policyData.name,
-            numberOfRules: this.policies.length,
-            rules: policyData.type,
+            numberOfRules: policyData.rules.length,
+            rules: policyData.rules.map((rule) => rule.id),
             updateCount: 0,
         };
 
