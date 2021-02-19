@@ -29,7 +29,7 @@ def get_rule_by_rule_name(rule_name):
 
 def update_rule_by_id(rule_id, rule):
     old_rule = RuleDB.objects.get(id=rule_id)
-    if is_name_unique(rule.ruleName) or rule.ruleName == old_rule[RuleKeys.RULE_NAME_KEY]:
+    if rule.ruleName == old_rule[RuleKeys.RULE_NAME_KEY] or is_name_unique(rule.ruleName):
         RuleDB.update(old_rule, ruleName=rule.ruleName, ruleType=rule.ruleType, ruleData=rule.ruleData)
         rule.id = rule_id
         return rule

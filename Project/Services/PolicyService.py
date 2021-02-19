@@ -38,7 +38,7 @@ def update_policy_by_id(policy_id, policy: Policy):
         old_policy = PolicyDB.objects.get(id=policy_id)
     except (ValidationError, queryset.DoesNotExist):
         return None
-    if is_name_unique(policy.policyName) or old_policy[PolicyKeys.POLICY_NAME_KEY] == policy.policyName:
+    if old_policy[PolicyKeys.POLICY_NAME_KEY] == policy.policyName or is_name_unique(policy.policyName):
         update_count = old_policy[PolicyKeys.UPDATE_KEY] + 1
         PolicyDB.update(old_policy, policyName=policy.policyName, numberOfRules=policy.numberOfRules,
                         rules=policy.rules, updateCount=update_count)

@@ -30,7 +30,7 @@ def get_event_by_event_name(event_name):
 
 def update_event_by_id(event_id, event: Event):
     old_events = EventDB.objects.get(id=event_id)
-    if is_name_unique(event.eventName) or old_events[EventKeys.EVENT_NAME_KEY] == event.eventName:
+    if old_events[EventKeys.EVENT_NAME_KEY] == event.eventName or is_name_unique(event.eventName):
         EventDB.update(old_events, eventName=event.eventName, eventType=event.eventType,
                        eventData=event.eventData, hostname=event.hostname, IPAddress=event.IPAddress,
                        timeStamp=event.timeStamp)
