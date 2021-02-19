@@ -1,4 +1,4 @@
-import { makeObservable, observable } from 'mobx';
+import { makeObservable, observable, runInAction } from 'mobx';
 import axios from 'axios';
 
 export default class Rule {
@@ -21,10 +21,6 @@ export default class Rule {
     }
 
     updateRule = ({ name, type, data }) => {
-        this.name = name;
-        this.type = type;
-        this.data = data;
-
         const dataToSend = {
             id: this.id,
             ruleName: this.name,
@@ -35,7 +31,14 @@ export default class Rule {
         return axios
             .put(`/rule/${this.id}`, dataToSend)
             .then((response) => {
-                if (response.status === 200) return true;
+                if (response.status === 200) {
+                    runInAction(() => {
+                        this.name = name;
+                        this.type = type;
+                        this.data = data;
+                    });
+                    return true;
+                }
                 return false;
             })
             .catch((error) => {
