@@ -21,7 +21,7 @@ export default class Endpoints {
             .get('/endpoint')
             .then((response) => {
                 runInAction(() => {
-                    this.policies = [];
+                    this.endpoints = [];
                     response.data.map((policy) =>
                         this.endpoints.push(new Endpoint(policy)),
                     );

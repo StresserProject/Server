@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
  * @param {import("@material-ui/core/Dialog").DialogProps & {
  * submitMessage: string,
  * dialogTitle: string
- * validationSchema: yup.AnyObjectSchema,
+ * validationSchema?: yup.AnyObjectSchema,
  * onSubmit: ({name: string, type: string, data: string}) => Promise<void>,
  * children: ({ values, errors, handleChange }) => React.ReactElement
  * initialValues: {[key: string]: string}

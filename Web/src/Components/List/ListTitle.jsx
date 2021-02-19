@@ -20,8 +20,8 @@ const useStyles = makeStyles((theme) => ({
 /**
  *
  * @param {{
- * openAddDialog: () => void,
- * openDeleteDialog: () => void,
+ * openAddDialog?: () => void,
+ * openDeleteDialog?: () => void,
  * isDeleteDisabled: boolean
  * title: string
  * }} props
@@ -37,15 +37,19 @@ export default function ListTitle({
     return (
         <Paper className={classes.titleDiv}>
             <div style={{ position: 'absolute' }}>
-                <IconButton onClick={openAddDialog}>
-                    <AddCircleRoundedIcon />
-                </IconButton>
-                <IconButton
-                    disabled={isDeleteDisabled}
-                    onClick={openDeleteDialog}
-                >
-                    <RemoveCircleRoundedIcon />
-                </IconButton>
+                {openAddDialog && (
+                    <IconButton onClick={openAddDialog}>
+                        <AddCircleRoundedIcon />
+                    </IconButton>
+                )}
+                {openDeleteDialog && (
+                    <IconButton
+                        disabled={isDeleteDisabled}
+                        onClick={openDeleteDialog}
+                    >
+                        <RemoveCircleRoundedIcon />
+                    </IconButton>
+                )}
             </div>
             <Typography className={classes.title} align="center" variant="h5">
                 {title}

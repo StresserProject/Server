@@ -13,6 +13,8 @@ import { observer } from 'mobx-react';
 import Rules from '../Rules/RulesClasses/Rules';
 import PolicyTab from '../Policy/PolicyTab';
 import Policies from '../Policy/PolicyClasses/Policies';
+import Endpoints from '../Endpoints/EndpointClasses/Endpoints';
+import EndpointTab from '../Endpoints/EndpointTab';
 
 const drawerWidth = 240;
 
@@ -82,19 +84,26 @@ function Dashboard({ authenticationManager }) {
 
     const dbRules = useRef(null);
     const dbPolicies = useRef(null);
+    const dbEndpoints = useRef(null);
 
     // Refresh the lists every minute
     useEffect(() => {
         dbRules.current = new Rules();
         dbPolicies.current = new Policies();
+        dbEndpoints.current = new Endpoints();
         const getRulesInterval = setInterval(dbRules.current.getList, 60000);
         const getPolciesInterval = setInterval(
             dbPolicies.current.getList,
             60000,
         );
+        const getEndpointsInterval = setInterval(
+            dbEndpoints.current.getList,
+            60000,
+        );
         return () => {
             clearInterval(getPolciesInterval);
             clearInterval(getRulesInterval);
+            clearInterval(getEndpointsInterval);
         };
     }, []);
 
@@ -107,7 +116,12 @@ function Dashboard({ authenticationManager }) {
             case LIST_ITEMS.DASHBOARD:
                 return 'null';
             case LIST_ITEMS.ENDPOINTS:
-                return 'null';
+                return (
+                    <EndpointTab
+                        endpoints={dbEndpoints.current.endpoints}
+                        policies={dbPolicies.current.policies}
+                    />
+                );
             case LIST_ITEMS.EVENTS:
                 return 'null';
             case LIST_ITEMS.POLICY:

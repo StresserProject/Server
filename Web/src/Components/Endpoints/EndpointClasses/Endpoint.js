@@ -3,32 +3,34 @@ import axios from 'axios';
 
 export default class Policy {
     id = 0;
-    hostname = '';
-    ipAddress = [];
     policyId = 0;
+    name = '';
+    ipAddress = [];
+    policyName = '';
     status = '';
     lastCommunication = '';
 
     constructor({
         id,
         hostname,
-        ipAddress,
+        IPAddress,
         policyId,
         status,
         lastCommunication,
     }) {
         makeObservable(this, {
             id: observable,
-            hostname: observable,
-            ipAddress: observable,
             policyId: observable,
+            name: observable,
+            ipAddress: observable,
+            policyName: observable,
             status: observable,
             lastCommunication: observable,
         });
         this.id = id;
-        this.hostname = hostname;
-        this.ipAddress = ipAddress;
         this.policyId = policyId;
+        this.name = hostname;
+        this.ipAddress = IPAddress;
         this.status = status;
         this.lastCommunication = lastCommunication;
     }
