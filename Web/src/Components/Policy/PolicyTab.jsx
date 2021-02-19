@@ -1,4 +1,4 @@
-import { makeStyles, TextField } from '@material-ui/core';
+import { makeStyles, TextField, Tooltip, Typography } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { observer } from 'mobx-react';
 import React, { useState } from 'react';
@@ -110,9 +110,38 @@ function PolicyTab({ policies, deletePolicyFromList, addPolicyToList, rules }) {
                             placeholder="choose rules.."
                         />
                     )}
+                    renderOption={(option, state) => (
+                        <Tooltip
+                            title={
+                                <span>
+                                    <p>Type: {option.type}</p>
+                                    <p>Data: {option.data}</p>
+                                </span>
+                            }
+                        >
+                            <Typography
+                                align="center"
+                                style={{ width: '100%' }}
+                            >
+                                {option.name}
+                            </Typography>
+                        </Tooltip>
+                    )}
                 />
             </>
         );
+    }
+
+    function getSelectedPolicy() {
+        const policy = policies[selectedIndex];
+        const rulesIds = Array.from(policy.rules.values());
+        const newRules = rules
+            .filter((rule) => rulesIds.includes(rule.id))
+            .map((rule) => rule);
+        return {
+            ...policy,
+            rules: newRules,
+        };
     }
 
     return (
@@ -132,7 +161,7 @@ function PolicyTab({ policies, deletePolicyFromList, addPolicyToList, rules }) {
                 />
             </div>
             <PolicyDescription
-                policy={policies[selectedIndex]}
+                policy={getSelectedPolicy()}
                 policyFormChildren={policyFormChildren}
             />
             <DeleteDialog
