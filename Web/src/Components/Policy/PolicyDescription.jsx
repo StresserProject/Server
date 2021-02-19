@@ -48,8 +48,8 @@ export default function RuleDescription({ policy, policyFormChildren }) {
     function makeRulesList(rules) {
         return (
             <ul>
-                {rules.map((ruleName) => (
-                    <li>ruleName</li>
+                {rules.map((rule) => (
+                    <li>{rule.name}</li>
                 ))}
             </ul>
         );
