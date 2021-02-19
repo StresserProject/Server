@@ -32,6 +32,7 @@ server.add_route("/endpoint", endpoint_controller.create_endpoint, "POST")  # Cr
 server.add_route("/endpoint", endpoint_controller.get_all_endpoints, "GET")  # GetAllEndpoint
 server.add_route("/endpoint/<string:endpoint_id>", endpoint_controller.get_endpoint_data, "GET")   # GetEndpoint
 server.add_route("/endpoint/<string:endpoint_id>", endpoint_controller.keep_alive, "PUT")   # KeepAlive
+server.add_route("/endpoint/update/<string:endpoint_id>", endpoint_controller.update_policy_id, "PUT")   # UpdatePolicy
 server.add_route("/endpoint/<string:endpoint_id>", endpoint_controller.delete_endpoint, "DELETE")   # DeleteEndpoint
 
 # Rule

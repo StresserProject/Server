@@ -2,6 +2,7 @@ from mongoengine import ValidationError
 from mongoengine import queryset
 from Entities.EndpointDB import EndpointDB
 from Boundaries.Endpoint import Endpoint
+from Services.PolicyService import get_policy_by_id
 from datetime import datetime
 
 
@@ -45,6 +46,16 @@ def delete_endpoint(endpoint_id):
     if endpoint is not None:
         endpoint.delete()
     return None
+
+
+def update_policy(endpoint_id, policy_id):
+    endpoint = get_endpoint_by_id(endpoint_id)
+    if endpoint is None:
+        return 404
+    if get_policy_by_id(policy_id) is None:
+        return 406
+    EndpointDB.update(endpoint, policyId=policy_id)
+    return 200
 
 
 def get_all_endpoints():

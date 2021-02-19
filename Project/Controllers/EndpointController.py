@@ -113,6 +113,14 @@ class EndpointController:
                          str(endpoint[EndpointKeys.LAST_COMMUNICATION_KEY])))
         return json.dumps(formatted_endpoints, default=lambda obj: obj.__dict__)
 
+    @token_required
+    def update_policy_id(self, endpoint_id):
+        policy_id = request.json[EndpointKeys.POLICY_ID_KEY]
+        response = EndpointService.update_policy(endpoint_id, policy_id)
+        if response == 200:
+            return {}
+        abort(response)
+
     def _json_to_endpoint(self, endpoint_json):
         """
         return endpoint object
