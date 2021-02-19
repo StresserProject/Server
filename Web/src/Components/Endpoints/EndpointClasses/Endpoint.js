@@ -33,31 +33,21 @@ export default class Policy {
         this.lastCommunication = lastCommunication;
     }
 
-    // updatePolicy = (policyId) => {
-    //     const dataToSend = {
-    //         id: this.id,
-    //         policyName: name,
-    //         numberOfRules: rules.length,
-    //         rules: rules.map((rule) => rule.id),
-    //         updateCount: this.updateCount + 1,
-    //     };
-
-    //     return axios
-    //         .put(`/ednpoint/${this.id}`, dataToSend)
-    //         .then((response) => {
-    //             if (response.status === 200) {
-    //                 runInAction(() => {
-    //                     this.name = name;
-    //                     this.rules = rules.map((rule) => rule.id);
-    //                     this.updateCount += 1;
-    //                 });
-    //                 return true;
-    //             }
-    //             return false;
-    //         })
-    //         .catch((error) => {
-    //             console.log(error);
-    //             return false;
-    //         });
-    // };
+    updatePolicy = (policyId) => {
+        return axios
+            .put(`/ednpoint/update/${this.id}`, { policyId })
+            .then((response) => {
+                if (response.status === 200) {
+                    runInAction(() => {
+                        this.policyId = policyId;
+                    });
+                    return true;
+                }
+                return false;
+            })
+            .catch((error) => {
+                console.log(error);
+                return false;
+            });
+    };
 }
