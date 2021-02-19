@@ -45,6 +45,16 @@ export default function RuleDescription({ policy, policyFormChildren }) {
         setOpenEditDialog(true);
     }
 
+    function makeRulesList(rules) {
+        return (
+            <ul>
+                {rules.map((ruleName) => (
+                    <li>ruleName</li>
+                ))}
+            </ul>
+        );
+    }
+
     const validationSchema = yup.object({
         name: yup.string().required('Required'),
         rules: yup.array().min(1, 'You need to choose at least 1 rule'),
@@ -68,8 +78,8 @@ export default function RuleDescription({ policy, policyFormChildren }) {
                     .map(([key, value]) => (
                         <div key={key}>
                             <Box borderBottom={1} fontSize={17}>
-                                <b>Rule {capitalizeFirstLetter(key)}:</b>{' '}
-                                {value}
+                                <b>Policy {capitalizeFirstLetter(key)}:</b>{' '}
+                                {key === 'rules' ? makeRulesList(value) : value}
                             </Box>
                         </div>
                     ))}
