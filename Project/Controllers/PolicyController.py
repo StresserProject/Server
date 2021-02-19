@@ -56,10 +56,10 @@ def update_policy(policy_id):
     old_policy = PolicyService.get_policy_by_id(policy_id)
     if old_policy is None:
         abort(404)
-
-    if PolicyService.update_policy_by_id(policy_id, json_to_policy(request.json)) is None:
-        abort(404)
-    return {}
+    new_policy = PolicyService.update_policy_by_id(policy_id, json_to_policy(request.json))
+    if new_policy is None:
+        abort(406)
+    return new_policy.__dict__
 
 
 @token_required

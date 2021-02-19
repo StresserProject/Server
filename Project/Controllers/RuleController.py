@@ -52,10 +52,11 @@ def update_rule(rule_id):
     if old_rule is None:
         abort(404)
 
-    new_rule = request.json
-    old_rule = RuleService.update_rule_by_id(rule_id, json_to_rule(new_rule))
+    new_rule = RuleService.update_rule_by_id(rule_id, json_to_rule(request.json))
+    if new_rule is None:
+        abort(406)
 
-    return old_rule
+    return new_rule.__dict__
 
 
 @token_required

@@ -40,5 +40,12 @@ def update_date(endpoint_id):
     return endpoint
 
 
+def delete_endpoint(endpoint_id):
+    endpoint = get_endpoint_by_id(endpoint_id)
+    if endpoint is not None:
+        endpoint.delete()
+    return None
+
+
 def get_all_endpoints():
     return EndpointDB.objects()

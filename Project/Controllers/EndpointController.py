@@ -36,10 +36,11 @@ class EndpointController:
             endpoints = EndpointService.get_all_endpoints()
             for endpoint in endpoints:
                 if datetime.now() - endpoint.lastCommunication > timedelta(minutes=TOKEN_EXPIRE_TIME):
-                    EventService.add_event(Event("0", "Lost Endpoint Connection", "Report",
-                                                 "IDLE", endpoint[EndpointKeys.HOSTNAME_KEY],
+                    EventService.add_event(Event("0", "Lost Endpoint At " +
+                                                 str(endpoint[EndpointKeys.LAST_COMMUNICATION_KEY]),
+                                                 "Report", "IDLE", endpoint[EndpointKeys.HOSTNAME_KEY],
                                                  endpoint[EndpointKeys.IP_ADDRESS_KEY]))
-                    self.delete_endpoint(endpoint.id)
+                    EndpointService.delete_endpoint(endpoint.id)
             sleep(SLEEP_TIME)
 
     def create_endpoint(self):
@@ -96,11 +97,8 @@ class EndpointController:
         :param endpoint_id: the endpoint id to delete
         :return: empty string or 404 on failure
         """
-        endpoint = EndpointService.get_endpoint_by_id(endpoint_id)
-        if endpoint is None:
+        if EndpointService.delete_endpoint(endpoint_id) is None:
             abort(404)
-
-        endpoint.delete()
 
         return {}
 

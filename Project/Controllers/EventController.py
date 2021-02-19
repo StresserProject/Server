@@ -60,13 +60,13 @@ def update_event(event_id):
     old_event = EventService.get_event_by_id(event_id)
     if old_event is None:
         abort(404)
-
-    new_event = request.json
-    if new_event[EventKeys.TIME_STAMP_KEY] == "":
-        new_event[EventKeys.TIME_STAMP_KEY] = datetime.now()
-    old_event = EventService.update_event_by_id(event_id, json_to_event(new_event))
-
-    return old_event
+    new_event = json_to_event(request.json)
+    if new_event.timeStamp == "":
+        new_event.timeStamp = datetime.now()
+    new_event = EventService.update_event_by_id(event_id, new_event)
+    if new_event is None:
+        abort(406)
+    return new_event.__dict__
 
 
 @token_required
