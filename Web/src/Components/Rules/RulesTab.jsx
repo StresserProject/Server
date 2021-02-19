@@ -81,7 +81,7 @@ export function rulesFormChildren({ values, errors, handleChange }) {
  * addRuleToList: ({name: string, type: string, data: string}) => Promise<Boolean>
  * }} props
  */
-function RuleList({ rules, deleteRuleFromList, addRuleToList }) {
+function RuleTab({ rules, deleteRuleFromList, addRuleToList }) {
     const classes = useStyles();
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [addDialog, setAddDialog] = useState(false);
@@ -165,4 +165,4 @@ function RuleList({ rules, deleteRuleFromList, addRuleToList }) {
     );
 }
 
-export default observer(RuleList);
+export default observer(RuleTab);
