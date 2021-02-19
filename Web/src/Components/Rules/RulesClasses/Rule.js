@@ -23,9 +23,9 @@ export default class Rule {
     updateRule = ({ name, type, data }) => {
         const dataToSend = {
             id: this.id,
-            ruleName: this.name,
-            ruleType: this.type,
-            ruleData: this.data,
+            ruleName: name,
+            ruleType: type,
+            ruleData: data,
         };
 
         return axios
