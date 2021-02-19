@@ -49,7 +49,7 @@ export default function RuleDescription({ policy, policyFormChildren }) {
         return (
             <ul>
                 {rules.map((rule) => (
-                    <li>{rule.name}</li>
+                    <li key={rule.id}>{rule.name}</li>
                 ))}
             </ul>
         );

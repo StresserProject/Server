@@ -3,6 +3,9 @@ import Policy from './Policy';
 import { action, makeObservable, observable, runInAction } from 'mobx';
 
 export default class Policies {
+    /**
+     * @type {Policy[]}
+     */
     policies = [];
 
     constructor() {

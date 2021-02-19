@@ -1,4 +1,4 @@
-import { makeObservable, observable } from 'mobx';
+import { makeObservable, observable, runInAction } from 'mobx';
 import axios from 'axios';
 
 export default class Policy {
@@ -21,22 +21,25 @@ export default class Policy {
     }
 
     updatePolicy = ({ name, rules }) => {
-        this.name = name;
-        this.rules = rules;
-        this.updateCount += 1;
-
         const dataToSend = {
             id: this.id,
-            policyName: this.name,
-            numberOfRules: this.rules.length,
-            rules: this.rules,
-            updateCount: this.data,
+            policyName: name,
+            numberOfRules: rules.length,
+            rules: rules.map((rule) => rule.id),
+            updateCount: this.updateCount + 1,
         };
 
         return axios
             .put(`/policy/${this.id}`, dataToSend)
             .then((response) => {
-                if (response.status === 200) return true;
+                if (response.status === 200) {
+                    runInAction(() => {
+                        this.name = name;
+                        this.rules = rules.map((rule) => rule.id);
+                        this.updateCount += 1;
+                    });
+                    return true;
+                }
                 return false;
             })
             .catch((error) => {
