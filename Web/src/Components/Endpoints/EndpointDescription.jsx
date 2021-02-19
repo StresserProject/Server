@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
  * endpoint: import("./EndpointClasses/Endpoint").default
  * }} props
  */
-export default function RuleDescription({ endpoint, endpointFormChildren }) {
+export default function RuleDescription({ endpoint, policyUpdateForm }) {
     const classes = useStyles();
     const [isEditDialogOpen, setOpenEditDialog] = useState(false);
 
@@ -44,6 +44,10 @@ export default function RuleDescription({ endpoint, endpointFormChildren }) {
     function openEditDialog() {
         setOpenEditDialog(true);
     }
+
+    const validationSchema = yup.object({
+        policyId: yup.string().required('Required'),
+    });
 
     return (
         <>
@@ -76,9 +80,9 @@ export default function RuleDescription({ endpoint, endpointFormChildren }) {
                 onSubmit={endpoint.updatePolicy}
                 dialogTitle={'Edit Endpoint Policy'}
                 submitMessage="Update"
-                children={endpointFormChildren}
+                children={policyUpdateForm}
                 initialValues={endpoint}
-                validationSchema
+                validationSchema={validationSchema}
             />
         </>
     );

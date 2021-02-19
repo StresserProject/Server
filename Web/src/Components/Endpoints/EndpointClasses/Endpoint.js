@@ -35,9 +35,9 @@ export default class Policy {
         this.lastCommunication = lastCommunication;
     }
 
-    updatePolicy = (policyId) => {
+    updatePolicy = ({ policyId }) => {
         return axios
-            .put(`/ednpoint/update/${this.id}`, { policyId })
+            .put(`/endpoint/update/${this.id}`, { policyId })
             .then((response) => {
                 if (response.status === 200) {
                     runInAction(() => {

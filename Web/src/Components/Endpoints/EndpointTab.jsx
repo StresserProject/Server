@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, MenuItem, TextField } from '@material-ui/core';
 import { observer } from 'mobx-react';
 import React, { useState } from 'react';
 import ListTitle from '../List/ListTitle';
@@ -27,6 +27,27 @@ function EndpointTab({ endpoints, policies }) {
     const classes = useStyles();
     const [selectedIndex, setSelectedIndex] = useState(0);
 
+    function policyUpdateForm({ values, errors, handleChange }) {
+        return (
+            <TextField
+                value={values.policyId}
+                error={!!errors.policyId}
+                helperText={errors.policyId}
+                onChange={handleChange}
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                select
+                label="Policy"
+                name="policyId"
+            >
+                {policies.map((policy) => (
+                    <MenuItem value={policy.id}>{policy.name}</MenuItem>
+                ))}
+            </TextField>
+        );
+    }
+
     function getSelectedEndpoint() {
         const endpoint = endpoints[selectedIndex];
         const policyName = policies.find(
@@ -54,7 +75,10 @@ function EndpointTab({ endpoints, policies }) {
                 />
             </div>
             {endpoints.length > 0 && selectedIndex < endpoints.length && (
-                <EndpointDescription endpoint={getSelectedEndpoint()} />
+                <EndpointDescription
+                    endpoint={getSelectedEndpoint()}
+                    policyUpdateForm={policyUpdateForm}
+                />
             )}
         </div>
     );
