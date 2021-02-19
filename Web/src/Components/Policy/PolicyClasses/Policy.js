@@ -7,17 +7,17 @@ export default class Policy {
     rules = [];
     updateCount = 0;
 
-    constructor({ policy_id, policy_name, rules, update }) {
+    constructor({ id, policyName, rules, updateCount }) {
         makeObservable(this, {
             id: observable,
             name: observable,
             rules: observable,
             updateCount: observable,
         });
-        this.id = policy_id;
-        this.name = policy_name;
+        this.id = id;
+        this.name = policyName;
         this.rules = rules;
-        this.updateCount = update;
+        this.updateCount = updateCount;
     }
 
     updatePolicy = ({ name, rules }) => {
