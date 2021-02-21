@@ -1,2 +1,2 @@
-server: cd Server/Project && python main.py
-web: cd Web && npm install && npm start
+web: cd Server/Project && python main.py
+web: cd Web && npm start
