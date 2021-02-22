@@ -9,7 +9,8 @@ class Server:
         self._funcs = dict()
         self._methods = dict()
 
-        self._app = Flask("Server", static_url_path="/", template_folder="../../Web/build")
+        self._app = Flask("Server", static_folder="../../Web/build", static_url_path="/",
+                          template_folder="../../Web/build")
 
         self._app.register_error_handler(404, lambda a: render_template("index.html"))
 
