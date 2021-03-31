@@ -10,11 +10,10 @@ import { MainListItems, LIST_ITEMS } from './listItems';
 import TopBar from './TopBar';
 import RulesTab from '../Rules/RulesTab';
 import { observer } from 'mobx-react';
-import Rules from '../Rules/RulesClasses/Rules';
 import PolicyTab from '../Policy/PolicyTab';
-import Policies from '../Policy/PolicyClasses/Policies';
-import Endpoints from '../Endpoints/EndpointClasses/Endpoints';
 import EndpointTab from '../Endpoints/EndpointTab';
+import EventsTab from '../Events/EventsTab';
+import DataAccessManager from '../../utils/DataAccsessManager';
 
 const drawerWidth = 240;
 
@@ -82,29 +81,15 @@ function Dashboard({ authenticationManager }) {
     const [open, setOpen] = useState(true);
     const [selectedItem, setSelectedItem] = useState(LIST_ITEMS.DASHBOARD);
 
-    const dbRules = useRef(null);
-    const dbPolicies = useRef(null);
-    const dbEndpoints = useRef(null);
+    /**
+     * @type {React.MutableRefObject<DataAccessManager}
+     */
+    const dataAccessManager = useRef();
 
-    // Refresh the lists every minute
     useEffect(() => {
-        dbRules.current = new Rules();
-        dbPolicies.current = new Policies();
-        dbEndpoints.current = new Endpoints();
-        const getRulesInterval = setInterval(dbRules.current.getList, 60000);
-        const getPolciesInterval = setInterval(
-            dbPolicies.current.getList,
-            60000,
-        );
-        const getEndpointsInterval = setInterval(
-            dbEndpoints.current.getList,
-            60000,
-        );
-        return () => {
-            clearInterval(getPolciesInterval);
-            clearInterval(getRulesInterval);
-            clearInterval(getEndpointsInterval);
-        };
+        dataAccessManager.current = new DataAccessManager();
+
+        return () => dataAccessManager.current.destructor();
     }, []);
 
     const toggleDrawer = () => {
@@ -118,27 +103,37 @@ function Dashboard({ authenticationManager }) {
             case LIST_ITEMS.ENDPOINTS:
                 return (
                     <EndpointTab
-                        endpoints={dbEndpoints.current.endpoints}
-                        policies={dbPolicies.current.policies}
+                        endpoints={
+                            dataAccessManager.current.dbEndpoints.endpoints
+                        }
+                        policies={dataAccessManager.current.dbPolicies.policies}
                     />
                 );
             case LIST_ITEMS.EVENTS:
-                return 'null';
+                return <EventsTab></EventsTab>;
             case LIST_ITEMS.POLICY:
                 return (
                     <PolicyTab
-                        policies={dbPolicies.current.policies}
-                        rules={dbRules.current.rules}
-                        deletePolicyFromList={dbPolicies.current.deletePolicy}
-                        addPolicyToList={dbPolicies.current.addPolicy}
+                        policies={dataAccessManager.current.dbPolicies.policies}
+                        rules={dataAccessManager.current.dbRules.rules}
+                        deletePolicyFromList={
+                            dataAccessManager.current.dbPolicies.deletePolicy
+                        }
+                        addPolicyToList={
+                            dataAccessManager.current.dbPolicies.addPolicy
+                        }
                     />
                 );
             case LIST_ITEMS.RULES:
                 return (
                     <RulesTab
-                        rules={dbRules.current.rules}
-                        deleteRuleFromList={dbRules.current.deleteRule}
-                        addRuleToList={dbRules.current.addRule}
+                        rules={dataAccessManager.current.dbRules.rules}
+                        deleteRuleFromList={
+                            dataAccessManager.current.dbRules.deleteRule
+                        }
+                        addRuleToList={
+                            dataAccessManager.current.dbRules.addRule
+                        }
                     />
                 );
 

@@ -8,7 +8,7 @@ import {
     Route,
     Switch,
 } from 'react-router-dom';
-import AuthenticationManager from './AuthenticationManager';
+import AuthenticationManager from './utils/AuthenticationManager';
 import { observer } from 'mobx-react';
 import { reaction } from 'mobx';
 import axios from 'axios';

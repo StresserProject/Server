@@ -14,7 +14,12 @@ export default class Policies {
             getList: action,
         });
         this.getList();
+        this.getListInterval = setInterval(this.getList, 60000);
     }
+
+    destructor = () => {
+        clearInterval(this.getListInterval);
+    };
 
     getList = () => {
         return axios
