@@ -55,9 +55,9 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         height: '100%',
         width: '100%',
-        color: 'white',
         paddingLeft: theme.spacing(4),
         paddingTop: theme.spacing(4),
+        paddingRight: theme.spacing(4),
     },
     paper: {
         padding: theme.spacing(2),
@@ -110,7 +110,11 @@ function Dashboard({ authenticationManager }) {
                     />
                 );
             case LIST_ITEMS.EVENTS:
-                return <EventsTab></EventsTab>;
+                return (
+                    <EventsTab
+                        events={dataAccessManager.current.dbEvents.events}
+                    ></EventsTab>
+                );
             case LIST_ITEMS.POLICY:
                 return (
                     <PolicyTab
