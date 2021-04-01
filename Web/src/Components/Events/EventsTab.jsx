@@ -1,6 +1,15 @@
 import React from 'react';
 import { makeStyles, Typography } from '@material-ui/core';
 import CustomPieChart from './PieChart';
+import {
+    Bar,
+    BarChart,
+    CartesianGrid,
+    ResponsiveContainer,
+    Tooltip,
+    XAxis,
+    YAxis,
+} from 'recharts';
 
 const useStyles = makeStyles(() => ({
     eventsDiv: {
@@ -22,24 +31,12 @@ const useStyles = makeStyles(() => ({
         width: '100%',
         height: '35vh',
     },
+    barChartDiv: {
+        display: 'flex',
+        width: '100%',
+        height: '35vh',
+    },
 }));
-
-/**
- *
- * @param {import("./EventsClasses/Event").default[]} events
- */
-function getGroup(events) {
-    const arr = [];
-
-    for (const event of events) {
-        if (arr.filter((obj) => obj.name === event.ip).length > 0) continue;
-
-        const numberOfEvents = events.filter((obj) => event.ip === obj.ip)
-            .length;
-        arr.push({ name: event.ip, value: numberOfEvents });
-    }
-    return arr;
-}
 
 /**
  *
@@ -50,7 +47,36 @@ function getGroup(events) {
 function EventsTab({ events }) {
     const classes = useStyles();
 
-    const groupByIp = getGroup(events);
+    const groupByAttribute = (attribute) =>
+        Object.values(
+            events.reduce((a, event) => {
+                if (!a[event[attribute]])
+                    a[event[attribute]] = { name: event[attribute], value: 1 };
+                else a[event[attribute]].value++;
+
+                return a;
+            }, {}),
+        );
+    const groupByDate = Object.values(
+        events.reduce((a, { timeStamp }) => {
+            const date = `${
+                timeStamp.getUTCMonth() + 1
+            }/${timeStamp.getFullYear()}`;
+            if (!a[date])
+                a[date] = Object.assign(
+                    {},
+                    {
+                        date: timeStamp.toLocaleDateString('en-us', {
+                            month: 'long',
+                        }),
+                        events: 1,
+                    },
+                );
+            else a[date].events++;
+
+            return a;
+        }, {}),
+    );
 
     return (
         <div className={classes.eventsDiv}>
@@ -64,17 +90,34 @@ function EventsTab({ events }) {
             </div>
             <div className={classes.pieChartsDiv}>
                 <CustomPieChart
-                    data={groupByIp}
+                    data={groupByAttribute('ip')}
                     labelKey="name"
                     dataKey="value"
                 />
                 <CustomPieChart
-                    data={groupByIp}
+                    data={groupByAttribute('type')}
                     labelKey="name"
                     dataKey="value"
                 />
             </div>
-            <div></div>
+            <div className={classes.barChartDiv}>
+                <ResponsiveContainer>
+                    <BarChart data={groupByDate}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="date" />
+                        <YAxis />
+                        <Tooltip />
+                        <Bar
+                            maxBarSize={80}
+                            dataKey="events"
+                            fill="#8884d8"
+                            onClick={(data, index) =>
+                                console.log('Data: ', data, ' Index: ', index)
+                            }
+                        />
+                    </BarChart>
+                </ResponsiveContainer>
+            </div>
         </div>
     );
 }

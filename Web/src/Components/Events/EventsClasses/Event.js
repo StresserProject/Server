@@ -1,14 +1,6 @@
 import { makeObservable, observable } from 'mobx';
 
 export default class Event {
-    id = 0;
-    name = '';
-    type = '';
-    data = '';
-    timeStamp = '';
-    hostname = '';
-    ip = '';
-
     constructor({
         id,
         eventName,
@@ -18,6 +10,13 @@ export default class Event {
         hostname,
         IPAddress,
     }) {
+        this.id = id;
+        this.name = eventName;
+        this.type = eventType;
+        this.data = eventData;
+        this.timeStamp = new Date(timeStamp);
+        this.hostname = hostname;
+        this.ip = IPAddress;
         makeObservable(this, {
             id: observable,
             name: observable,
@@ -27,13 +26,5 @@ export default class Event {
             hostname: observable,
             ip: observable,
         });
-
-        this.id = id;
-        this.name = eventName;
-        this.type = eventType;
-        this.data = eventData;
-        this.timeStamp = timeStamp;
-        this.hostname = hostname;
-        this.ip = IPAddress;
     }
 }
