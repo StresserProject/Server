@@ -52,17 +52,25 @@ function EventsTab({ events }) {
         day: '\\d+',
     });
     const [dateFactor, setDateFactor] = useState('year');
+    const [ipFilter, setIpFilter] = useState('');
+    const [typeFilter, setTypeFilter] = useState('');
 
     const filteredEvents = useMemo(() => {
-        let re = new RegExp(
+        let dateRegex = new RegExp(
             `${dateFilter.month}/${dateFilter.day}/${dateFilter.year}`,
             'g',
         );
 
-        return events.filter(({ timeStamp }) =>
-            timeStamp.toLocaleDateString('en-us').match(re),
+        return events.filter(
+            ({ timeStamp, ip, type }) =>
+                timeStamp.toLocaleDateString('en-us').match(dateRegex) &&
+                (!ipFilter || ip === ipFilter) &&
+                (!typeFilter || type === typeFilter),
         );
-    }, [events, dateFilter]);
+    }, [events, dateFilter, ipFilter, typeFilter]);
+
+    const clearIpFilter = () => setIpFilter('');
+    const clearTypeFilter = () => setTypeFilter('');
 
     const lastMonthEvents = events.filter((event) => {
         const currentTime = new Date();
@@ -186,11 +194,15 @@ function EventsTab({ events }) {
                     data={groupByAttribute('ip')}
                     labelKey="name"
                     dataKey="value"
+                    onClick={setIpFilter}
+                    onRightClick={clearIpFilter}
                 />
                 <CustomPieChart
                     data={groupByAttribute('type')}
                     labelKey="name"
                     dataKey="value"
+                    onClick={setTypeFilter}
+                    onRightClick={clearTypeFilter}
                 />
             </div>
             <div className={classes.barChartDiv} onContextMenu={onRightClick}>

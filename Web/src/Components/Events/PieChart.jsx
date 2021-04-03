@@ -16,12 +16,14 @@ function getUniqueColor(str) {
  * data: any[]
  * labelKey: string
  * dataKey: string
+ * onClick: (attribute:string) => void
+ * onRightClick: () => void
  * }} props
  */
-function CustomPieChart({ data, labelKey, dataKey }) {
+function CustomPieChart({ data, labelKey, dataKey, onClick, onRightClick }) {
     const getLabelToShow = ({ index, x, y, textAnchor }) => (
         <text x={x} y={y} textAnchor={textAnchor} fill="black">
-            {data[index][labelKey]}
+            {data[index][dataKey]}
         </text>
     );
 
@@ -39,7 +41,11 @@ function CustomPieChart({ data, labelKey, dataKey }) {
                         <Cell
                             key={`cell-${index}`}
                             fill={getUniqueColor(entry[labelKey])}
-                            onClick={() => alert(entry[labelKey])}
+                            onClick={() => onClick(entry[labelKey])}
+                            onContextMenu={(event) => {
+                                event.preventDefault();
+                                onRightClick();
+                            }}
                         />
                     ))}
                 </Pie>
