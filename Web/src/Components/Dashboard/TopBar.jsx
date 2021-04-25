@@ -65,6 +65,7 @@ const styles = (theme) => ({
 function TopBar({ classes, open, toggleDrawer, onLogout }) {
     return (
         <AppBar
+            style={{ backgroundColor: "#8a0053" }}
             position="absolute"
             className={clsx(classes.appBar, open && classes.appBarShift)}
         >
@@ -96,6 +97,7 @@ function TopBar({ classes, open, toggleDrawer, onLogout }) {
                     onClick={onLogout}
                 >
                     <Typography>Logout</Typography>
+                    &nbsp;
                     <ExitToAppIcon />
                 </IconButton>
             </Toolbar>

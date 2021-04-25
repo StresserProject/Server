@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
         minHeight: 50,
         alignItems: 'center',
-        background: theme.palette.primary.main,
+        background: '#8a0053',
     },
     title: {
         color: 'white',

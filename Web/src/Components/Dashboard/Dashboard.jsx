@@ -55,6 +55,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         height: '100%',
         width: '100%',
+        background: "linear-gradient(45deg, #17004c 30%, #171027 90%)",
         paddingLeft: theme.spacing(4),
         paddingTop: theme.spacing(4),
         paddingRight: theme.spacing(4),

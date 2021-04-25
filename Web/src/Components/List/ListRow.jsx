@@ -25,7 +25,9 @@ function ListRow({ node, style, onClick, isSelected }) {
                 borderBottom={1}
                 borderColor="black"
                 fontWeight={isSelected ? 'fontWeightBold' : 'fontWeightRegular'}
-                fontSize={25}
+                color={isSelected ? '#8a0053' : 'black'}
+                borderColor={isSelected ? '#8a0053' : 'black'}
+                fontSize={18}
             >
                 <span>{node.name}</span>
             </Box>

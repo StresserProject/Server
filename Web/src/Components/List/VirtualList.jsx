@@ -5,9 +5,9 @@ import { AutoSizer, List } from 'react-virtualized';
 const useStyles = makeStyles((theme) => ({
     listDiv: {
         display: 'flex',
-        background: theme.palette.grey[400],
+        background: '#bfae8f',
         flexDirection: 'column',
-        height: 500,
+        height: '50%',
         width: '25%',
         minWidth: '25vw',
     },
