@@ -19,10 +19,12 @@ const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        display: 'flex',
+        display: 'flex'
     },
     drawerPaper: {
         position: 'relative',
+        backgroundColor: '#102027',
+        color:'#8eacbb',
         whiteSpace: 'nowrap',
         width: drawerWidth,
         transition: theme.transitions.create('width', {
@@ -55,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         height: '100%',
         width: '100%',
-        background: "linear-gradient(45deg, #17004c 30%, #171027 90%)",
+        background: "linear-gradient(45deg, #607d8b 30%, #34515e 85%)",
         paddingLeft: theme.spacing(4),
         paddingTop: theme.spacing(4),
         paddingRight: theme.spacing(4),
@@ -186,6 +188,7 @@ function Dashboard({ authenticationManager }) {
                     </div>
                 </main>
             </div>
+          
         </>
     );
 }

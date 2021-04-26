@@ -14,11 +14,11 @@ const useStyles = makeStyles((theme) => ({
     policiesDiv: {
         //background: "linear-gradient(45deg, #17004c 30%, #171027 90%)",
         display: 'flex',
-        width: '100%',
+        width: '75%',
         height: '100%',
         justifyContent: 'space-around',
-        paddingTop: 30,
-        
+        paddingTop: 70,
+        marginLeft: 70
     },
 }));
 
@@ -188,6 +188,7 @@ function PolicyTab({ policies, deletePolicyFromList, addPolicyToList, rules }) {
                 validationSchema={validationSchema}
             />
         </div>
+
     );
 }
 

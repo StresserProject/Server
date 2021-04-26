@@ -20,14 +20,16 @@ function ListRow({ node, style, onClick, isSelected }) {
             className={classes.listRow}
             onClick={onClick}
             in={true}
+
         >
             <Box
                 borderBottom={1}
                 borderColor="black"
                 fontWeight={isSelected ? 'fontWeightBold' : 'fontWeightRegular'}
-                color={isSelected ? '#8a0053' : 'black'}
-                borderColor={isSelected ? '#8a0053' : 'black'}
+                color={isSelected ? '#37474f' : '#62757f'}
+                borderColor={isSelected ? '#37474f' : '#62757f'}
                 fontSize={18}
+                boxShadow={2}
             >
                 <span>{node.name}</span>
             </Box>

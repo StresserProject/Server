@@ -65,7 +65,7 @@ const styles = (theme) => ({
 function TopBar({ classes, open, toggleDrawer, onLogout }) {
     return (
         <AppBar
-            style={{ backgroundColor: "#8a0053" }}
+            style={{ backgroundColor: "#14465f", boxShadow: "0 14px 28px rgba(0,0,0,0.25), 0 20px 15px rgba(0,0,0,0.22)" /*boxShadow: 'none'*/ }}
             position="absolute"
             className={clsx(classes.appBar, open && classes.appBarShift)}
         >

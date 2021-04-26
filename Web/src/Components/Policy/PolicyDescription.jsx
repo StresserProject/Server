@@ -8,18 +8,19 @@ const useStyles = makeStyles((theme) => ({
     descriptionDiv: {
         display: 'flex',
         flexDirection: 'column',
-        background: theme.palette.grey[400],
+        background: '#a4b9c3' /*theme.palette.grey[400]*/,
         width: '25%',
-        minWidth: '25vw',
-        height: 'fit-content',
+        height: '56%',
+        minWidth: '30vw',
         overflowWrap: 'break-word',
+        boxShadow: '0 14px 28px rgba(0,0,0,0.25), 0 20px 10px rgba(0,0,0,0.22)'
     },
     titleDiv: {
         display: 'flex',
         width: '100%',
         minHeight: 50,
         alignItems: 'center',
-        background: theme.palette.primary.main,
+        background: '#14465f' /* theme.palette.primary.main*/,
     },
     title: {
         color: 'white',
@@ -77,7 +78,7 @@ export default function RuleDescription({ policy, policyFormChildren }) {
                     .slice(1, 4) // Skip The ID field and has 3 attributes
                     .map(([key, value]) => (
                         <div key={key}>
-                            <Box borderBottom={1} fontSize={17}>
+                            <Box borderBottom={2} fontSize={19}>
                                 <b>Policy {capitalizeFirstLetter(key)}:</b>{' '}
                                 {key === 'rules' ? makeRulesList(value) : value}
                             </Box>

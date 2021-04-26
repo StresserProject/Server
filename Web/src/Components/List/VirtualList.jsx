@@ -5,11 +5,12 @@ import { AutoSizer, List } from 'react-virtualized';
 const useStyles = makeStyles((theme) => ({
     listDiv: {
         display: 'flex',
-        background: '#bfae8f',
+        background: '#90a4ae',
         flexDirection: 'column',
         height: '50%',
         width: '25%',
         minWidth: '25vw',
+        boxShadow: '0 14px 28px rgba(0,0,0,0.25), 0 20px 10px rgba(0,0,0,0.22)'
     },
     virtualList: {
         outline: 'none',
