@@ -14,11 +14,10 @@ const useStyles = makeStyles((theme) => ({
     policiesDiv: {
         //background: "linear-gradient(45deg, #17004c 30%, #171027 90%)",
         display: 'flex',
-        width: '75%',
+        width: '100%',
         height: '100%',
         justifyContent: 'space-around',
         paddingTop: 70,
-        marginLeft: 70
     },
 }));
 

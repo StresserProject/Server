@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
         height: '100%',
         justifyContent: 'space-around',
-        paddingTop: 30,
+        paddingTop: 70,
     },
 }));
 
@@ -138,10 +138,11 @@ function RuleTab({ rules, deleteRuleFromList, addRuleToList }) {
                     setSelectedIndex={setSelectedIndex}
                     RowComponent={ListRow}
                 />
+                {rules.length > 0 && selectedIndex < rules.length && (
+                    <RuleDescription rule={rules[selectedIndex]} />
+                )}
             </div>
-            {rules.length > 0 && selectedIndex < rules.length && (
-                <RuleDescription rule={rules[selectedIndex]} />
-            )}
+
             <DeleteDialog
                 type="Rule"
                 open={deleteDialog}
