@@ -13,10 +13,11 @@ import * as yup from 'yup';
 const useStyles = makeStyles((theme) => ({
     rulesDiv: {
         display: 'flex',
-        width: '100%',
+        width: '50%',
+        minWidth: '50vw',
         height: '100%',
-        justifyContent: 'space-around',
         paddingTop: 70,
+        marginLeft: 250
     },
 }));
 
@@ -132,16 +133,18 @@ function RuleTab({ rules, deleteRuleFromList, addRuleToList }) {
                     openAddDialog={openAddDialog}
                     openDeleteDialog={openDeleteDialog}
                 />
-                <VirtualList
-                    selectedIndex={selectedIndex}
-                    nodes={rules}
-                    setSelectedIndex={setSelectedIndex}
-                    RowComponent={ListRow}
-                />
-                {rules.length > 0 && selectedIndex < rules.length && (
-                    <RuleDescription rule={rules[selectedIndex]} />
-                )}
+                <div style={{ height: '20px' }}>
+                    <VirtualList
+                        selectedIndex={selectedIndex}
+                        nodes={rules}
+                        setSelectedIndex={setSelectedIndex}
+                        RowComponent={ListRow}
+                    />
+                </div>
             </div>
+            {rules.length > 0 && selectedIndex < rules.length && (
+                <RuleDescription rule={rules[selectedIndex]} />
+            )}
 
             <DeleteDialog
                 type="Rule"

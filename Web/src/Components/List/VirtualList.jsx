@@ -9,21 +9,6 @@ import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
 import PolicyDescription from '../Policy/PolicyDescription'
 
-const useStyles = makeStyles((theme) => ({
-    listDiv: {
-        display: 'flex',
-        background: '#90a4ae',
-        flexDirection: 'column',
-        height: '50%',
-        width: '25%',
-        minWidth: '25vw',
-        boxShadow: '0 14px 28px rgba(0,0,0,0.25), 0 20px 10px rgba(0,0,0,0.22)'
-    },
-    virtualList: {
-        outline: 'none',
-    },
-}));
-
 /**
  *
  * @param {{
@@ -39,7 +24,7 @@ export default function VirtualList({
     setSelectedIndex,
     RowComponent,
 }) {
-    const classes = useStyles();
+
 
     function TabPanel(props) {
         const { children, value, index, ...other } = props;
@@ -48,8 +33,8 @@ export default function VirtualList({
             <div
                 role="tabpanel"
                 hidden={value !== index}
-                id={`scrollable-auto-tabpanel-${index}`}
-                aria-labelledby={`scrollable-auto-tab-${index}`}
+                id={`vertical-tabpanel-${index}`}
+                aria-labelledby={`vertical-tab-${index}`}
                 {...other}
             >
                 {value === index && (
@@ -64,8 +49,22 @@ export default function VirtualList({
     TabPanel.propTypes = {
         children: PropTypes.node,
         index: PropTypes.any.isRequired,
-        value: PropTypes.any.isRequired,
+        value: PropTypes.any.isRequired
     };
+
+    const useStyles = makeStyles((theme) => ({
+        root: {
+            flexGrow: 1,
+            backgroundColor: theme.palette.background.paper,
+            display: "flex",
+            height: '388px'
+        },
+        tabs: {
+            borderRight: `1px solid ${theme.palette.divider}`
+        }
+    }));
+
+    const classes = useStyles();
 
     const [value, setValue] = React.useState(0);
 
@@ -75,17 +74,19 @@ export default function VirtualList({
 
 
     return (
-        <div className={classes.root} style={{ maxWidth: "800px"}}>
-            <AppBar position="static" color="default">
+        <div className={classes.root} >
+            <AppBar position="static" color="default" style={{ backgroundColor: '#102027' }}>
                 <Tabs
                     value={value}
+                    orientation="vertical"
                     onChange={handleChange}
                     indicatorColor="primary"
                     textColor="#8eacbb"
                     variant="scrollable"
-                    scrollButtons="auto"s
-                    aria-label="scrollable auto tabs example"
-                    style={{background: '#102027', color: '#8eacbb'}}
+                    scrollButtons="auto" s
+                    aria-label="Vertical tabs example"
+                    className={classes.tabs}
+                    style={{ background: '#102027', color: '#8eacbb' }}
 
                 >
                     {nodes.map((n, i) =>

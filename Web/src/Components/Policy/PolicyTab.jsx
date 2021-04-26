@@ -15,9 +15,10 @@ const useStyles = makeStyles((theme) => ({
         //background: "linear-gradient(45deg, #17004c 30%, #171027 90%)",
         display: 'flex',
         width: '100%',
+        minWidth: '50vw',
         height: '100%',
-        justifyContent: 'space-around',
         paddingTop: 70,
+        marginLeft: 250
     },
 }));
 
@@ -160,15 +161,16 @@ function PolicyTab({ policies, deletePolicyFromList, addPolicyToList, rules }) {
                     setSelectedIndex={setSelectedIndex}
                     RowComponent={ListRow}
                 />
-                {
-                    policies.length > 0 && selectedIndex < policies.length && (
-                        <PolicyDescription
-                            policy={getSelectedPolicy()}
-                            policyFormChildren={policyFormChildren}
-                        />
-                    )
-                }
+
             </div>
+            {
+                policies.length > 0 && selectedIndex < policies.length && (
+                    <PolicyDescription
+                        policy={getSelectedPolicy()}
+                        policyFormChildren={policyFormChildren}
+                    />
+                )
+            }
             <DeleteDialog
                 type="Policy"
                 open={deleteDialog}

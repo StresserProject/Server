@@ -6,7 +6,7 @@ import React from 'react';
 const useStyles = makeStyles((theme) => ({
     titleDiv: {
         display: 'flex',
-        width: '100%',
+        width: '115%',
         minHeight: 50,
         alignItems: 'center',
         background: '#14465f',
