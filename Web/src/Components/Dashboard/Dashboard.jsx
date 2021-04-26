@@ -168,7 +168,7 @@ function Dashboard({ authenticationManager }) {
                     open={open}
                 >
                     <div className={classes.toolbarIcon}>
-                        <IconButton onClick={toggleDrawer}>
+                        <IconButton onClick={toggleDrawer} style={{color: '#009194'}}>
                             <ChevronLeftIcon />
                         </IconButton>
                     </div>

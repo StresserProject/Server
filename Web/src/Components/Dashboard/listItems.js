@@ -43,7 +43,7 @@ export function MainListItems({ onItemSelected, selectedItem }) {
                     onClick={() => onItemSelected(value)}
                     selected={value === selectedItem}
                 >
-                    <ListItemIcon>
+                    <ListItemIcon style={{color: '#009194'}}>
                         {React.createElement(ICONS[value], {})}
                     </ListItemIcon>
                     <ListItemText primary={value} />
