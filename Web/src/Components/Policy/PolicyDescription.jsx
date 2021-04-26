@@ -9,7 +9,6 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         background: '#a4b9c3' /*theme.palette.grey[400]*/,
-        width: '25%',
         height: '56%',
         minWidth: '30vw',
         overflowWrap: 'break-word',
@@ -84,7 +83,7 @@ export default function RuleDescription({ policy, policyFormChildren }) {
                             </Box>
                         </div>
                     ))}
-                <Button onClick={openEditDialog}>Edit</Button>
+                <Button onClick={openEditDialog} style={{fontSize: '35px'}}>Edit</Button>
             </Paper>
             <FormDialog
                 open={isEditDialogOpen}

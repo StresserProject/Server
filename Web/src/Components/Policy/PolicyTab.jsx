@@ -161,13 +161,15 @@ function PolicyTab({ policies, deletePolicyFromList, addPolicyToList, rules }) {
                     setSelectedIndex={setSelectedIndex}
                     RowComponent={ListRow}
                 />
+                {
+                    policies.length > 0 && selectedIndex < policies.length && (
+                        <PolicyDescription
+                            policy={getSelectedPolicy()}
+                            policyFormChildren={policyFormChildren}
+                        />
+                    )
+                }
             </div>
-            {policies.length > 0 && selectedIndex < policies.length && (
-                <PolicyDescription
-                    policy={getSelectedPolicy()}
-                    policyFormChildren={policyFormChildren}
-                />
-            )}
             <DeleteDialog
                 type="Policy"
                 open={deleteDialog}

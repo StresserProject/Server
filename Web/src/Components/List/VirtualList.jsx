@@ -1,6 +1,13 @@
 import { makeStyles, Paper } from '@material-ui/core';
 import React from 'react';
 import { AutoSizer, List } from 'react-virtualized';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+import PropTypes from 'prop-types';
+import PolicyDescription from '../Policy/PolicyDescription'
 
 const useStyles = makeStyles((theme) => ({
     listDiv: {
@@ -34,28 +41,58 @@ export default function VirtualList({
 }) {
     const classes = useStyles();
 
-    return (
-        <Paper className={classes.listDiv} elevation={3}>
-            <AutoSizer>
-                {({ width, height }) => (
-                    <List
-                        className={classes.virtualList}
-                        scrollToIndex={selectedIndex}
-                        rowCount={nodes.length}
-                        height={height}
-                        width={width}
-                        rowHeight={50}
-                        rowRenderer={(obj) => (
-                            <RowComponent
-                                {...obj}
-                                node={nodes[obj.index]}
-                                onClick={() => setSelectedIndex(obj.index)}
-                                isSelected={selectedIndex === obj.index}
-                            />
-                        )}
-                    />
+    function TabPanel(props) {
+        const { children, value, index, ...other } = props;
+
+        return (
+            <div
+                role="tabpanel"
+                hidden={value !== index}
+                id={`scrollable-auto-tabpanel-${index}`}
+                aria-labelledby={`scrollable-auto-tab-${index}`}
+                {...other}
+            >
+                {value === index && (
+                    <Box p={3}>
+                        <Typography>{children}</Typography>
+                    </Box>
                 )}
-            </AutoSizer>
-        </Paper>
+            </div>
+        );
+    }
+
+    TabPanel.propTypes = {
+        children: PropTypes.node,
+        index: PropTypes.any.isRequired,
+        value: PropTypes.any.isRequired,
+    };
+
+    const [value, setValue] = React.useState(0);
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
+
+
+    return (
+        <div className={classes.root} style={{ maxWidth: "800px"}}>
+            <AppBar position="static" color="default">
+                <Tabs
+                    value={value}
+                    onChange={handleChange}
+                    indicatorColor="primary"
+                    textColor="#8eacbb"
+                    variant="scrollable"
+                    scrollButtons="auto"s
+                    aria-label="scrollable auto tabs example"
+                    style={{background: '#102027', color: '#8eacbb'}}
+
+                >
+                    {nodes.map((n, i) =>
+                        <Tab label={n.name} onClick={() => setSelectedIndex(i)} />)}
+                </Tabs>
+            </AppBar>
+
+        </div>
     );
 }
