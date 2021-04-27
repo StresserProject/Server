@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
     descriptionDiv: {
         display: 'flex',
         flexDirection: 'column',
-        background: '#a4b9c3',
+        background: '#121e23',
         minWidth: '30vw',
         height: '56%',
         overflowWrap: 'break-word',
@@ -27,6 +27,16 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
     },
 }));
+
+const editButtonStyles = {
+    fontSize: '25px',
+    marginTop: '50px',
+    backgroundColor: '#14465f',
+    fontFamily: 'Tahoma',
+    color: 'white',
+    width: '50%',
+    margin: 'auto'
+}
 
 /**
  *
@@ -58,24 +68,25 @@ export default function RuleDescription({ rule }) {
                 <Paper className={classes.titleDiv}>
                     <Typography
                         className={classes.title}
-                        align="center"
+                        align="left"
                         variant="h5"
                     >
                         Description
                     </Typography>
                 </Paper>
-
-                {Object.entries(rule)
-                    .slice(1, 4) // Skip The ID field and has 3 attributes
-                    .map(([key, value]) => (
-                        <div key={key}>
-                            <Box borderBottom={2} fontSize={19}>
-                                <b>Rule {capitalizeFirstLetter(key)}:</b>{' '}
-                                {value}
-                            </Box>
-                        </div>
-                    ))}
-                <Button onClick={openEditDialog} style={{ fontSize: '35px' }}>Edit</Button>
+                <p style={{ marginLeft: 30, marginTop: 15 }}>
+                    {Object.entries(rule)
+                        .slice(1, 4) // Skip The ID field and has 3 attributes
+                        .map(([key, value]) => (
+                            <div key={key}>
+                                <Box borderBottom={0} fontSize={19} borderColor='#14465f'>
+                                    <b><font color="#8eacbb">Rule {capitalizeFirstLetter(key)}:</font></b>{' '}
+                                    <font color="white">{value}</font>
+                                </Box>
+                            </div>
+                        ))}
+                </p>
+                <Button onClick={openEditDialog} style={editButtonStyles}>Edit</Button>
             </Paper>
             <FormDialog
                 open={isEditDialogOpen}
