@@ -57,7 +57,7 @@ export default function VirtualList({
             backgroundColor: theme.palette.background.paper,
             display: "flex",
             height: '382px',
-
+            boxShadow: "0 14px 28px rgba(0,0,0,0.25), 0 20px 15px rgba(0,0,0,0.22)"
         },
         tabs: {
             borderRight: `1px solid ${theme.palette.divider}`,

@@ -71,7 +71,7 @@ export default function RuleDescription({ rule }) {
                         align="left"
                         variant="h5"
                     >
-                        Description
+                        &nbsp; &nbsp;Description
                     </Typography>
                 </Paper>
                 <p style={{ marginLeft: 30, marginTop: 15 }}>

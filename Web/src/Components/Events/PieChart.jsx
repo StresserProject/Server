@@ -22,7 +22,7 @@ function getUniqueColor(str) {
  */
 function CustomPieChart({ data, labelKey, dataKey, onClick, onRightClick }) {
     const getLabelToShow = ({ index, x, y, textAnchor }) => (
-        <text x={x} y={y} textAnchor={textAnchor} fill="black">
+        <text x={x} y={y} textAnchor={textAnchor} fill="#8eacbb">
             {data[index][dataKey]}
         </text>
     );
@@ -32,8 +32,8 @@ function CustomPieChart({ data, labelKey, dataKey, onClick, onRightClick }) {
             <PieChart>
                 <Pie
                     data={data}
-                    fill="#8884d8"
-                    outerRadius={100}
+                    fill="#73264d"
+                    stroke="black"
                     dataKey={dataKey}
                     label={getLabelToShow}
                 >

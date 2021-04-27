@@ -20,11 +20,13 @@ const useStyles = makeStyles(() => ({
     },
     headDiv: {
         display: 'flex',
-        border: '1px solid black',
+        backgroundColor: '#1c3d4c',
+        color: '#8eacbb',
         width: '100%',
         height: '10vh',
         justifyContent: 'space-around',
         alignItems: 'center',
+        borderRadius: '50px'
     },
     pieChartsDiv: {
         display: 'flex',
@@ -121,9 +123,8 @@ function EventsTab({ events }) {
                     break;
                 case 'day':
                     date = timeStamp.getDate();
-                    fullDate = `${date}/${
-                        timeStamp.getMonth() + 1
-                    }/${timeStamp.getFullYear()}`;
+                    fullDate = `${date}/${timeStamp.getMonth() + 1
+                        }/${timeStamp.getFullYear()}`;
                     break;
                 default:
                     break;
@@ -179,46 +180,49 @@ function EventsTab({ events }) {
     return (
         <div className={classes.eventsDiv}>
             <div className={classes.headDiv}>
-                <Typography color="textPrimary" variant="h5">
+                <Typography variant="h5">
                     Number of events: {events.length}
                 </Typography>
-                <Typography color="textPrimary" variant="h5">
+                <Typography variant="h5">
                     Number of events in last month: {lastMonthEvents.length}
                 </Typography>
-                <Typography color="textPrimary" variant="h5">
+                <Typography variant="h5">
                     Number of events in last 24 hours: {lastDayEvents.length}
                 </Typography>
             </div>
-            <div className={classes.pieChartsDiv}>
-                <CustomPieChart
-                    data={groupByAttribute('ip')}
-                    labelKey="name"
-                    dataKey="value"
-                    onClick={setIpFilter}
-                    onRightClick={clearIpFilter}
-                />
-                <CustomPieChart
-                    data={groupByAttribute('type')}
-                    labelKey="name"
-                    dataKey="value"
-                    onClick={setTypeFilter}
-                    onRightClick={clearTypeFilter}
-                />
-            </div>
-            <div className={classes.barChartDiv} onContextMenu={onRightClick}>
-                <ResponsiveContainer>
-                    <BarChart data={groupByDate} barSize={80}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="fullDate" />
-                        <YAxis />
-                        <Tooltip cursor={false} />
-                        <Bar
-                            dataKey="events"
-                            fill="#8884d8"
-                            onClick={onGraphClick}
-                        />
-                    </BarChart>
-                </ResponsiveContainer>
+            <br />
+            <div style={{ fontWeight: 'bold', backgroundColor: '#102027', borderRadius: '8px', boxShadow: "0 14px 28px rgba(0,0,0,0.25), 0 20px 15px rgba(0,0,0,0.22)" }}>
+                <div className={classes.pieChartsDiv}>
+                    <CustomPieChart
+                        data={groupByAttribute('ip')}
+                        labelKey="name"
+                        dataKey="value"
+                        onClick={setIpFilter}
+                        onRightClick={clearIpFilter}
+                    />
+                    <CustomPieChart
+                        data={groupByAttribute('type')}
+                        labelKey="name"
+                        dataKey="value"
+                        onClick={setTypeFilter}
+                        onRightClick={clearTypeFilter}
+                    />
+                </div>
+                <div className={classes.barChartDiv} onContextMenu={onRightClick}>
+                    <ResponsiveContainer>
+                        <BarChart data={groupByDate} barSize={80}>
+                            <CartesianGrid strokeDasharray="3 1" stroke="#009194" />
+                            <XAxis dataKey="fullDate" />
+                            <YAxis />
+                            <Tooltip cursor={false} />
+                            <Bar
+                                dataKey="events"
+                                fill="#660066"
+                                onClick={onGraphClick}
+                            />
+                        </BarChart>
+                    </ResponsiveContainer>
+                </div>
             </div>
         </div>
     );
