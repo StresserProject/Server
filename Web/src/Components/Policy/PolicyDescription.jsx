@@ -32,7 +32,9 @@ const editButtonStyles = {
     marginTop: '50px',
     backgroundColor: '#14465f',
     fontFamily: 'Tahoma',
-    color: 'white'
+    color: 'white',
+    width: '50%',
+    margin: 'auto'
 }
 
 /**
@@ -80,17 +82,20 @@ export default function RuleDescription({ policy, policyFormChildren }) {
                         Description
                     </Typography>
                 </Paper>
-
-                {Object.entries(policy)
-                    .slice(1, 4) // Skip The ID field and has 3 attributes
-                    .map(([key, value]) => (
-                        <div key={key}>
-                            <Box borderBottom={0} fontSize={19} borderColor='#14465f'>
-                                <b><font color="#8eacbb">Policy {capitalizeFirstLetter(key)}:</font></b>{' '}
-                                <font color="white">{key === 'rules' ? makeRulesList(value) : value}</font>
-                            </Box>
-                        </div>
-                    ))}
+                <p style={{ marginLeft: 30, marginTop: 15 }}>
+                    {Object.entries(policy)
+                        .slice(1, 4) // Skip The ID field and has 3 attributes
+                        .map(([key, value]) => (
+                            <div key={key}>
+                                <Box borderBottom={0} fontSize={19} borderColor='#14465f'>
+                                    <div>
+                                        <b><font color="#8eacbb">Policy {capitalizeFirstLetter(key)}:</font></b>{' '}
+                                        <font color="white">{key === 'rules' ? makeRulesList(value) : value}</font>
+                                    </div>
+                                </Box>
+                            </div>
+                        ))}
+                </p>
                 <Button onClick={openEditDialog} style={editButtonStyles}>Edit</Button>
             </Paper>
             <FormDialog
