@@ -57,10 +57,16 @@ export default function VirtualList({
             flexGrow: 1,
             backgroundColor: theme.palette.background.paper,
             display: "flex",
-            height: '388px'
+            height: '382px',
+
         },
         tabs: {
-            borderRight: `1px solid ${theme.palette.divider}`
+            borderRight: `1px solid ${theme.palette.divider}`,
+
+        },
+        indicator: {
+            left: "0px",
+            backgroundColor: 'white'
         }
     }));
 
@@ -74,26 +80,25 @@ export default function VirtualList({
 
 
     return (
-        <div className={classes.root} >
+        <div className={classes.root}>
             <AppBar position="static" color="default" style={{ backgroundColor: '#102027' }}>
                 <Tabs
                     value={value}
                     orientation="vertical"
                     onChange={handleChange}
-                    indicatorColor="primary"
+                    classes={{ indicator: classes.indicator }}
                     textColor="#8eacbb"
                     variant="scrollable"
                     scrollButtons="auto" s
                     aria-label="Vertical tabs example"
                     className={classes.tabs}
                     style={{ background: '#102027', color: '#8eacbb' }}
-
                 >
                     {nodes.map((n, i) =>
                         <Tab label={n.name} onClick={() => setSelectedIndex(i)} />)}
                 </Tabs>
             </AppBar>
 
-        </div>
+        </div >
     );
 }
