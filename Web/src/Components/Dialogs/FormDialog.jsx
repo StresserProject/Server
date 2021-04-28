@@ -6,7 +6,8 @@ const useStyles = makeStyles((theme) => ({
     dialog: {
         padding: 15,
         color: '#009194',
-        backgroundColor: '#102027'
+        backgroundColor: '#102027',
+        width: '500px'
     },
     submitButton: {
         marginTop: 16,
