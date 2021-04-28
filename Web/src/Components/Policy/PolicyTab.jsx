@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
         minWidth: '50vw',
         height: '100%',
         paddingTop: 70,
-        marginLeft: 250
+        marginLeft: 250,
     },
 }));
 
@@ -88,8 +88,8 @@ function PolicyTab({ policies, deletePolicyFromList, addPolicyToList, rules }) {
                     variant="outlined"
                     margin="normal"
                     fullWidth
-                    label={'Name'}
                     name={'name'}
+                    style={{ backgroundColor: 'white' }}
                 />
                 <Autocomplete
                     multiple
@@ -108,8 +108,8 @@ function PolicyTab({ policies, deletePolicyFromList, addPolicyToList, rules }) {
                             error={!!errors.rules}
                             helperText={errors.rules}
                             variant="standard"
-                            label="Rules"
                             placeholder="choose rules.."
+                            style={{ backgroundColor: 'white' }}
                         />
                     )}
                     renderOption={(option, state) => (

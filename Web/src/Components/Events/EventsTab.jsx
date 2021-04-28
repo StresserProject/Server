@@ -217,7 +217,7 @@ function EventsTab({ events }) {
                             <Tooltip cursor={false} />
                             <Bar
                                 dataKey="events"
-                                fill="#660066"
+                                fill="#8eacbb"
                                 onClick={onGraphClick}
                             />
                         </BarChart>

@@ -24,14 +24,14 @@ export default function DeleteDialog({ type, ...props }) {
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
         >
-            <DialogTitle id="alert-dialog-title">{`${type} Delete`}</DialogTitle>
-            <DialogContent>
-                <DialogContentText id="alert-dialog-description">
+            <DialogTitle style={{ backgroundColor: '#102027', color: '#009194' }} id="alert-dialog-title">{`${type} Delete`}</DialogTitle>
+            <DialogContent style={{ backgroundColor: '#102027' }}>
+                <DialogContentText id="alert-dialog-description" style={{ color: 'white' }}>
                     Are you sure you want to delete this {type}?
                 </DialogContentText>
             </DialogContent>
-            <DialogActions>
-                <Button onClick={props.onClose} color="primary">
+            <DialogActions style={{ backgroundColor: '#102027' }}>
+                <Button onClick={props.onClose} style={{ backgroundColor: '#14465f' }}>
                     Cancel
                 </Button>
                 <Button
@@ -39,6 +39,7 @@ export default function DeleteDialog({ type, ...props }) {
                     onClick={submit}
                     color="primary"
                     autoFocus
+                    style={{ backgroundColor: '#14465f' }}
                 >
                     Delete
                 </Button>

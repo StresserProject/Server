@@ -38,8 +38,8 @@ export function rulesFormChildren({ values, errors, handleChange }) {
                 variant="outlined"
                 margin="normal"
                 fullWidth
-                label={'Name'}
                 name={'name'}
+                style={{ backgroundColor: 'white' }}
             />
             <TextField
                 value={values.type}
@@ -50,8 +50,8 @@ export function rulesFormChildren({ values, errors, handleChange }) {
                 margin="normal"
                 fullWidth
                 select
-                label="Type"
                 name="type"
+                style={{ backgroundColor: 'white' }}
             >
                 {Object.values(RULES_TYPES).map((value) => (
                     <MenuItem value={value}>
@@ -67,8 +67,8 @@ export function rulesFormChildren({ values, errors, handleChange }) {
                 variant="outlined"
                 margin="normal"
                 fullWidth
-                label={'Data'}
                 name={'data'}
+                style={{ backgroundColor: 'white' }}
             />
         </>
     );

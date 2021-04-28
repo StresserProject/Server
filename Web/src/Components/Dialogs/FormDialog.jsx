@@ -5,10 +5,14 @@ import { Formik } from 'formik';
 const useStyles = makeStyles((theme) => ({
     dialog: {
         padding: 15,
+        color: '#009194',
+        backgroundColor: '#102027'
     },
     submitButton: {
         marginTop: 16,
+        backgroundColor: '#14465f'
     },
+
 }));
 
 /**

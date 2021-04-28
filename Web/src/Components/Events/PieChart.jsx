@@ -4,7 +4,7 @@ import { ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 function getUniqueColor(str) {
     var hash = 0;
     for (var i = 0; i < str.length; i++) {
-        hash = str.charCodeAt(i) + ((hash << 5) - hash);
+        hash = str.charCodeAt(i) + ((hash << 6) - hash + 2);
     }
     var c = (hash & 0x00ffffff).toString(16).toUpperCase();
 
