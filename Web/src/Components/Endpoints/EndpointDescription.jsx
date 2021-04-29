@@ -71,17 +71,20 @@ export default function RuleDescription({ endpoint, policyUpdateForm }) {
                         &nbsp; &nbsp;Description
                     </Typography>
                 </Paper>
-
-                {Object.entries(endpoint)
-                    .slice(2, 7) // Skip The ID field and has 5 attributes
-                    .map(([key, value]) => (
-                        <div key={key}>
-                            <Box borderBottom={0} fontSize={19}>
-                                <b><font color="#8eacbb">Endpoint {capitalizeFirstLetter(key)}:</font></b>{' '}
-                                <font color="white">{value}</font>
-                            </Box>
-                        </div>
-                    ))}
+                <p style={{ marginLeft: 30, marginTop: 15 }}>
+                    {Object.entries(endpoint)
+                        .slice(2, 7) // Skip The ID field and has 5 attributes
+                        .map(([key, value]) => (
+                            <div key={key}>
+                                <Box borderBottom={0} fontSize={19}>
+                                    <div>
+                                        <b><font color="#8eacbb">Endpoint {capitalizeFirstLetter(key)}:</font></b>{' '}
+                                        <font color="white">{value}</font>
+                                    </div>
+                                </Box>
+                            </div>
+                        ))}
+                </p>
                 <Button onClick={openEditDialog} style={editButtonStyles}>Update Endpoint Policy</Button>
             </Paper>
             <FormDialog
