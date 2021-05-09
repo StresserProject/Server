@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     drawerPaper: {
         position: 'relative',
         backgroundColor: '#102027',
-        color:'#8eacbb',
+        color: '#8eacbb',
         whiteSpace: 'nowrap',
         width: drawerWidth,
         transition: theme.transitions.create('width', {
@@ -82,16 +82,14 @@ const useStyles = makeStyles((theme) => ({
 function Dashboard({ authenticationManager }) {
     const classes = useStyles();
     const [open, setOpen] = useState(true);
-    const [selectedItem, setSelectedItem] = useState(LIST_ITEMS.DASHBOARD);
+    const [selectedItem, setSelectedItem] = useState(LIST_ITEMS.ENDPOINTS);
 
     /**
      * @type {React.MutableRefObject<DataAccessManager}
      */
-    const dataAccessManager = useRef();
+    const dataAccessManager = useRef(new DataAccessManager());
 
     useEffect(() => {
-        dataAccessManager.current = new DataAccessManager();
-
         return () => dataAccessManager.current.destructor();
     }, []);
 
@@ -168,7 +166,7 @@ function Dashboard({ authenticationManager }) {
                     open={open}
                 >
                     <div className={classes.toolbarIcon}>
-                        <IconButton onClick={toggleDrawer} style={{color: '#009194'}}>
+                        <IconButton onClick={toggleDrawer} style={{ color: '#009194' }}>
                             <ChevronLeftIcon />
                         </IconButton>
                     </div>
@@ -188,7 +186,7 @@ function Dashboard({ authenticationManager }) {
                     </div>
                 </main>
             </div>
-          
+
         </>
     );
 }

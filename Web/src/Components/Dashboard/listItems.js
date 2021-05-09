@@ -11,7 +11,7 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 
 export const LIST_ITEMS = {
-    DASHBOARD: 'Dashboard',
+    //DASHBOARD: 'Dashboard',
     ENDPOINTS: 'Endpoints',
     POLICY: 'Policy',
     RULES: 'Rules',
@@ -19,7 +19,7 @@ export const LIST_ITEMS = {
 };
 
 const ICONS = {
-    Dashboard: DashboardIcon,
+    //Dashboard: DashboardIcon,
     Endpoints: EndpointsIcon,
     Policy: PolicyIcon,
     Rules: RulesIcon,
