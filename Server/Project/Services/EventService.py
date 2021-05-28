@@ -6,11 +6,9 @@ from Constants.JsonKeys import EventKeys
 
 
 def add_event(event: Event):
-    if is_name_unique(event.eventName):
-        event_id = EventDB(eventName=event.eventName, eventType=event.eventType, eventData=event.eventData,
-                           hostname=event.hostname, IPAddress=event.IPAddress, timeStamp=event.timeStamp).save()
-        return str(event_id.id)
-    return ""
+    event_id = EventDB(eventName=event.eventName, eventType=event.eventType, eventData=event.eventData,
+                        hostname=event.hostname, IPAddress=event.IPAddress, timeStamp=event.timeStamp).save()
+    return str(event_id.id)
 
 
 def get_event_by_id(event_id):
@@ -30,20 +28,13 @@ def get_event_by_event_name(event_name):
 
 def update_event_by_id(event_id, event: Event):
     old_events = EventDB.objects.get(id=event_id)
-    if old_events[EventKeys.EVENT_NAME_KEY] == event.eventName or is_name_unique(event.eventName):
+    if old_events[EventKeys.EVENT_NAME_KEY] == event.eventName:
         EventDB.update(old_events, eventName=event.eventName, eventType=event.eventType,
                        eventData=event.eventData, hostname=event.hostname, IPAddress=event.IPAddress,
                        timeStamp=event.timeStamp)
         event.id = event_id
         return event
     return None
-
-
-def is_name_unique(event_name):
-    event_id = EventDB.objects(eventName=event_name)
-    if len(event_id) == 0:
-        return True
-    return False
 
 
 def get_all_events():
