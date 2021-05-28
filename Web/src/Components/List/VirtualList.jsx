@@ -1,20 +1,12 @@
 import { makeStyles, Paper } from '@material-ui/core';
 import React from 'react';
 import { AutoSizer, List } from 'react-virtualized';
-
-const useStyles = makeStyles((theme) => ({
-    listDiv: {
-        display: 'flex',
-        background: theme.palette.grey[400],
-        flexDirection: 'column',
-        height: 500,
-        width: '25%',
-        minWidth: '25vw',
-    },
-    virtualList: {
-        outline: 'none',
-    },
-}));
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+import PropTypes from 'prop-types';
 
 /**
  *
@@ -31,30 +23,81 @@ export default function VirtualList({
     setSelectedIndex,
     RowComponent,
 }) {
+
+
+    function TabPanel(props) {
+        const { children, value, index, ...other } = props;
+
+        return (
+            <div
+                role="tabpanel"
+                hidden={value !== index}
+                id={`vertical-tabpanel-${index}`}
+                aria-labelledby={`vertical-tab-${index}`}
+                {...other}
+            >
+                {value === index && (
+                    <Box p={3}>
+                        <Typography>{children}</Typography>
+                    </Box>
+                )}
+            </div>
+        );
+    }
+
+    TabPanel.propTypes = {
+        children: PropTypes.node,
+        index: PropTypes.any.isRequired,
+        value: PropTypes.any.isRequired
+    };
+
+    const useStyles = makeStyles((theme) => ({
+        root: {
+            flexGrow: 1,
+            backgroundColor: theme.palette.background.paper,
+            display: "flex",
+            height: '382px',
+            boxShadow: "0 14px 28px rgba(0,0,0,0.25), 0 20px 15px rgba(0,0,0,0.22)"
+        },
+        tabs: {
+            borderRight: `1px solid ${theme.palette.divider}`,
+
+        },
+        indicator: {
+            left: "0px",
+            backgroundColor: 'white'
+        }
+    }));
+
     const classes = useStyles();
 
+    const [value, setValue] = React.useState(0);
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
+
+
     return (
-        <Paper className={classes.listDiv} elevation={3}>
-            <AutoSizer>
-                {({ width, height }) => (
-                    <List
-                        className={classes.virtualList}
-                        scrollToIndex={selectedIndex}
-                        rowCount={nodes.length}
-                        height={height}
-                        width={width}
-                        rowHeight={50}
-                        rowRenderer={(obj) => (
-                            <RowComponent
-                                {...obj}
-                                node={nodes[obj.index]}
-                                onClick={() => setSelectedIndex(obj.index)}
-                                isSelected={selectedIndex === obj.index}
-                            />
-                        )}
-                    />
-                )}
-            </AutoSizer>
-        </Paper>
+        <div className={classes.root}>
+            <AppBar position="static" color="default" style={{ backgroundColor: '#102027' }}>
+                <Tabs
+                    value={value}
+                    orientation="vertical"
+                    onChange={handleChange}
+                    classes={{ indicator: classes.indicator }}
+                    textColor="#8eacbb"
+                    variant="scrollable"
+                    scrollButtons="auto" s
+                    aria-label="Vertical tabs example"
+                    className={classes.tabs}
+                    style={{ background: '#102027', color: '#8eacbb' }}
+                >
+                    {nodes.map((n, i) =>
+                        <Tab label={n.name} onClick={() => setSelectedIndex(i)} />)}
+                </Tabs>
+            </AppBar>
+
+        </div >
     );
 }

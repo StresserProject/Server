@@ -4,7 +4,7 @@ import { ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 function getUniqueColor(str) {
     var hash = 0;
     for (var i = 0; i < str.length; i++) {
-        hash = str.charCodeAt(i) + ((hash << 5) - hash);
+        hash = str.charCodeAt(i) + ((hash << 6) - hash + 2);
     }
     var c = (hash & 0x00ffffff).toString(16).toUpperCase();
 
@@ -22,7 +22,7 @@ function getUniqueColor(str) {
  */
 function CustomPieChart({ data, labelKey, dataKey, onClick, onRightClick }) {
     const getLabelToShow = ({ index, x, y, textAnchor }) => (
-        <text x={x} y={y} textAnchor={textAnchor} fill="black">
+        <text x={x} y={y} textAnchor={textAnchor} fill="#8eacbb">
             {data[index][dataKey]}
         </text>
     );
@@ -32,8 +32,8 @@ function CustomPieChart({ data, labelKey, dataKey, onClick, onRightClick }) {
             <PieChart>
                 <Pie
                     data={data}
-                    fill="#8884d8"
-                    outerRadius={100}
+                    fill="#73264d"
+                    stroke="black"
                     dataKey={dataKey}
                     label={getLabelToShow}
                 >

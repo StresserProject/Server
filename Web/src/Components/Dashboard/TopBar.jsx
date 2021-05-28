@@ -65,6 +65,7 @@ const styles = (theme) => ({
 function TopBar({ classes, open, toggleDrawer, onLogout }) {
     return (
         <AppBar
+            style={{ backgroundColor: "#102027", boxShadow: "0 14px 28px rgba(0,0,0,0.25), 0 20px 15px rgba(0,0,0,0.22)" /*boxShadow: 'none'*/ }}
             position="absolute"
             className={clsx(classes.appBar, open && classes.appBarShift)}
         >
@@ -78,6 +79,7 @@ function TopBar({ classes, open, toggleDrawer, onLogout }) {
                         classes.menuButton,
                         open && classes.menuButtonHidden,
                     )}
+                    style={{ color: '#009194' }}
                 >
                     <MenuIcon />
                 </IconButton>
@@ -85,6 +87,7 @@ function TopBar({ classes, open, toggleDrawer, onLogout }) {
                     component="h1"
                     variant="h4"
                     color="inherit"
+                    style={{ color: '#009194' }}
                     noWrap
                     className={classes.title}
                 >
@@ -96,6 +99,7 @@ function TopBar({ classes, open, toggleDrawer, onLogout }) {
                     onClick={onLogout}
                 >
                     <Typography>Logout</Typography>
+                    &nbsp;
                     <ExitToAppIcon />
                 </IconButton>
             </Toolbar>
