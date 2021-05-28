@@ -7,7 +7,6 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
-import DashboardIcon from '@material-ui/icons/Dashboard';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 
 export const LIST_ITEMS = {
@@ -43,7 +42,7 @@ export function MainListItems({ onItemSelected, selectedItem }) {
                     onClick={() => onItemSelected(value)}
                     selected={value === selectedItem}
                 >
-                    <ListItemIcon style={{color: '#009194'}}>
+                    <ListItemIcon style={{ color: '#009194' }}>
                         {React.createElement(ICONS[value], {})}
                     </ListItemIcon>
                     <ListItemText primary={value} />

@@ -12,8 +12,6 @@ class Server:
         self._app = Flask("Server", static_folder="../../Web/build", static_url_path="/",
                           template_folder="../../Web/build")
 
-        self._app.register_error_handler(404, lambda a: render_template("index.html"))
-
         self._app.add_url_rule("/", view_func=lambda: render_template("index.html"), methods=["GET"])
 
     def add_route(self, route, func, method):

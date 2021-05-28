@@ -1,6 +1,5 @@
-import { makeStyles, Paper } from '@material-ui/core';
 import React from 'react';
-import { AutoSizer, List } from 'react-virtualized';
+import { makeStyles } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -23,8 +22,6 @@ export default function VirtualList({
     setSelectedIndex,
     RowComponent,
 }) {
-
-
     function TabPanel(props) {
         const { children, value, index, ...other } = props;
 
@@ -48,25 +45,25 @@ export default function VirtualList({
     TabPanel.propTypes = {
         children: PropTypes.node,
         index: PropTypes.any.isRequired,
-        value: PropTypes.any.isRequired
+        value: PropTypes.any.isRequired,
     };
 
     const useStyles = makeStyles((theme) => ({
         root: {
             flexGrow: 1,
             backgroundColor: theme.palette.background.paper,
-            display: "flex",
+            display: 'flex',
             height: '382px',
-            boxShadow: "0 14px 28px rgba(0,0,0,0.25), 0 20px 15px rgba(0,0,0,0.22)"
+            boxShadow:
+                '0 14px 28px rgba(0,0,0,0.25), 0 20px 15px rgba(0,0,0,0.22)',
         },
         tabs: {
             borderRight: `1px solid ${theme.palette.divider}`,
-
         },
         indicator: {
-            left: "0px",
-            backgroundColor: 'white'
-        }
+            left: '0px',
+            backgroundColor: 'white',
+        },
     }));
 
     const classes = useStyles();
@@ -77,10 +74,13 @@ export default function VirtualList({
         setValue(newValue);
     };
 
-
     return (
         <div className={classes.root}>
-            <AppBar position="static" color="default" style={{ backgroundColor: '#102027' }}>
+            <AppBar
+                position="static"
+                color="default"
+                style={{ backgroundColor: '#102027' }}
+            >
                 <Tabs
                     value={value}
                     orientation="vertical"
@@ -88,16 +88,20 @@ export default function VirtualList({
                     classes={{ indicator: classes.indicator }}
                     textColor="#8eacbb"
                     variant="scrollable"
-                    scrollButtons="auto" s
+                    scrollButtons="auto"
+                    s
                     aria-label="Vertical tabs example"
                     className={classes.tabs}
                     style={{ background: '#102027', color: '#8eacbb' }}
                 >
-                    {nodes.map((n, i) =>
-                        <Tab label={n.name} onClick={() => setSelectedIndex(i)} />)}
+                    {nodes.map((n, i) => (
+                        <Tab
+                            label={n.name}
+                            onClick={() => setSelectedIndex(i)}
+                        />
+                    ))}
                 </Tabs>
             </AppBar>
-
-        </div >
+        </div>
     );
 }

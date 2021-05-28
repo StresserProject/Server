@@ -55,7 +55,7 @@ def login():
 
     user = UserService.get_user_by_name(username)
     if user is None:
-        return abort(404)
+        abort(404)
 
     if user[UserKeys.HASHED_PASSWORD] != password:
         abort(404)
