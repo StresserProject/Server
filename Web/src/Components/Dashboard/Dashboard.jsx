@@ -19,10 +19,12 @@ const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        display: 'flex',
+        display: 'flex'
     },
     drawerPaper: {
         position: 'relative',
+        backgroundColor: '#102027',
+        color: '#8eacbb',
         whiteSpace: 'nowrap',
         width: drawerWidth,
         transition: theme.transitions.create('width', {
@@ -55,6 +57,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         height: '100%',
         width: '100%',
+        background: "linear-gradient(45deg, #607d8b 30%, #34515e 85%)",
         paddingLeft: theme.spacing(4),
         paddingTop: theme.spacing(4),
         paddingRight: theme.spacing(4),
@@ -79,16 +82,14 @@ const useStyles = makeStyles((theme) => ({
 function Dashboard({ authenticationManager }) {
     const classes = useStyles();
     const [open, setOpen] = useState(true);
-    const [selectedItem, setSelectedItem] = useState(LIST_ITEMS.DASHBOARD);
+    const [selectedItem, setSelectedItem] = useState(LIST_ITEMS.ENDPOINTS);
 
     /**
      * @type {React.MutableRefObject<DataAccessManager}
      */
-    const dataAccessManager = useRef();
+    const dataAccessManager = useRef(new DataAccessManager());
 
     useEffect(() => {
-        dataAccessManager.current = new DataAccessManager();
-
         return () => dataAccessManager.current.destructor();
     }, []);
 
@@ -165,7 +166,7 @@ function Dashboard({ authenticationManager }) {
                     open={open}
                 >
                     <div className={classes.toolbarIcon}>
-                        <IconButton onClick={toggleDrawer}>
+                        <IconButton onClick={toggleDrawer} style={{ color: '#009194' }}>
                             <ChevronLeftIcon />
                         </IconButton>
                     </div>
@@ -185,6 +186,7 @@ function Dashboard({ authenticationManager }) {
                     </div>
                 </main>
             </div>
+
         </>
     );
 }

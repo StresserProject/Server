@@ -8,24 +8,34 @@ const useStyles = makeStyles((theme) => ({
     descriptionDiv: {
         display: 'flex',
         flexDirection: 'column',
-        background: theme.palette.grey[400],
-        width: '25%',
-        minWidth: '25vw',
-        height: 'fit-content',
+        background: '#121e23'/*theme.palette.grey[400]*/,
+        height: '56%',
+        minWidth: '30vw',
         overflowWrap: 'break-word',
+        boxShadow: '0 14px 28px rgba(0,0,0,0.25), 0 20px 10px rgba(0,0,0,0.22)'
     },
     titleDiv: {
         display: 'flex',
         width: '100%',
         minHeight: 50,
         alignItems: 'center',
-        background: theme.palette.primary.main,
+        background: '#14465f' /* theme.palette.primary.main*/,
     },
     title: {
         color: 'white',
         width: '100%',
     },
 }));
+
+const editButtonStyles = {
+    fontSize: '25px',
+    marginTop: '50px',
+    backgroundColor: '#14465f',
+    fontFamily: 'Tahoma',
+    color: 'white',
+    width: '75%',
+    margin: 'auto'
+}
 
 /**
  *
@@ -55,24 +65,27 @@ export default function RuleDescription({ endpoint, policyUpdateForm }) {
                 <Paper className={classes.titleDiv}>
                     <Typography
                         className={classes.title}
-                        align="center"
+                        align="left"
                         variant="h5"
                     >
-                        Description
+                        &nbsp; &nbsp;Description
                     </Typography>
                 </Paper>
-
-                {Object.entries(endpoint)
-                    .slice(2, 7) // Skip The ID field and has 5 attributes
-                    .map(([key, value]) => (
-                        <div key={key}>
-                            <Box borderBottom={1} fontSize={17}>
-                                <b>Endpoint {capitalizeFirstLetter(key)}:</b>{' '}
-                                {value}
-                            </Box>
-                        </div>
-                    ))}
-                <Button onClick={openEditDialog}>Update Endpoint Policy</Button>
+                <p style={{ marginLeft: 30, marginTop: 15 }}>
+                    {Object.entries(endpoint)
+                        .slice(2, 7) // Skip The ID field and has 5 attributes
+                        .map(([key, value]) => (
+                            <div key={key}>
+                                <Box borderBottom={0} fontSize={19}>
+                                    <div>
+                                        <b><font color="#8eacbb">Endpoint {capitalizeFirstLetter(key)}:</font></b>{' '}
+                                        <font color="white">{value}</font>
+                                    </div>
+                                </Box>
+                            </div>
+                        ))}
+                </p>
+                <Button onClick={openEditDialog} style={editButtonStyles}>Update Endpoint Policy</Button>
             </Paper>
             <FormDialog
                 open={isEditDialogOpen}

@@ -12,11 +12,13 @@ import PolicyDescription from './PolicyDescription';
 
 const useStyles = makeStyles((theme) => ({
     policiesDiv: {
+        //background: "linear-gradient(45deg, #17004c 30%, #171027 90%)",
         display: 'flex',
         width: '100%',
+        minWidth: '50vw',
         height: '100%',
-        justifyContent: 'space-around',
-        paddingTop: 30,
+        paddingTop: 70,
+        marginLeft: 250,
     },
 }));
 
@@ -86,8 +88,8 @@ function PolicyTab({ policies, deletePolicyFromList, addPolicyToList, rules }) {
                     variant="outlined"
                     margin="normal"
                     fullWidth
-                    label={'Name'}
                     name={'name'}
+                    style={{ backgroundColor: 'white' }}
                 />
                 <Autocomplete
                     multiple
@@ -106,8 +108,8 @@ function PolicyTab({ policies, deletePolicyFromList, addPolicyToList, rules }) {
                             error={!!errors.rules}
                             helperText={errors.rules}
                             variant="standard"
-                            label="Rules"
                             placeholder="choose rules.."
+                            style={{ backgroundColor: 'white' }}
                         />
                     )}
                     renderOption={(option, state) => (
@@ -159,13 +161,16 @@ function PolicyTab({ policies, deletePolicyFromList, addPolicyToList, rules }) {
                     setSelectedIndex={setSelectedIndex}
                     RowComponent={ListRow}
                 />
+
             </div>
-            {policies.length > 0 && selectedIndex < policies.length && (
-                <PolicyDescription
-                    policy={getSelectedPolicy()}
-                    policyFormChildren={policyFormChildren}
-                />
-            )}
+            {
+                policies.length > 0 && selectedIndex < policies.length && (
+                    <PolicyDescription
+                        policy={getSelectedPolicy()}
+                        policyFormChildren={policyFormChildren}
+                    />
+                )
+            }
             <DeleteDialog
                 type="Policy"
                 open={deleteDialog}
@@ -186,6 +191,7 @@ function PolicyTab({ policies, deletePolicyFromList, addPolicyToList, rules }) {
                 validationSchema={validationSchema}
             />
         </div>
+
     );
 }
 

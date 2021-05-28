@@ -13,10 +13,11 @@ import * as yup from 'yup';
 const useStyles = makeStyles((theme) => ({
     rulesDiv: {
         display: 'flex',
-        width: '100%',
+        width: '50%',
+        minWidth: '50vw',
         height: '100%',
-        justifyContent: 'space-around',
-        paddingTop: 30,
+        paddingTop: 70,
+        marginLeft: 250
     },
 }));
 
@@ -37,8 +38,8 @@ export function rulesFormChildren({ values, errors, handleChange }) {
                 variant="outlined"
                 margin="normal"
                 fullWidth
-                label={'Name'}
                 name={'name'}
+                style={{ backgroundColor: 'white' }}
             />
             <TextField
                 value={values.type}
@@ -49,8 +50,8 @@ export function rulesFormChildren({ values, errors, handleChange }) {
                 margin="normal"
                 fullWidth
                 select
-                label="Type"
                 name="type"
+                style={{ backgroundColor: 'white' }}
             >
                 {Object.values(RULES_TYPES).map((value) => (
                     <MenuItem value={value}>
@@ -66,8 +67,8 @@ export function rulesFormChildren({ values, errors, handleChange }) {
                 variant="outlined"
                 margin="normal"
                 fullWidth
-                label={'Data'}
                 name={'data'}
+                style={{ backgroundColor: 'white' }}
             />
         </>
     );
@@ -132,16 +133,19 @@ function RuleTab({ rules, deleteRuleFromList, addRuleToList }) {
                     openAddDialog={openAddDialog}
                     openDeleteDialog={openDeleteDialog}
                 />
-                <VirtualList
-                    selectedIndex={selectedIndex}
-                    nodes={rules}
-                    setSelectedIndex={setSelectedIndex}
-                    RowComponent={ListRow}
-                />
+                <div style={{ height: '20px' }}>
+                    <VirtualList
+                        selectedIndex={selectedIndex}
+                        nodes={rules}
+                        setSelectedIndex={setSelectedIndex}
+                        RowComponent={ListRow}
+                    />
+                </div>
             </div>
             {rules.length > 0 && selectedIndex < rules.length && (
                 <RuleDescription rule={rules[selectedIndex]} />
             )}
+
             <DeleteDialog
                 type="Rule"
                 open={deleteDialog}

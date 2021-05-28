@@ -11,8 +11,8 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         width: '100%',
         height: '100%',
-        justifyContent: 'space-around',
-        paddingTop: 30,
+        paddingTop: 70,
+        marginLeft: 250,
     },
 }));
 
@@ -38,8 +38,8 @@ function EndpointTab({ endpoints, policies }) {
                 margin="normal"
                 fullWidth
                 select
-                label="Policy"
                 name="policyId"
+                style={{ backgroundColor: 'white' }}
             >
                 {policies.map((policy) => (
                     <MenuItem value={policy.id}>{policy.name}</MenuItem>
