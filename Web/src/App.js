@@ -20,6 +20,7 @@ function App() {
     useEffect(() => {
         axios.interceptors.request.use((config) => {
             config.headers.Authorization = authenticationManager.current.token;
+            config.baseURL = '/api';
             return config;
         });
     }, []);

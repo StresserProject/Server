@@ -87,9 +87,11 @@ function Dashboard({ authenticationManager }) {
     /**
      * @type {React.MutableRefObject<DataAccessManager}
      */
-    const dataAccessManager = useRef(new DataAccessManager());
+    const dataAccessManager = useRef();
 
     useEffect(() => {
+        dataAccessManager.current = new DataAccessManager();
+
         return () => dataAccessManager.current.destructor();
     }, []);
 
@@ -98,6 +100,8 @@ function Dashboard({ authenticationManager }) {
     };
 
     function renderSelectedTab() {
+        if (!dataAccessManager.current) return;
+
         switch (selectedItem) {
             case LIST_ITEMS.DASHBOARD:
                 return 'null';
@@ -186,7 +190,6 @@ function Dashboard({ authenticationManager }) {
                     </div>
                 </main>
             </div>
-
         </>
     );
 }
